@@ -1,11 +1,24 @@
 [versions]
-agp = "8.5.2"
+agp = "8.3.2"
 kotlin = "2.0.0"
 androidx-activityCompose = "1.9.2"
 androidxComposeBom = "2024.09.00"
+hiltAndroid = "2.51.1"
+hiltNavigationCompose = "1.2.0"
+navigationCompose = "2.8.0"
+core-ktx = "1.13.1"
+lifecycle-runtime-ktx = "2.8.5"
+kotlinx-coroutines = "1.9.0-RC.2"
 
 [libraries]
+# Kotlin
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
+
+# Android Core
+core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
+lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycle-runtime-ktx" }
+kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
+kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinx-coroutines" }
 
 # Compose
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
@@ -16,6 +29,14 @@ androidx-compose-google-fonts = { group = "androidx.compose.ui", name = "ui-text
 androidx-compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
 androidx-compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
 
+# Navigation
+androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltNavigationCompose" }
+androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
+
+# Hilt
+hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hiltAndroid" }
+hilt-android-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hiltAndroid" }
+
 [bundles]
 compose-impl = [
     "androidx-activity-compose",
@@ -23,6 +44,15 @@ compose-impl = [
     "androidx-compose-material3",
     "androidx-compose-google-fonts",
     "androidx-compose-ui-tooling-preview",
+    "androidx-hilt-navigation-compose",
+    "androidx-navigation-compose"
+]
+
+android-core-impl = [
+    "core-ktx",
+    "lifecycle-runtime-ktx",
+    "kotlinx-coroutines-core",
+    "kotlinx-coroutines-android"
 ]
 
 [plugins]
@@ -32,3 +62,5 @@ kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kotlinCocoapods = { id = "org.jetbrains.kotlin.native.cocoapods", version.ref = "kotlin" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+hilt-android-plugin = { id = "com.google.dagger.hilt.android", version.ref = "hiltAndroid" }
+kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version = " " }
