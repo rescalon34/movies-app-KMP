@@ -1,4 +1,4 @@
-package com.escalondev.movies_app_kmp.android.ui.profile
+package com.escalondev.movies_app_kmp.android.ui.settings
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -12,25 +12,25 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.escalondev.movies_app_kmp.android.theme.MoviesAppTheme
 
 @Composable
-fun ProfileScreen() {
-    ProfileContent()
+fun SettingsScreen() {
+    SettingsContent()
 }
 
 @Composable
-fun ProfileContent() {
+fun SettingsContent() {
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(text = "Profile Screen", style = MaterialTheme.typography.titleLarge)
+        Text(text = "Settings Screen", style = MaterialTheme.typography.titleLarge)
     }
 }
 
 @Preview(showSystemUi = true, showBackground = true)
 @Composable
-private fun ProfileContentPreview() {
+private fun SettingsContentPreview() {
     MoviesAppTheme {
-        ProfileContent()
+        SettingsContent()
     }
 }

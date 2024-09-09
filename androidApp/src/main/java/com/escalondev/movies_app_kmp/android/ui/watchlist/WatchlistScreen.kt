@@ -29,7 +29,7 @@ fun WatchlistContent() {
 
 @Preview(showSystemUi = true, showBackground = true)
 @Composable
-private fun HomeContentPreview() {
+private fun WatchlistContentPreview() {
     MoviesAppTheme {
         WatchlistContent()
     }
