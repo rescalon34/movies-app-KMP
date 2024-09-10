@@ -49,6 +49,7 @@ dependencies {
     debugImplementation(libs.androidx.compose.ui.tooling)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.hilt.navigation.compose)
+    implementation(libs.coil.compose)
 
     // Android Core
     implementation(libs.bundles.android.core.impl)

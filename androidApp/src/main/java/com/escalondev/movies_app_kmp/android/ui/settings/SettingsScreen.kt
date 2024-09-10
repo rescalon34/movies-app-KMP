@@ -8,7 +8,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import com.escalondev.movies_app_kmp.android.R
 import com.escalondev.movies_app_kmp.android.theme.MoviesAppTheme
 
 @Composable
@@ -23,7 +25,10 @@ fun SettingsContent() {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(text = "Settings Screen", style = MaterialTheme.typography.titleLarge)
+        Text(
+            text = stringResource(id = R.string.settings_title),
+            style = MaterialTheme.typography.titleLarge
+        )
     }
 }
 
