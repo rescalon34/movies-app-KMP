@@ -87,7 +87,7 @@ fun WatchlistContent(
                 ) {
                     item {
                         Text(
-                            text = "My movies",
+                            text = stringResource(R.string.watchlist_subtitle),
                             style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Medium)
                         )
                     }

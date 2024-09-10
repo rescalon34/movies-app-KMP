@@ -21,4 +21,23 @@ extension View {
     
     /// represents the horizontal and vertical spaces of a LazyVGrid
     typealias LazyVGridSpacing = (horizontal: CGFloat, vertical: CGFloat)
+    
+    /// A View modifier that applies a translucent effect while scrolling through items.
+    ///
+    /// This function creates a mask effect of an `opaque scrolled item at the top and bottom`
+    /// of the ScrollView while vertically scrolling items.
+    ///
+    func fadedScrollViewMask() -> some View {
+        mask(
+            LinearGradient(
+                colors: [
+                    .clear,
+                    .primary,
+                    .primary,
+                    .clear,
+                ],
+                startPoint: .top, endPoint: .bottom
+            )
+        )
+    }
 }
