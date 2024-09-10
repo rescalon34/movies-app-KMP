@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Home -->
+    <string name="home_title">Home</string>
+
+    <!-- Watchlist -->
+    <string name="watchlist_title">Watchlist</string>
+
+    <!-- Profile -->
+    <string name="profile_title">Profile</string>
+
+    <!-- Settings -->
+    <string name="settings_title">Settings</string>
+</resources>

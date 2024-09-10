@@ -1,7 +1,6 @@
 package com.escalondev.movies_app_kmp.android.ui.base
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -12,20 +11,16 @@ fun BaseScreen(
     topBar: @Composable (() -> Unit)? = null,
     bottomBar: @Composable (() -> Unit)? = null,
     alertScreen: @Composable (() -> Unit)? = null,
-    screen: @Composable () -> Unit
+    screen: @Composable (PaddingValues) -> Unit
 ) {
     Scaffold(
-        modifier = modifier,
-        topBar = {
-            topBar?.invoke()?.run { /* Default top bar */ }
-        },
-        content = {
-            Column(modifier = Modifier.padding(it)) {
-                screen()
-            }
+        modifier = Modifier.then(modifier),
+        topBar = { topBar?.let { it() } },
+        content = { paddingValues ->
+            screen(paddingValues)
         },
         bottomBar = {
-            bottomBar?.invoke()?.run { /* Default bottom bar */ }
+            bottomBar?.let { it() }
         }
     )
 }

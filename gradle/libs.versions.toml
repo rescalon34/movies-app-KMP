@@ -10,6 +10,7 @@ core-ktx = "1.13.1"
 lifecycle-runtime-ktx = "2.8.5"
 kotlinx-coroutines = "1.9.0-RC.2"
 kotlinxSerializationJson = "1.6.3"
+coilCompose = "2.7.0"
 
 [libraries]
 # Kotlin
@@ -30,6 +31,7 @@ androidx-compose-material3 = { group = "androidx.compose.material3", name = "mat
 androidx-compose-google-fonts = { group = "androidx.compose.ui", name = "ui-text-google-fonts" }
 androidx-compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
 androidx-compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
+coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coilCompose" }
 
 # Navigation
 androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltNavigationCompose" }
