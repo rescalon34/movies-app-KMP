@@ -2,6 +2,9 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.kotlinAndroid)
     alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.hilt.android.plugin)
+    alias(libs.plugins.kotlinxSerialization)
+    id("kotlin-kapt")
 }
 
 android {
@@ -37,9 +40,23 @@ android {
 }
 
 dependencies {
+    // Shared KMP module
     implementation(projects.shared)
+
+    // Compose
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.bundles.compose.impl)
     debugImplementation(libs.androidx.compose.ui.tooling)
     androidTestImplementation(platform(libs.androidx.compose.bom))
+    implementation(libs.androidx.hilt.navigation.compose)
+
+    // Android Core
+    implementation(libs.bundles.android.core.impl)
+
+    // Kotlin
+    implementation(libs.kotlinx.serialization.json)
+
+    // Hilt
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.android.compiler)
 }
