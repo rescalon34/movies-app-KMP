@@ -79,11 +79,11 @@ fun WatchlistContent(
                     contentPadding = PaddingValues(
                         top = 8.dp,
                         bottom = 88.dp,
-                        start = 8.dp,
-                        end = 8.dp
+                        start = 10.dp,
+                        end = 10.dp
                     ),
-                    verticalArrangement = Arrangement.spacedBy(8.dp),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    verticalArrangement = Arrangement.spacedBy(10.dp),
+                    horizontalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
                     item {
                         Text(
