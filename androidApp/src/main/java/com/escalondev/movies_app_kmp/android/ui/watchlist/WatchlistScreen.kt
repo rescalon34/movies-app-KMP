@@ -32,6 +32,7 @@ import com.escalondev.movies_app_kmp.android.ui.component.BaseAppBar
 import com.escalondev.movies_app_kmp.android.ui.component.CategoryCard
 import com.escalondev.movies_app_kmp.android.ui.component.MovieItem
 import com.escalondev.movies_app_kmp.android.ui.component.SimpleProgressIndicator
+import com.escalondev.movies_app_kmp.android.ui.filter.SelectOptionsScreen
 import com.escalondev.movies_app_kmp.data.repository.MovieRepositoryImpl
 
 @Composable
@@ -63,10 +64,24 @@ fun WatchlistContent(
         rememberTopAppBarState()
     )
 
+    if (uiState.showSelectOptionScreen) {
+        SelectOptionsScreen(
+            options = uiState.options,
+            selectedOption = uiState.selectedOption,
+            onSelectedOption = {
+                onUiEvent(WatchlistUiEvent.OnOptionSelected(selectedOption = it))
+            },
+            onDismiss = {
+                onUiEvent(WatchlistUiEvent.OnSelectOption(showSelectOptionScreen = false))
+            }
+        )
+    }
+
     BaseScreen(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             WatchlistTopAppBar(
+                selectedOption = uiState.selectedOption,
                 scrollBehavior = scrollBehavior,
                 onUiEvent = onUiEvent
             )
@@ -110,6 +125,7 @@ fun WatchlistContent(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun WatchlistTopAppBar(
+    selectedOption: String,
     scrollBehavior: TopAppBarScrollBehavior,
     onUiEvent: (event: WatchlistUiEvent) -> Unit = {}
 ) {
@@ -119,9 +135,9 @@ fun WatchlistTopAppBar(
         actions = {
             CategoryCard(
                 modifier = Modifier.padding(end = 6.dp),
-                category = "Featured",
-                onCategoryClick = { category ->
-                    onUiEvent(WatchlistUiEvent.OnCategorySelected(category))
+                category = selectedOption,
+                onCategoryClick = {
+                    onUiEvent(WatchlistUiEvent.OnSelectOption(showSelectOptionScreen = true))
                 }
             )
         }

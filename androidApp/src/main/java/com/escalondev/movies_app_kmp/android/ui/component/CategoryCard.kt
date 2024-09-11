@@ -19,11 +19,11 @@ import com.escalondev.movies_app_kmp.android.theme.MoviesAppTheme
 fun CategoryCard(
     modifier: Modifier = Modifier,
     category: String,
-    onCategoryClick: (String) -> Unit,
+    onCategoryClick: () -> Unit,
 ) {
     Card(
         modifier = modifier,
-        onClick = { onCategoryClick(category) },
+        onClick = onCategoryClick,
         shape = MaterialTheme.shapes.extraLarge,
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.secondaryContainer
