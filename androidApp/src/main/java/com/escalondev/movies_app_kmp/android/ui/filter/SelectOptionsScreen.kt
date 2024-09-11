@@ -6,6 +6,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -134,19 +135,12 @@ fun SortOptionsList(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
+        contentPadding = PaddingValues(vertical = 100.dp),
         state = listState
     ) {
         items(options) { option ->
-            val style = if (option == selectedOption)
-                MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold) else {
-                MaterialTheme.typography.bodyMedium.copy(
-                    fontWeight = FontWeight.Normal,
-                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.8f)
-                )
-            }
-
             SelectOptionItem(
-                style = style,
+                style = getOptionTextStyle(isSelected = option == selectedOption),
                 option = option,
                 onSelectedOption = { onSelectedOption(option) }
             )
@@ -193,6 +187,21 @@ fun handleRotationAndDismiss(
         delay(MILLISECONDS_200)
         onDismiss()
     }
+}
+
+/**
+ * Extracted composable function to get the style depending on the selected option.
+ */
+@Composable
+fun getOptionTextStyle(isSelected: Boolean) = if (isSelected) {
+    MaterialTheme.typography.titleMedium.copy(
+        fontWeight = FontWeight.Bold
+    )
+} else {
+    MaterialTheme.typography.bodyMedium.copy(
+        fontWeight = FontWeight.Normal,
+        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.8f)
+    )
 }
 
 @Preview(showSystemUi = true, showBackground = true)
