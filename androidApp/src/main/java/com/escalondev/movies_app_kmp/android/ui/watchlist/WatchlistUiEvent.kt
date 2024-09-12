@@ -1,6 +1,7 @@
 package com.escalondev.movies_app_kmp.android.ui.watchlist
 
 sealed class WatchlistUiEvent {
-    data class OnCategorySelected(val category: String) : WatchlistUiEvent()
+    data class OnSelectOption(val showSelectOptionScreen: Boolean) : WatchlistUiEvent()
+    data class OnOptionSelected(val selectedOption: String) : WatchlistUiEvent()
     data object OnFetchWatchlist : WatchlistUiEvent()
 }

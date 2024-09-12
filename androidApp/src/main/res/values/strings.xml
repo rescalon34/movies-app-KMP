@@ -5,6 +5,7 @@
 
     <!-- Watchlist -->
     <string name="watchlist_title">Watchlist</string>
+    <string name="watchlist_subtitle">My movies</string>
 
     <!-- Profile -->
     <string name="profile_title">Profile</string>

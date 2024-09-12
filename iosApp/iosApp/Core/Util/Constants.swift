@@ -9,3 +9,4 @@
 import Foundation
 
 let DEFAULT_PLACEHOLDER_POSTER = "https://media.themoviedb.org/t/p/original/t7bhjraXuN4hd3yZVBVVhP3BdX0.jpg"
+let MINUS_NINETY_DEGREES = -90

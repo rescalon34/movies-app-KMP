@@ -3,6 +3,7 @@ package com.escalondev.movies_app_kmp.android.ui.watchlist
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.escalondev.movies_app_kmp.android.util.Constants.ONE_SECOND
 import com.escalondev.movies_app_kmp.data.repository.MovieRepositoryImpl
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
@@ -22,7 +23,7 @@ class WatchlistViewModel @Inject constructor() : ViewModel() {
     private fun getWatchlist() {
         _uiState.update { it.copy(isLoading = true) }
         viewModelScope.launch {
-            delay(1500L)
+            delay(ONE_SECOND)
             _uiState.update {
                 it.copy(isLoading = false, watchlist = MovieRepositoryImpl.getWatchlist())
             }
@@ -32,8 +33,13 @@ class WatchlistViewModel @Inject constructor() : ViewModel() {
     fun onUiEvent(uiEvent: WatchlistUiEvent) {
         when (uiEvent) {
             WatchlistUiEvent.OnFetchWatchlist -> getWatchlist()
-            is WatchlistUiEvent.OnCategorySelected -> {
-                Log.d("WatchlistViewModel", "TBD, category: ${uiEvent.category}")
+            is WatchlistUiEvent.OnOptionSelected -> {
+                _uiState.update { it.copy(selectedOption = uiEvent.selectedOption) }
+                Log.d("WatchlistViewModel", "TBD, call API: ${uiEvent.selectedOption}")
+            }
+
+            is WatchlistUiEvent.OnSelectOption -> {
+                _uiState.update { it.copy(showSelectOptionScreen = uiEvent.showSelectOptionScreen) }
             }
         }
     }

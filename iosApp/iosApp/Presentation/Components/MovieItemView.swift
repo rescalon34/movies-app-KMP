@@ -41,5 +41,5 @@ struct MovieItemView: View {
 }
 
 #Preview {
-    MovieItemView(imageUrl: DEFAULT_PLACEHOLDER_POSTER ?? "")
+    MovieItemView(imageUrl: DEFAULT_PLACEHOLDER_POSTER)
 }

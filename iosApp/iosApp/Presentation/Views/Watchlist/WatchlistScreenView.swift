@@ -13,6 +13,9 @@ struct WatchlistScreenView: View {
     // MARK: - ViewModel
     @StateObject var viewModel: WatchlistViewModel = .init()
     
+    // MARK: - Properties
+    @State private var isPresented = false
+    
     // MARK: Body
     var body: some View {
         NavigationStack {
@@ -22,6 +25,12 @@ struct WatchlistScreenView: View {
             .navigationTitle("Watchlist")
             .navigationBarTitleDisplayMode(.automatic)
             .toolbar { watchlistToolbarContent }
+            .fullScreenCover(isPresented: $isPresented) {
+                SelectOptionScreenView(
+                    options: viewModel.sortOptions,
+                    selectedOption: $viewModel.sortType
+                )
+            }
         }
     }
     
@@ -29,10 +38,9 @@ struct WatchlistScreenView: View {
     var watchlistToolbarContent: some ToolbarContent {
         ToolbarItem(placement: .topBarTrailing) {
             CategoryCardView(
-                selectedCategory: "Featured",
+                selectedCategory: viewModel.sortType,
                 onCategoryClick: {
-                    // TODO:
-                    //isPresented.toggle()
+                    isPresented.toggle()
                 }
             )
         }
