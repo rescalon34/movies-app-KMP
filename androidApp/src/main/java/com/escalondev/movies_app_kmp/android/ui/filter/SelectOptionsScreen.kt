@@ -10,11 +10,10 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -24,8 +23,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
@@ -35,7 +34,13 @@ import com.escalondev.movies_app_kmp.android.ui.component.CircleIconComponent
 import com.escalondev.movies_app_kmp.android.util.Constants.HALF_SEC
 import com.escalondev.movies_app_kmp.android.util.Constants.MILLISECONDS_200
 import com.escalondev.movies_app_kmp.android.util.Constants.NINETY_DEGREES
+import com.escalondev.movies_app_kmp.android.util.Constants.ONE_HUNDRED
+import com.escalondev.movies_app_kmp.android.util.Constants.TWO_HUNDRED
+import com.escalondev.movies_app_kmp.android.util.calculateAlphaForItem
 import com.escalondev.movies_app_kmp.android.util.getGradientBackgroundMask
+import com.escalondev.movies_app_kmp.android.util.getOptionTextStyle
+import com.escalondev.movies_app_kmp.android.util.getScreenHeight
+import com.escalondev.movies_app_kmp.android.util.toPx
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -131,6 +136,8 @@ fun SortOptionsList(
         listState.animateScrollToItem(index = options.indexOf(selectedOption))
     }
 
+    val bottomAlphaThreshold = getScreenHeight().minus(TWO_HUNDRED.dp.toPx())
+
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
@@ -138,8 +145,24 @@ fun SortOptionsList(
         contentPadding = PaddingValues(vertical = 100.dp),
         state = listState
     ) {
-        items(options) { option ->
+        itemsIndexed(options) { index, option ->
+
+            // Calculate the alpha opacity based on the items position.
+            // This will add a less opaque effect on the items when reaching
+            // the top and bottom of the screen.
+            val alpha = calculateAlphaForItem(
+                listState = listState,
+                index = index,
+                topThreshold = ONE_HUNDRED,
+                bottomThreshold = bottomAlphaThreshold
+            )
+
             SelectOptionItem(
+                modifier = Modifier.graphicsLayer {
+                    // Display the alpha opacity at the top and bottom
+                    // based on the thresholds.
+                    this.alpha = alpha
+                },
                 style = getOptionTextStyle(isSelected = option == selectedOption),
                 option = option,
                 onSelectedOption = { onSelectedOption(option) }
@@ -187,21 +210,6 @@ fun handleRotationAndDismiss(
         delay(MILLISECONDS_200)
         onDismiss()
     }
-}
-
-/**
- * Extracted composable function to get the style depending on the selected option.
- */
-@Composable
-fun getOptionTextStyle(isSelected: Boolean) = if (isSelected) {
-    MaterialTheme.typography.titleMedium.copy(
-        fontWeight = FontWeight.Bold
-    )
-} else {
-    MaterialTheme.typography.bodyMedium.copy(
-        fontWeight = FontWeight.Normal,
-        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.8f)
-    )
 }
 
 @Preview(showSystemUi = true, showBackground = true)
