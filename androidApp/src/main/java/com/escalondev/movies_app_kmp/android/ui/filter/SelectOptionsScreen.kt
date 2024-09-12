@@ -36,6 +36,7 @@ import com.escalondev.movies_app_kmp.android.util.Constants.MILLISECONDS_200
 import com.escalondev.movies_app_kmp.android.util.Constants.NINETY_DEGREES
 import com.escalondev.movies_app_kmp.android.util.Constants.ONE_HUNDRED
 import com.escalondev.movies_app_kmp.android.util.Constants.TWO_HUNDRED
+import com.escalondev.movies_app_kmp.android.util.Constants.ZERO
 import com.escalondev.movies_app_kmp.android.util.calculateAlphaForItem
 import com.escalondev.movies_app_kmp.android.util.getGradientBackgroundMask
 import com.escalondev.movies_app_kmp.android.util.getOptionTextStyle
@@ -78,8 +79,17 @@ fun SelectOptionContent(
     onDismiss: () -> Unit,
 ) {
 
-    val dismissIconRotation = remember { Animatable(0f) }
+    val dismissIconRotation = remember { Animatable(ZERO) }
     val coroutineScope = rememberCoroutineScope()
+
+    // Execute icon animation right after opening the screen.
+    LaunchedEffect(key1 = Unit) {
+        handleIconRotationAnimation(
+            dismissIconRotation = dismissIconRotation,
+            coroutineScope = coroutineScope,
+            degrees = -NINETY_DEGREES
+        )
+    }
 
     Column(modifier = Modifier.fillMaxSize()) {
         Box(
@@ -92,7 +102,7 @@ fun SelectOptionContent(
                 options = options,
                 selectedOption = selectedOption,
                 onSelectedOption = {
-                    handleRotationAndDismiss(
+                    handleIconRotationAnimation(
                         dismissIconRotation = dismissIconRotation,
                         coroutineScope = coroutineScope,
                         onDismiss = onDismiss
@@ -107,7 +117,7 @@ fun SelectOptionContent(
                     .padding(bottom = 16.dp),
                 dismissIconRotation = dismissIconRotation.value,
                 onClick = {
-                    handleRotationAndDismiss(
+                    handleIconRotationAnimation(
                         dismissIconRotation = dismissIconRotation,
                         coroutineScope = coroutineScope,
                         onDismiss = onDismiss
@@ -198,15 +208,16 @@ fun SelectOptionItem(
 }
 
 /**
- * Reusable function to handle the animation rotation logic whenever dismissing the dialog.
+ * Handle the animation rotation logic for the cross icon from the bottom.
  */
-fun handleRotationAndDismiss(
+fun handleIconRotationAnimation(
     dismissIconRotation: Animatable<Float, *>,
     coroutineScope: CoroutineScope,
-    onDismiss: () -> Unit
+    degrees: Float = ZERO,
+    onDismiss: () -> Unit = { }
 ) {
     coroutineScope.launch {
-        dismissIconRotation.animateTo(NINETY_DEGREES)
+        dismissIconRotation.animateTo(degrees)
         delay(MILLISECONDS_200)
         onDismiss()
     }
