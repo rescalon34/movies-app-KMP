@@ -7,7 +7,9 @@
 //
 
 import Combine
+import SwiftUI
 import shared
+import KMPNativeCoroutinesCombine
 
 class WatchlistViewModel: ObservableObject {
     
@@ -17,8 +19,12 @@ class WatchlistViewModel: ObservableObject {
     @Published var sortType: String = SortType.FirstAdded.rawValue
     @Published var sortOptions: [String] = SortType.allCases.map { $0.rawValue }
     
-    // MARK: - Combine Properties
+    // MARK: - Combine properties
     private var cancellable = Set<AnyCancellable>()
+    
+    // MARK: - Shared SDK
+    let sharedCoreManager: SharedCoreManager = SharedCoreManager()
+
     
     init() {
         getWatchlistMovies()
@@ -29,13 +35,25 @@ class WatchlistViewModel: ObservableObject {
         onSelectedOptionChange()
     }
     
-    // TODO: collect this asynchronously once the Shared Module handles the data correctly.
+    // MARK: - get Watchlist using native coroutines + Combine
     func getWatchlistMovies() {
         isLoading = true
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-            self.isLoading = false
-            self.movies = MovieRepositoryImpl().getWatchlist()
-        }
+        
+        let getWatchlistUseCase = GetWatchlistUseCaseNativeKt.getWatchlist(sharedCoreManager.getWatchlistUseCase)
+        createPublisher(for: getWatchlistUseCase)
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] result in
+                switch result {
+                case .finished:
+                    self?.isLoading = false
+                    print("Finish!")
+                case .failure(let error):
+                    print("An Error ocurred: \(error.localizedDescription)")
+                }
+            } receiveValue: { [weak self] movies in
+                self?.movies = movies
+            }
+            .store(in: &cancellable)
     }
     
     // This callback gets triggered when the selectedGenre changes, the `removeDuplicates()` function will avoid

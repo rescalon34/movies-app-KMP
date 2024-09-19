@@ -33,7 +33,7 @@ import com.escalondev.movies_app_kmp.android.ui.component.CategoryCard
 import com.escalondev.movies_app_kmp.android.ui.component.MovieItem
 import com.escalondev.movies_app_kmp.android.ui.component.SimpleProgressIndicator
 import com.escalondev.movies_app_kmp.android.ui.filter.SelectOptionsScreen
-import com.escalondev.movies_app_kmp.data.repository.MovieRepositoryImpl
+import com.escalondev.movies_app_kmp.data.repository.MockedMoviesRepository
 
 @Composable
 fun WatchlistScreen(
@@ -150,7 +150,7 @@ private fun WatchlistContentPreview() {
     MoviesAppTheme {
         WatchlistContent(
             uiState = WatchlistUiState(
-                watchlist = MovieRepositoryImpl.getWatchlist()
+                watchlist = MockedMoviesRepository.getWatchlist()
             )
         )
     }
