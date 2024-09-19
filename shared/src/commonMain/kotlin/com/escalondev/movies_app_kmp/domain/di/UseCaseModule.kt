@@ -7,6 +7,6 @@ import org.koin.dsl.module
 /**
  * Add all useCase instances in this module
  */
-val useCaseModule = module {
+internal val useCaseModule = module {
     single<GetWatchlistUseCase> { GetWatchlistUseCaseImpl(get()) }
 }

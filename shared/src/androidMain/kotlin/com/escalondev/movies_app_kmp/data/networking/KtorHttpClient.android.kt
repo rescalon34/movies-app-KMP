@@ -6,4 +6,4 @@ import io.ktor.client.engine.okhttp.OkHttp
 /**
  * Native Android Implementation for the Ktor HttpClient.
  */
-actual val ktorHttpClient = HttpClient(OkHttp)
+internal actual val ktorHttpClient = HttpClient(OkHttp)

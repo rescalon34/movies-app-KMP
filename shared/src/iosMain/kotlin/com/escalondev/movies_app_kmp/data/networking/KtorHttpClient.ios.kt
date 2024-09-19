@@ -6,4 +6,4 @@ import io.ktor.client.engine.darwin.Darwin
 /**
  * Native iOS Implementation for the Ktor HttpClient.
  */
-actual val ktorHttpClient = HttpClient(Darwin)
+internal actual val ktorHttpClient = HttpClient(Darwin)

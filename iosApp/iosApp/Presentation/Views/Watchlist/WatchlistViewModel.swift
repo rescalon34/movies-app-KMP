@@ -24,7 +24,6 @@ class WatchlistViewModel: ObservableObject {
     
     // MARK: - Shared SDK
     let sharedCoreManager: SharedCoreManager = SharedCoreManager()
-
     
     init() {
         getWatchlistMovies()
@@ -38,9 +37,7 @@ class WatchlistViewModel: ObservableObject {
     // MARK: - get Watchlist using native coroutines + Combine
     func getWatchlistMovies() {
         isLoading = true
-        
-        let getWatchlistUseCase = GetWatchlistUseCaseNativeKt.getWatchlist(sharedCoreManager.getWatchlistUseCase)
-        createPublisher(for: getWatchlistUseCase)
+        createPublisher(for: sharedCoreManager.getWatchlist())
             .receive(on: DispatchQueue.main)
             .sink { [weak self] result in
                 switch result {

@@ -7,6 +7,6 @@ import org.koin.dsl.module
  * Module intended to create all the shared dependencies that will be exposed to
  * the iOS side.
  */
-val coreModule = module {
+internal val coreModule = module {
     single<SharedCoreManager> { SharedCoreManager() }
 }

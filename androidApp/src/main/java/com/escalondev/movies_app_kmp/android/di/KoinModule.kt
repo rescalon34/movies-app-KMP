@@ -1,6 +1,6 @@
 package com.escalondev.movies_app_kmp.android.di
 
-import com.escalondev.movies_app_kmp.domain.usecase.GetWatchlistUseCase
+import com.escalondev.movies_app_kmp.core.SharedCoreManager
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -12,7 +12,7 @@ import org.koin.core.context.GlobalContext
 object KoinModule {
 
     @Provides
-    fun provideGetWatchlistUseCase(): GetWatchlistUseCase {
+    fun provideSharedCoreManager(): SharedCoreManager {
         return GlobalContext.get().get()
     }
 }

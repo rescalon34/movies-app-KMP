@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.escalondev.movies_app_kmp.android.util.Constants.ONE_SECOND
-import com.escalondev.movies_app_kmp.domain.usecase.GetWatchlistUseCase
+import com.escalondev.movies_app_kmp.core.SharedCoreManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,7 +17,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class WatchlistViewModel @Inject constructor(
-    private val getWatchlistUseCase: GetWatchlistUseCase,
+    private val sharedCoreManager: SharedCoreManager,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(WatchlistUiState())
@@ -27,7 +27,7 @@ class WatchlistViewModel @Inject constructor(
         _uiState.update { it.copy(isLoading = true) }
         viewModelScope.launch {
             delay(ONE_SECOND)
-            getWatchlistUseCase.getWatchlist().collectLatest { watchlist ->
+            sharedCoreManager.getWatchlist().collectLatest { watchlist ->
                 _uiState.update {
                     it.copy(isLoading = false, watchlist = watchlist)
                 }
