@@ -8,7 +8,7 @@ import com.escalondev.movies_app_kmp.domain.di.useCaseModule
  * the sharedCoreModule will be called on the Android/iOS side when initializing the DI
  * at their very first entry point.
  */
-val sharedCoreModule = listOf(
+internal val sharedCoreModule = listOf(
     coreModule,
     networkingModule,
     repositoryModule,

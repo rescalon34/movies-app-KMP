@@ -57,10 +57,6 @@ dependencies {
     // Kotlin
     implementation(libs.kotlinx.serialization.json)
 
-    // Koin
-    implementation(libs.koin.core)
-    implementation(libs.koin.android)
-
     // Hilt
     implementation(libs.hilt.android)
     kapt(libs.hilt.android.compiler)

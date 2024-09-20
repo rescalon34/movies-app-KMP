@@ -1,6 +1,6 @@
 package com.escalondev.movies_app_kmp.core.di
 
-import com.escalondev.movies_app_kmp.core.SharedCoreManager
+import com.escalondev.movies_app_kmp.core.manager.SharedCoreManager
 import org.koin.dsl.module
 
 /**

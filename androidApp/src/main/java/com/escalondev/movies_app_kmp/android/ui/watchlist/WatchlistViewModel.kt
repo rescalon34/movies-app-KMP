@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.escalondev.movies_app_kmp.android.util.Constants.ONE_SECOND
-import com.escalondev.movies_app_kmp.core.SharedCoreManager
+import com.escalondev.movies_app_kmp.core.manager.SharedCoreManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow

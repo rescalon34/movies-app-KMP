@@ -7,6 +7,9 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
+/**
+ * Repository that contains all networking operations for the Movies feature.
+ */
 internal class MoviesRepositoryImpl(
     private val networkingManager: NetworkingManager
 ) : MoviesRepository {
