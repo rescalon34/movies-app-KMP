@@ -14,6 +14,7 @@
 		250A20B22C9B98E3006534A4 /* KMPNativeCoroutinesCombine in Frameworks */ = {isa = PBXBuildFile; productRef = 250A20B12C9B98E3006534A4 /* KMPNativeCoroutinesCombine */; };
 		250A20B42C9B98E3006534A4 /* KMPNativeCoroutinesCore in Frameworks */ = {isa = PBXBuildFile; productRef = 250A20B32C9B98E3006534A4 /* KMPNativeCoroutinesCore */; };
 		250A20BF2C9E2D00006534A4 /* UseCaseProvider+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 250A20BE2C9E2D00006534A4 /* UseCaseProvider+Extensions.swift */; };
+		250A20C12C9E79BF006534A4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 250A20C02C9E79BF006534A4 /* AppDelegate.swift */; };
 		2554A74E2C8BBCD300B8E4C3 /* HomeScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2554A74D2C8BBCD300B8E4C3 /* HomeScreenView.swift */; };
 		2554A7502C8BBD9B00B8E4C3 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2554A74F2C8BBD9B00B8E4C3 /* Color.swift */; };
 		2554A7522C8BBDC400B8E4C3 /* CustomColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2554A7512C8BBDC400B8E4C3 /* CustomColors.swift */; };
@@ -53,6 +54,7 @@
 		058557D8273AAEEB004C7B11 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		2152FB032600AC8F00CF470E /* iOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOSApp.swift; sourceTree = "<group>"; };
 		250A20BE2C9E2D00006534A4 /* UseCaseProvider+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UseCaseProvider+Extensions.swift"; sourceTree = "<group>"; };
+		250A20C02C9E79BF006534A4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2554A74D2C8BBCD300B8E4C3 /* HomeScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScreenView.swift; sourceTree = "<group>"; };
 		2554A74F2C8BBD9B00B8E4C3 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		2554A7512C8BBDC400B8E4C3 /* CustomColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomColors.swift; sourceTree = "<group>"; };
@@ -262,6 +264,7 @@
 				7555FF8C242A565B00829871 /* Info.plist */,
 				2152FB032600AC8F00CF470E /* iOSApp.swift */,
 				058557D7273AAEEB004C7B11 /* Preview Content */,
+				250A20C02C9E79BF006534A4 /* AppDelegate.swift */,
 			);
 			path = iosApp;
 			sourceTree = "<group>";
@@ -373,6 +376,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				250A20C12C9E79BF006534A4 /* AppDelegate.swift in Sources */,
 				2554A74E2C8BBCD300B8E4C3 /* HomeScreenView.swift in Sources */,
 				255EFFA52C8FECC5006857C8 /* BottomTabItem.swift in Sources */,
 				255EFFAC2C90BCF9006857C8 /* WatchlistViewModel.swift in Sources */,

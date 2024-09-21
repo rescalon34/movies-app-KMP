@@ -1,12 +1,9 @@
 import SwiftUI
-import shared
 
 @main
 struct iOSApp: App {
     
-    init() {
-        SharedCoreManager.companion.doInit()
-    }
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     
 	var body: some Scene {
 		WindowGroup {
