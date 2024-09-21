@@ -6,6 +6,17 @@ plugins {
 }
 
 kotlin {
+
+    // This will allow KDcos comments to be translated to readable text when
+    // compiled to Objective-C.
+    // NOTE: According to Jetbrains, this feature is experimental and may be removed (or not)
+    // in the future, keep an eye on its status.
+
+    // @See: https://kotlinlang.org/docs/native-objc-interop.html#provide-documentation-with-kdoc-comments
+    targets.withType<org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget> {
+        compilations["main"].compilerOptions.options.freeCompilerArgs.add("-Xexport-kdoc")
+    }
+
     androidTarget {
         compilations.all {
             kotlinOptions {

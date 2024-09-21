@@ -17,7 +17,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class WatchlistViewModel @Inject constructor(
-    private val sharedCoreManager: SharedCoreManager,
+    private val sharedCoreManager: SharedCoreManager
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(WatchlistUiState())
@@ -27,7 +27,7 @@ class WatchlistViewModel @Inject constructor(
         _uiState.update { it.copy(isLoading = true) }
         viewModelScope.launch {
             delay(ONE_SECOND)
-            sharedCoreManager.getWatchlist().collectLatest { watchlist ->
+            sharedCoreManager.useCaseProvider.getWatchlist().collectLatest { watchlist ->
                 _uiState.update {
                     it.copy(isLoading = false, watchlist = watchlist)
                 }

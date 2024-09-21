@@ -37,20 +37,22 @@ class WatchlistViewModel: ObservableObject {
     // MARK: - get Watchlist using native coroutines + Combine
     func getWatchlistMovies() {
         isLoading = true
-        createPublisher(for: sharedCoreManager.getWatchlist())
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] result in
-                switch result {
-                case .finished:
-                    self?.isLoading = false
-                    print("Finish!")
-                case .failure(let error):
-                    print("An Error ocurred: \(error.localizedDescription)")
+        sharedCoreManager.useCaseProvider.invoke { manager, provider in
+            createPublisher(for: manager.getWatchlist(provider))
+                .receive(on: DispatchQueue.main)
+                .sink { [weak self] result in
+                    switch result {
+                    case .finished:
+                        self?.isLoading = false
+                        print("Finish!")
+                    case .failure(let error):
+                        print("An Error ocurred: \(error.localizedDescription)")
+                    }
+                } receiveValue: { [weak self] movies in
+                    self?.movies = movies
                 }
-            } receiveValue: { [weak self] movies in
-                self?.movies = movies
-            }
-            .store(in: &cancellable)
+                .store(in: &self.cancellable)
+        }
     }
     
     // This callback gets triggered when the selectedGenre changes, the `removeDuplicates()` function will avoid
