@@ -8,15 +8,13 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 
 /**
- * This Koin Module will allows us to inject SharedCoreManager as a provider
- * by communicating with the `GlobalContext` from the shared Koin module.
- *
- * It works as a bridge, to make the SharedCoreManager a instance that can easily
- * be injected in any constructor class that uses Hilt as DI.
+ * The SharedSdk module acts as a bridge to simplify the provision of SDK instances,
+ * such as the SharedCoreManager. It integrates seamlessly with Hilt for Dependency Injection (DI),
+ * allowing these instances to be easily injected into any class constructor that utilizes Hilt.
  */
 @Module
 @InstallIn(SingletonComponent::class)
-object KoinModule {
+object SharedSdkModule {
 
     @Provides
     fun provideSharedCoreManager(): SharedCoreManager {
