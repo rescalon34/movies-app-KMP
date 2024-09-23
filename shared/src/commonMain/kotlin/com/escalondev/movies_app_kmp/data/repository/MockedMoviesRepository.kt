@@ -2,8 +2,8 @@ package com.escalondev.movies_app_kmp.data.repository
 
 import com.escalondev.movies_app_kmp.domain.model.Movie
 
-// TODO: Change this to proper implementation when fetching real data from the server.
-object MovieRepositoryImpl {
+// TODO: Delete this mocked repository once real data gets fetched from the server.
+object MockedMoviesRepository {
 
     /**
      * get a list of mocked watchlist for now to display items on the UI.
