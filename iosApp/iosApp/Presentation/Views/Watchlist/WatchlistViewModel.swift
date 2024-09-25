@@ -7,15 +7,16 @@
 //
 
 import Combine
-import SwiftUI
 import shared
 import KMPNativeCoroutinesCombine
+import KMPNativeCoroutinesAsync
 
 class WatchlistViewModel: ObservableObject {
     
     // MARK: - Published properties
     @Published var isLoading: Bool = false
     @Published var movies: [Movie] = []
+    @Published var errorMessage: String = ""
     @Published var sortType: String = SortType.FirstAdded.rawValue
     @Published var sortOptions: [String] = SortType.allCases.map { $0.rawValue }
     
@@ -25,28 +26,26 @@ class WatchlistViewModel: ObservableObject {
     // MARK: - Shared SDK
     let sharedCoreManager: SharedCoreManager = SharedCoreManager()
     
+    // MARK: - init
     init() {
+//        getWatchlist()
         getWatchlistMovies()
         setupBindings()
     }
     
-    private func setupBindings() {
-        onSelectedOptionChange()
-    }
-    
-    // MARK: - get Watchlist using native coroutines + Combine
-    func getWatchlistMovies() {
+    // MARK: - API calls thougth the shared SDK.
+    func getWatchlist() {
         isLoading = true
-        sharedCoreManager.useCaseProvider.invoke { manager, provider in
+        sharedCoreManager.useCaseProvider.executeUseCase { manager, provider in
             createPublisher(for: manager.getWatchlist(provider))
                 .receive(on: DispatchQueue.main)
                 .sink { [weak self] result in
                     switch result {
                     case .finished:
                         self?.isLoading = false
-                        print("Finish!")
                     case .failure(let error):
-                        print("An Error ocurred: \(error.localizedDescription)")
+                        self?.errorMessage = error.localizedDescription
+                        self?.isLoading = false
                     }
                 } receiveValue: { [weak self] movies in
                     self?.movies = movies
@@ -55,8 +54,29 @@ class WatchlistViewModel: ObservableObject {
         }
     }
     
-    // This callback gets triggered when the selectedGenre changes, the `removeDuplicates()` function will avoid
-    // executing again the other function to get movies.
+    func getWatchlistMovies() {
+        isLoading = true
+        sharedCoreManager.useCaseProvider.executeUseCase { manager, provider in
+            Task { @MainActor [weak self] in
+                try await asyncFunction(for: manager.getWatchlistMovies(provider))
+                    .onSuccess { data in
+                        let movies = data as? [Movie] ?? []
+                        self?.movies = movies
+                        self?.isLoading = false
+                    }
+                    .onFailure { errorMessage in
+                        self?.errorMessage = errorMessage?.statusMessage ?? ""
+                        self?.isLoading = false
+                    }
+            }
+        }
+    }
+    
+    // MARK: - View functions.
+    private func setupBindings() {
+        onSelectedOptionChange()
+    }
+    
     func onSelectedOptionChange() {
         $sortType
             .removeDuplicates()

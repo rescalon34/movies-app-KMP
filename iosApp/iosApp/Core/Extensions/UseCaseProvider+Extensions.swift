@@ -9,36 +9,35 @@
 import shared
 import KMPNativeCoroutinesCore
 
-///
-/// This Extension file provide access to handy functions to invoke any Kotlin useCase from the
-/// Shared KMP module with less code using a closure approach.
+/// This extension provides convenient functions to simplify the process of invoking Native Kotlin usecases
+/// from the shared Kotlin Multiplatform (KMP) module with minimal code, using closures.
 ///
 extension UseCaseProvider {
     
-    /// Extension function to easily invoke any useCase in a handy way.
+    /// Fetches data from any Kotlin Multiplatform (KMP) use case in a concise and efficient way.
     ///
-    /// Example:
+    /// Example usage:
     ///   ```
-    ///   let getWatchlist = sharedCoreManager.useCaseProvider.invoke { manager, provider in
-    ///       manager.getWatchlist(provider)
+    ///   let data = sharedCoreManager.useCaseProvider.fetchUseCase { manager, provider in
+    ///       manager.getData(provider)
     ///   }
     ///   ```
-    ///
-    func invoke<T>(_ useCase: @escaping (UseCaseProviderNativeKt.Type, UseCaseProvider) -> T) -> T {
-        return useCase(UseCaseProviderNativeKt.self, self)
+    /// - Parameter useCase: Closure to execute the desired use case.
+    /// - Returns: The result from the Native Kotlin usecase.
+    func fetchUseCase<T>(_ useCase: @escaping (UseCaseProviderNativeKt.Type, UseCaseProvider) -> T) -> T {
+        useCase(UseCaseProviderNativeKt.self, self)
     }
     
-    /// Extension function to easily invoke any useCase in a handy way.
+    /// Executes a Kotlin Multiplatform (KMP) usecase without returning data.
     ///
     /// Example:
     ///   ```
-    ///   let getWatchlist = sharedCoreManager.useCaseProvider.invoke { manager, provider in
-    ///       createPublisher(for: manager.getWatchlist(provider))
-    ///       // rest of the code.
+    ///   sharedCoreManager.useCaseProvider.executeUseCase { manager, provider in
+    ///       createPublisher(for: manager.getData(provider))
     ///   }
     ///   ```
-    ///
-    func invoke(_ useCase: (UseCaseProviderNativeKt.Type, UseCaseProvider) -> ()) -> () {
-        return useCase(UseCaseProviderNativeKt.self, self)
+    /// - Parameter useCase: Closure to execute the desired use case.
+    func executeUseCase(_ useCase: (UseCaseProviderNativeKt.Type, UseCaseProvider) -> ()) -> () {
+        useCase(UseCaseProviderNativeKt.self, self)
     }
 }
