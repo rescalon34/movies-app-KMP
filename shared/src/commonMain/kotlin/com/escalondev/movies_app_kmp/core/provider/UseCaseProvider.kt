@@ -1,6 +1,7 @@
 package com.escalondev.movies_app_kmp.core.provider
 
 import com.escalondev.movies_app_kmp.domain.model.Movie
+import com.escalondev.movies_app_kmp.domain.util.NetworkResult
 import com.rickclephas.kmp.nativecoroutines.NativeCoroutines
 import kotlinx.coroutines.flow.Flow
 
@@ -38,4 +39,7 @@ interface UseCaseProvider {
      */
     @NativeCoroutines
     fun getWatchlist(): Flow<List<Movie>>
+
+    @NativeCoroutines
+    suspend fun getWatchlistMovies(): NetworkResult<List<Movie>>
 }
