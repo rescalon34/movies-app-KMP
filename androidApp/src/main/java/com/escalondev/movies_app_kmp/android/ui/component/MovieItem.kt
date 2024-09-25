@@ -1,5 +1,6 @@
 package com.escalondev.movies_app_kmp.android.ui.component
 
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.material3.Card
 import androidx.compose.runtime.Composable
@@ -15,8 +16,9 @@ import com.escalondev.movies_app_kmp.domain.model.Movie
 fun MovieItem(modifier: Modifier = Modifier, movie: Movie) {
     Card(modifier = modifier) {
         AsyncImage(
+            modifier = Modifier.fillMaxSize(),
             model = movie.imageUrl,
-            contentScale = ContentScale.Crop,
+            contentScale = ContentScale.FillBounds,
             contentDescription = null
         )
     }

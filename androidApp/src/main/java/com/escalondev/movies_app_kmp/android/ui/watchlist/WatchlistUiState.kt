@@ -8,5 +8,6 @@ data class WatchlistUiState(
     val watchlist: List<Movie> = emptyList(),
     val options: List<String> = SortType.entries.map { it.value },
     val selectedOption: String = SortType.entries.first().value,
-    val showSelectOptionScreen: Boolean = false
+    val showSelectOptionScreen: Boolean = false,
+    val errorMessage: String = ""
 )
