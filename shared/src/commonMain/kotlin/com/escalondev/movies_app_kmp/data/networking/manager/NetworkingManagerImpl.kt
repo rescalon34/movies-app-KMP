@@ -9,7 +9,6 @@ import io.ktor.client.plugins.auth.providers.BearerTokens
 import io.ktor.client.plugins.auth.providers.bearer
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.defaultRequest
-import io.ktor.client.plugins.logging.DEFAULT
 import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.Logging
@@ -44,7 +43,7 @@ internal class NetworkingManagerImpl(
             }
 
             install(Logging) {
-                logger = Logger.DEFAULT
+                logger = getNetworkLogger()
                 level = LogLevel.ALL
             }
 
@@ -64,7 +63,17 @@ internal class NetworkingManagerImpl(
         }
     }
 
+    /**
+     * Custom networking logger.
+     */
+    private fun getNetworkLogger() = object : Logger {
+        override fun log(message: String) {
+            println("$TAG: $message")
+        }
+    }
+
     companion object {
+        private var TAG = "NetworkingManager"
         private const val BASE_URL = "https://api.themoviedb.org/3/"
         const val BEARER = "Bearer "
         const val AUTHORIZATION = "Authorization"
