@@ -17,11 +17,11 @@ sealed class NetworkResult<out T> {
  *
  * Example:
  * ```
- * sharedCoreManager.useCaseProvider.useCase()
- *       .onSuccess { data ->
- *            // Rest of the code.
- *       }
- *       .onFailure { _ -> }
+ * useCase()
+ *   .onSuccess { data ->
+ *       // Rest of the code.
+ *   }
+ *   .onFailure { _ -> }
  * ```
  */
 inline fun <T : Any> NetworkResult<T>.onSuccess(action: (T) -> Unit): NetworkResult<T> {
@@ -34,11 +34,11 @@ inline fun <T : Any> NetworkResult<T>.onSuccess(action: (T) -> Unit): NetworkRes
  *
  * Example:
  * ```
- * sharedCoreManager.useCaseProvider.useCase()
- *       .onSuccess { _ -> }
- *       .onFailure { error ->
- *           // Rest of the code
- *      }
+ * useCase()
+ *   .onSuccess { _ -> }
+ *   .onFailure { error ->
+ *       // Rest of the code
+ *   }
  * ```
  */
 inline fun <T : Any> NetworkResult<T>.onFailure(action: (ErrorMessage?) -> Unit): NetworkResult<T> {

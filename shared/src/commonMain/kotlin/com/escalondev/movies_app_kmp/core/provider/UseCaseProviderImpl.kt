@@ -17,10 +17,14 @@ import org.koin.core.component.inject
  * to internal uses within the SDK.
  */
 internal class UseCaseProviderImpl : KoinComponent, UseCaseProvider {
+
+    // UseCases instances
     private val getWatchlistUseCase: GetWatchlistUseCase by inject<GetWatchlistUseCase>()
     private val getWatchlistMoviesUseCase: GetWatchlistMoviesUseCase by inject<GetWatchlistMoviesUseCase>()
 
+    // Exposed functions for the consumers.
     override fun getWatchlist(): Flow<List<Movie>> = getWatchlistUseCase()
 
-    override suspend fun getWatchlistMovies(): NetworkResult<List<Movie>> = getWatchlistMoviesUseCase()
+    override suspend fun getWatchlistMovies() = getWatchlistMoviesUseCase()
+
 }

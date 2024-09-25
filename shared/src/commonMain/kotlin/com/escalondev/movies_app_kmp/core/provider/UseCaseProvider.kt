@@ -15,7 +15,6 @@ import kotlinx.coroutines.flow.Flow
 interface UseCaseProvider {
 
     /**
-     * Returns a Flow of the user's watchlist.
      *
      * This function emits updates to the watchlist as a [Flow] of [List] of [Movie].
      * Use this to observe changes in the watchlist over time.
@@ -40,6 +39,36 @@ interface UseCaseProvider {
     @NativeCoroutines
     fun getWatchlist(): Flow<List<Movie>>
 
+    /**
+     *
+     * Collect the data/error using thought the `onSuccess()` or `onFailure()` functions.
+     *
+     * iOS sample usage:
+     * ```
+     * // your reactive code, publisher, etc.
+     * response.onSuccess { data in
+     *     let movies = data as? [Movie] ?? []
+     *     // rest of the code
+     * }
+     * .onFailure { errorMessage in
+     *    // rest of the code
+     * }
+     * ```
+     *
+     * Android sample usage:
+     * ```
+     * sharedCoreManager.useCaseProvider.getWatchlistMovies()
+     *      .onSuccess { watchlist ->
+     *          // rest of the code
+     *      }
+     *      .onFailure { error ->
+     *          // rest of the code
+     *      }
+     * }
+     * ```
+     *
+     * @return a [NetworkResult] object Where `T` represents a [List] of [Movie].
+     */
     @NativeCoroutines
     suspend fun getWatchlistMovies(): NetworkResult<List<Movie>>
 }
