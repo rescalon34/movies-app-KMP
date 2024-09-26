@@ -9,5 +9,5 @@ data class WatchlistUiState(
     val options: List<String> = SortType.entries.map { it.value },
     val selectedOption: String = SortType.entries.first().value,
     val showSelectOptionScreen: Boolean = false,
-    val errorMessage: String = ""
+    val errorMessage: String? = null
 )
