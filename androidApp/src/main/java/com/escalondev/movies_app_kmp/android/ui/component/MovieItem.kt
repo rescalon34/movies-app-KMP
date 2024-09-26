@@ -11,14 +11,15 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.escalondev.movies_app_kmp.android.theme.MoviesAppTheme
 import com.escalondev.movies_app_kmp.domain.model.Movie
+import com.escalondev.movies_app_kmp.domain.util.getSizedImage
 
 @Composable
 fun MovieItem(modifier: Modifier = Modifier, movie: Movie) {
     Card(modifier = modifier) {
         AsyncImage(
             modifier = Modifier.fillMaxSize(),
-            model = movie.imageUrl,
-            contentScale = ContentScale.FillBounds,
+            model = movie.imageUrl?.getSizedImage(),
+            contentScale = ContentScale.Crop,
             contentDescription = null
         )
     }

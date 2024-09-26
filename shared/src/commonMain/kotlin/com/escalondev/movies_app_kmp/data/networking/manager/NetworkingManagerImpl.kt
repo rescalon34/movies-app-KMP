@@ -75,6 +75,7 @@ internal class NetworkingManagerImpl(
     companion object {
         private var TAG = "NetworkingManager"
         private const val BASE_URL = "https://api.themoviedb.org/3/"
+        const val BASE_IMAGE_URL = "https://image.tmdb.org/t/p/"
         const val BEARER = "Bearer "
         const val AUTHORIZATION = "Authorization"
         const val API_KEY = "api_key"
