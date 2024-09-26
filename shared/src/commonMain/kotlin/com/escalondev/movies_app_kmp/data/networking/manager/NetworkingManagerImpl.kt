@@ -29,7 +29,7 @@ internal class NetworkingManagerImpl(
 ) : NetworkingManager {
 
     override fun getKtorClient(): HttpClient {
-        println("httpClient: $httpClient")
+        println("$TAG: $httpClient")
         return buildKtorClient()
     }
 

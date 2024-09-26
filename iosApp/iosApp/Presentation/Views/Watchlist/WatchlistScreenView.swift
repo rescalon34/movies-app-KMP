@@ -65,6 +65,7 @@ struct WatchlistScreenView: View {
     var watchlistErrorMessage: some View {
         VStack {
             Text(viewModel.errorMessage)
+                .multilineTextAlignment(.center)
         }
     }
     
