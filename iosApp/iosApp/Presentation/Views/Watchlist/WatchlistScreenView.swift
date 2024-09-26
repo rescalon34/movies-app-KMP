@@ -47,14 +47,26 @@ struct WatchlistScreenView: View {
     }
     
     // MARK: - Views
+    @ViewBuilder
     var mainContent: some View {
-        ScrollView {
-            VStack(alignment: .leading) {
-                watchlistGridContent
+        if viewModel.errorMessage.isEmpty {
+            ScrollView {
+                VStack(alignment: .leading) {
+                    watchlistGridContent
+                }
+                .padding()
             }
-            .padding()
+            .scrollIndicators(.hidden)
+        } else {
+            watchlistErrorMessage
         }
-        .scrollIndicators(.hidden)
+    }
+    
+    var watchlistErrorMessage: some View {
+        VStack {
+            Text(viewModel.errorMessage)
+                .multilineTextAlignment(.center)
+        }
     }
     
     @ViewBuilder

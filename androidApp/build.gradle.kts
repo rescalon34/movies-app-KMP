@@ -54,7 +54,7 @@ dependencies {
     // Android Core
     implementation(libs.bundles.android.core.impl)
 
-    // Kotlin
+    // Kotlin Serialization
     implementation(libs.kotlinx.serialization.json)
 
     // Hilt

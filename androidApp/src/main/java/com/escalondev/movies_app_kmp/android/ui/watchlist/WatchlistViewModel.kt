@@ -1,10 +1,11 @@
 package com.escalondev.movies_app_kmp.android.ui.watchlist
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.escalondev.movies_app_kmp.android.util.Constants.ONE_SECOND
 import com.escalondev.movies_app_kmp.core.manager.SharedCoreManager
+import com.escalondev.movies_app_kmp.domain.util.onFailure
+import com.escalondev.movies_app_kmp.domain.util.onSuccess
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -35,12 +36,29 @@ class WatchlistViewModel @Inject constructor(
         }
     }
 
+    private fun getWatchlistMovies() {
+        _uiState.update { it.copy(isLoading = true) }
+        viewModelScope.launch {
+            sharedCoreManager.useCaseProvider.getWatchlistMovies()
+                .onSuccess { watchlist ->
+                    _uiState.update {
+                        it.copy(isLoading = false, watchlist = watchlist)
+                    }
+                }
+                .onFailure { error ->
+                    _uiState.update {
+                        it.copy(isLoading = false, errorMessage = error?.statusMessage.orEmpty())
+                    }
+                }
+        }
+    }
+
     fun onUiEvent(uiEvent: WatchlistUiEvent) {
         when (uiEvent) {
-            WatchlistUiEvent.OnFetchWatchlist -> getWatchlist()
+            WatchlistUiEvent.OnFetchWatchlist -> getWatchlistMovies()
             is WatchlistUiEvent.OnOptionSelected -> {
                 _uiState.update { it.copy(selectedOption = uiEvent.selectedOption) }
-                Log.d("WatchlistViewModel", "TBD, call API: ${uiEvent.selectedOption}")
+                // TODO, call API with the selected option to make the filter.
             }
 
             is WatchlistUiEvent.OnSelectOption -> {

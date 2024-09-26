@@ -1,0 +1,43 @@
+//
+//  SharedCoreManager+Extensions.swift
+//  iosApp
+//
+//  Created by rescalon on 20/9/24.
+//  Copyright © 2024 orgName. All rights reserved.
+//
+
+import shared
+import KMPNativeCoroutinesCore
+
+/// This extension provides convenient functions to simplify the process of invoking Native Kotlin usecases
+/// from the shared Kotlin Multiplatform (KMP) module with minimal code, using closures.
+///
+extension UseCaseProvider {
+    
+    /// Fetches data from any Kotlin Multiplatform (KMP) use case in a concise and efficient way.
+    ///
+    /// Example usage:
+    ///   ```
+    ///   let data = sharedCoreManager.useCaseProvider.fetchUseCase { manager, provider in
+    ///       manager.getData(provider)
+    ///   }
+    ///   ```
+    /// - Parameter useCase: Closure to execute the desired use case.
+    /// - Returns: The result from the Native Kotlin usecase.
+    func fetchUseCase<T>(_ useCase: @escaping (UseCaseProviderNativeKt.Type, UseCaseProvider) -> T) -> T {
+        useCase(UseCaseProviderNativeKt.self, self)
+    }
+    
+    /// Executes a Kotlin Multiplatform (KMP) usecase without returning data.
+    ///
+    /// Example:
+    ///   ```
+    ///   sharedCoreManager.useCaseProvider.executeUseCase { manager, provider in
+    ///       createPublisher(for: manager.getData(provider))
+    ///   }
+    ///   ```
+    /// - Parameter useCase: Closure to execute the desired use case.
+    func executeUseCase(_ useCase: (UseCaseProviderNativeKt.Type, UseCaseProvider) -> ()) -> () {
+        useCase(UseCaseProviderNativeKt.self, self)
+    }
+}

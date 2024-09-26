@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.devtoolsKsp)
     alias(libs.plugins.nativeCoroutines)
+    alias(libs.plugins.kotlinxSerialization)
 }
 
 kotlin {

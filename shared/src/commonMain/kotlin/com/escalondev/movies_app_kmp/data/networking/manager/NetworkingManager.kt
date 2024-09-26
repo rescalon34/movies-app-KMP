@@ -1,4 +1,4 @@
-package com.escalondev.movies_app_kmp.data.networking
+package com.escalondev.movies_app_kmp.data.networking.manager
 
 import io.ktor.client.HttpClient
 
