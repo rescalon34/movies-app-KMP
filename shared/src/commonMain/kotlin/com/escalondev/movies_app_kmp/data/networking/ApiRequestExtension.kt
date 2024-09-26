@@ -55,7 +55,7 @@ internal suspend inline fun <reified T : DomainMapper<U>, U> safeApiRequest(
 /**
  * JsonDecoder function with the `ignoreUnknownKeys` to ignore unknown properties in the input JSON.
  */
-fun getJsonDecoder(): Json {
+internal fun getJsonDecoder(): Json {
     return Json {
         ignoreUnknownKeys = true
     }
