@@ -2,7 +2,7 @@ package com.escalondev.movies_app_kmp.data.di
 
 import com.escalondev.movies_app_kmp.data.networking.api.MoviesApi
 import com.escalondev.movies_app_kmp.data.networking.api.MoviesApiImpl
-import com.escalondev.movies_app_kmp.data.networking.ktorHttpClient
+import com.escalondev.movies_app_kmp.data.networking.expectactual.ktorHttpClient
 import com.escalondev.movies_app_kmp.data.networking.manager.NetworkingManager
 import com.escalondev.movies_app_kmp.data.networking.manager.NetworkingManagerImpl
 import io.ktor.client.HttpClient
