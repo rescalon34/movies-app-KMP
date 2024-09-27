@@ -3,6 +3,7 @@ package com.escalondev.movies_app_kmp.data.networking
 import com.escalondev.movies_app_kmp.data.mapper.DomainMapper
 import com.escalondev.movies_app_kmp.data.model.base.BaseHttpResponse
 import com.escalondev.movies_app_kmp.data.model.base.ErrorMessageResponse
+import com.escalondev.movies_app_kmp.data.networking.expectactual.toPlatformSpecificException
 import com.escalondev.movies_app_kmp.data.util.HttpStatusCodeRange
 import com.escalondev.movies_app_kmp.domain.util.NetworkResult
 import io.ktor.client.call.body
@@ -47,6 +48,32 @@ internal suspend inline fun <reified T : DomainMapper<U>, U> safeApiRequest(
             errorMessage = ErrorMessageResponse(
                 statusCode = e.hashCode(),
                 statusMessage = e.message.orEmpty()
+            )
+        )
+    } catch (throwable: Throwable) {
+        handlePlatformExceptionError(throwable)
+    }
+}
+
+/**
+ * This function will return the specific NetworkResult.Failure message provided by each platform.
+ *
+ * @param throwable represents the main exception that will be used by each platform to catch
+ * the specific exception.
+ */
+internal fun handlePlatformExceptionError(throwable: Throwable): NetworkResult.Failure {
+    return throwable.toPlatformSpecificException()?.let { platformException ->
+        NetworkResult.Failure(
+            errorMessage = ErrorMessageResponse(
+                statusCode = platformException.code ?: throwable.hashCode(),
+                statusMessage = platformException.message ?: throwable.message.orEmpty()
+            )
+        )
+    } ?: run {
+        NetworkResult.Failure(
+            errorMessage = ErrorMessageResponse(
+                statusCode = throwable.hashCode(),
+                statusMessage = throwable.message.orEmpty()
             )
         )
     }
