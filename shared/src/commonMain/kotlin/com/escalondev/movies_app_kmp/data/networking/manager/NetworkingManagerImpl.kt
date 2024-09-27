@@ -1,7 +1,7 @@
 package com.escalondev.movies_app_kmp.data.networking.manager
 
+import com.escalondev.movies_app_kmp.data.networking.expectactual.ktorHttpClient
 import com.escalondev.movies_app_kmp.data.networking.getJsonDecoder
-import com.escalondev.movies_app_kmp.data.networking.ktorHttpClient
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.DefaultRequest
 import io.ktor.client.plugins.auth.Auth

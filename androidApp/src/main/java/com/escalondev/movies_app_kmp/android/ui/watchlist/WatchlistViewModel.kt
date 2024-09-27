@@ -42,12 +42,12 @@ class WatchlistViewModel @Inject constructor(
             sharedCoreManager.useCaseProvider.getWatchlistMovies()
                 .onSuccess { watchlist ->
                     _uiState.update {
-                        it.copy(isLoading = false, watchlist = watchlist)
+                        it.copy(isLoading = false, watchlist = watchlist, errorMessage = null)
                     }
                 }
                 .onFailure { error ->
                     _uiState.update {
-                        it.copy(isLoading = false, errorMessage = error?.statusMessage.orEmpty())
+                        it.copy(isLoading = false, errorMessage = error?.statusMessage)
                     }
                 }
         }

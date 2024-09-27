@@ -92,11 +92,12 @@ fun WatchlistContent(
         },
         screen = { paddingValues ->
             Column(Modifier.padding(paddingValues)) {
-                if (uiState.errorMessage.isNotEmpty()) {
-                    NoWatchlistErrorMessage(errorMessage = uiState.errorMessage)
+                if (uiState.isLoading) SimpleProgressIndicator()
+
+                uiState.errorMessage?.let {
+                    NoWatchlistErrorMessage(errorMessage = it)
                 }
 
-                if (uiState.isLoading) SimpleProgressIndicator()
                 LazyVerticalGrid(
                     columns = GridCells.Adaptive(160.dp),
                     contentPadding = PaddingValues(
