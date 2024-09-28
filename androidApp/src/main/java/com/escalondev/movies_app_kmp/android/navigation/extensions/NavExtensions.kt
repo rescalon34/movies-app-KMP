@@ -11,7 +11,6 @@ import androidx.navigation.NavOptionsBuilder
 import com.escalondev.movies_app_kmp.android.navigation.navigator.AppNavigator
 import com.escalondev.movies_app_kmp.android.navigation.navigator.NavigationDestination
 import com.escalondev.movies_app_kmp.android.navigation.navigator.NavigationIntent
-import com.escalondev.movies_app_kmp.android.util.Constants.PERIOD
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.collectLatest
 
@@ -88,10 +87,3 @@ private fun NavHostController.safeNavigate(
  */
 private fun NavBackStackEntry.lifecycleIsResumed() =
     this.lifecycle.currentState == Lifecycle.State.RESUMED
-
-/**
- * The navigation Route returns the whole package with the name of the Route at the end,
- * this function will omit everything that is before the last period, to get only the name
- * of the Route Screen.
- */
-fun String.getRouteName() = this.substringAfterLast(PERIOD)
