@@ -10,11 +10,13 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavDestination
+import androidx.navigation.NavDestination.Companion.hasRoute
+import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.escalondev.movies_app_kmp.android.navigation.extensions.BottomNavItem
 import com.escalondev.movies_app_kmp.android.navigation.extensions.NavigationEffects
-import com.escalondev.movies_app_kmp.android.navigation.extensions.getRouteName
 import com.escalondev.movies_app_kmp.android.navigation.navhost.RootNavHost
 import com.escalondev.movies_app_kmp.android.navigation.navigator.NavigationIntent
 import com.escalondev.movies_app_kmp.android.navigation.route.HomeScreenRoute
@@ -36,7 +38,7 @@ fun RootApp(
 
     val navController = rememberNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
-    val currentRoute = navBackStackEntry?.destination?.route?.getRouteName()
+    val currentRoute = navBackStackEntry?.destination
 
     // Listens for navigation events on every screen.
     NavigationEffects(
@@ -63,7 +65,7 @@ fun RootApp(
 @Composable
 private fun BottomNavigationBar(
     navItems: List<BottomNavItem>,
-    currentRoute: String?,
+    currentRoute: NavDestination?
 ) {
     NavigationBar {
         navItems.forEachIndexed { _, item ->
@@ -74,8 +76,8 @@ private fun BottomNavigationBar(
                         contentDescription = null
                     )
                 },
-                selected = item.route.routeName == currentRoute,
-                onClick = { item.onBottomNavAction(currentRoute.orEmpty()) }
+                selected = currentRoute?.hierarchy?.any { it.hasRoute(item.route::class) } == true,
+                onClick = { currentRoute?.route?.let { item.onBottomNavAction(it) } }
             )
         }
     }
