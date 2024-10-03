@@ -11,6 +11,6 @@ import io.ktor.client.statement.HttpResponse
  *
  * @see safeApiRequest for usage reference.
  */
-internal data class BaseHttpResponse<T : Any>(
+internal data class BaseHttpResponse<T>(
     val httpResponse: HttpResponse
 )

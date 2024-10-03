@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.devtoolsKsp)
     alias(libs.plugins.nativeCoroutines)
     alias(libs.plugins.kotlinxSerialization)
+    alias(libs.plugins.ktorfit.plugin)
 }
 
 kotlin {

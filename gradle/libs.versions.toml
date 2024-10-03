@@ -15,6 +15,7 @@ ktor = "2.3.12"
 koin = "3.2.0"
 devtoolsKspVersion = "2.0.20-1.0.25"
 nativeCoroutinesVersion = "1.0.0-ALPHA-35"
+ktorfitVersion = "2.1.0"
 
 [libraries]
 # Kotlin
@@ -53,6 +54,7 @@ ktor-client-logging = { module = "io.ktor:ktor-client-logging", version.ref = "k
 ktor-client-auth = { module = "io.ktor:ktor-client-auth", version.ref = "ktor" }
 ktor-client-android = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor" }
 ktor-client-ios = { module = "io.ktor:ktor-client-darwin", version.ref = "ktor" }
+ktorfit = { module = "de.jensklingenberg.ktorfit:ktorfit-lib-light", version.ref = "ktorfitVersion" }
 
 # DI - Koin
 koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
@@ -80,7 +82,8 @@ common-ktor-impl = [
     "ktor-client-content-negotiation",
     "ktor-serialization-kotlinx-json",
     "ktor-client-logging",
-    "ktor-client-auth"
+    "ktor-client-auth",
+    "ktorfit"
 ]
 
 [plugins]
@@ -93,3 +96,4 @@ hilt-android-plugin = { id = "com.google.dagger.hilt.android", version.ref = "hi
 kotlinxSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 devtoolsKsp = { id = "com.google.devtools.ksp", version.ref = "devtoolsKspVersion" }
 nativeCoroutines = { id = "com.rickclephas.kmp.nativecoroutines", version.ref = "nativeCoroutinesVersion" }
+ktorfit-plugin = { id = "de.jensklingenberg.ktorfit", version.ref = "ktorfitVersion" }

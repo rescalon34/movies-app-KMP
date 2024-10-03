@@ -1,9 +1,13 @@
 package com.escalondev.movies_app_kmp.data.networking.api
 
-import com.escalondev.movies_app_kmp.data.model.MovieDataResponse
-import com.escalondev.movies_app_kmp.data.model.base.BaseHttpResponse
+import de.jensklingenberg.ktorfit.http.GET
+import de.jensklingenberg.ktorfit.http.Path
+import io.ktor.client.statement.HttpResponse
 
 internal interface MoviesApi {
 
-    suspend fun getWatchlistMovies(accountId: Int): BaseHttpResponse<MovieDataResponse>
+    @GET("account/{account_id}/watchlist/movies")
+    suspend fun getWatchlistMovies(
+        @Path("account_id") accountId: Int
+    ): HttpResponse
 }
