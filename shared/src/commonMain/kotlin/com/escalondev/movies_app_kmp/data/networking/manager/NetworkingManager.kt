@@ -1,7 +1,7 @@
 package com.escalondev.movies_app_kmp.data.networking.manager
 
-import io.ktor.client.HttpClient
+import com.escalondev.movies_app_kmp.data.networking.api.MoviesApi
 
 internal interface NetworkingManager {
-    fun getKtorClient(): HttpClient
+    fun getApi(): MoviesApi
 }

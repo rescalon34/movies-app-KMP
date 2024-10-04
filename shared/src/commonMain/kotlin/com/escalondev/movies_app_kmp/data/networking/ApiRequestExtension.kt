@@ -7,6 +7,7 @@ import com.escalondev.movies_app_kmp.data.networking.expectactual.toPlatformSpec
 import com.escalondev.movies_app_kmp.data.util.HttpStatusCodeRange
 import com.escalondev.movies_app_kmp.domain.util.NetworkResult
 import io.ktor.client.call.body
+import io.ktor.client.statement.HttpResponse
 import io.ktor.client.statement.bodyAsText
 import kotlinx.serialization.SerializationException
 import kotlinx.serialization.json.Json
@@ -23,7 +24,7 @@ import kotlinx.serialization.json.Json
  * @param U The type of the domain object to which the API response will be mapped.
  * @param apiRequest A lambda that returns the [BaseHttpResponse] containing the API response.
  *
- * @return [NetworkResult] containing either a success with the mapped domain object or a failure with the error message.
+ * @return [NetworkResult] containing either a success with the mapped domain object [U] or a failure with the error message.
  *
  * @throws SerializationException If the response cannot be serialized or deserialized.
  */
@@ -53,6 +54,23 @@ internal suspend inline fun <reified T : DomainMapper<U>, U> safeApiRequest(
     } catch (throwable: Throwable) {
         handlePlatformExceptionError(throwable)
     }
+}
+
+/**
+ * Maps the HttpResponse to the specified data type.
+ * @param T represents the object where the JSON data will be parsed to.
+ *
+ * Example usage:
+ * ```
+ * return safeApiRequest {
+ *     networkingManager.getApi()
+ *         .getWatchlistMovies(0)
+ *         .mapToResponse<MovieDataResponse>()
+ * }
+ * ```
+ */
+internal fun <T : Any> HttpResponse.mapToResponse(): BaseHttpResponse<T> {
+    return BaseHttpResponse(this)
 }
 
 /**
