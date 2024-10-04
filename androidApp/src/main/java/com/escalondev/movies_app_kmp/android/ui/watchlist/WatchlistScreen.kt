@@ -70,7 +70,7 @@ fun WatchlistContent(
 
     if (uiState.showSelectOptionScreen) {
         SelectOptionsScreen(
-            options = uiState.options,
+            options = uiState.options.map { it.displayName },
             selectedOption = uiState.selectedOption,
             onSelectedOption = {
                 onUiEvent(WatchlistUiEvent.OnOptionSelected(selectedOption = it))
