@@ -8,9 +8,23 @@
 
 import Foundation
 
-enum SortType: String, CaseIterable, Identifiable {
-    case FirstAdded = "First Added"
-    case LastAdded = "Last Added"
+enum SortType: CaseIterable, Identifiable {
+    case FirstAdded
+    case LastAdded
     
-    var id: String { return self.rawValue }
+    var displayName: String {
+        switch self {
+        case .FirstAdded: "First Added"
+        case .LastAdded: "Last Added"
+        }
+    }
+    
+    var sortType: String {
+        switch self {
+        case .FirstAdded: "created_at.asc"
+        case .LastAdded: "created_at.desc"
+        }
+    }
+    
+    var id: String { return self.displayName }
 }

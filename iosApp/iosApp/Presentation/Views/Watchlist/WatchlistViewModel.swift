@@ -17,8 +17,8 @@ class WatchlistViewModel: ObservableObject {
     @Published var isLoading: Bool = false
     @Published var movies: [Movie] = []
     @Published var errorMessage: String = ""
-    @Published var sortType: String = SortType.FirstAdded.rawValue
-    @Published var sortOptions: [String] = SortType.allCases.map { $0.rawValue }
+    @Published var sortType: String = SortType.FirstAdded.displayName
+    @Published var sortOptions: [String] = SortType.allCases.map { $0.displayName }
     
     // MARK: - Combine properties
     private var cancellable = Set<AnyCancellable>()
@@ -54,20 +54,25 @@ class WatchlistViewModel: ObservableObject {
         }
     }
     
-    func getWatchlistMovies() {
+    func getWatchlistMovies(sortBy: String = SortType.FirstAdded.displayName) {
         isLoading = true
         sharedCoreManager.useCaseProvider.executeUseCase { manager, provider in
             Task { @MainActor [weak self] in
-                try await asyncFunction(for: manager.getWatchlistMovies(provider))
-                    .onSuccess { data in
-                        let movies = data as? [Movie] ?? []
-                        self?.movies = movies
-                        self?.isLoading = false
-                    }
-                    .onFailure { errorMessage in
-                        self?.errorMessage = errorMessage?.statusMessage ?? ""
-                        self?.isLoading = false
-                    }
+                try await asyncFunction(
+                    for: manager.getWatchlistMovies(
+                        provider,
+                        sortBy: sortBy
+                    )
+                )
+                .onSuccess { data in
+                    let movies = data as? [Movie] ?? []
+                    self?.movies = movies
+                    self?.isLoading = false
+                }
+                .onFailure { errorMessage in
+                    self?.errorMessage = errorMessage?.statusMessage ?? ""
+                    self?.isLoading = false
+                }
             }
         }
     }
@@ -82,8 +87,8 @@ class WatchlistViewModel: ObservableObject {
             .removeDuplicates()
             .receive(on: DispatchQueue.main)
             .sink { option in
-                // TODO: execute API call to apply sorting feature
-                print("Execute API call: \(option)")
+                let sortType = SortType.allCases.first { $0.displayName == option }?.sortType
+                self.getWatchlistMovies(sortBy: sortType ?? SortType.FirstAdded.sortType)
             }
             .store(in: &cancellable)
     }

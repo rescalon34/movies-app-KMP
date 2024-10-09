@@ -112,8 +112,8 @@ struct SelectOptionScreenView: View {
 #Preview {
     BaseScreenView {
         SelectOptionScreenView(
-            options: SortType.allCases.map({ $0.rawValue }),
-            selectedOption: .constant(SortType.FirstAdded.rawValue)
+            options: SortType.allCases.map({ $0.displayName }),
+            selectedOption: .constant(SortType.FirstAdded.displayName)
         )
     }
 }

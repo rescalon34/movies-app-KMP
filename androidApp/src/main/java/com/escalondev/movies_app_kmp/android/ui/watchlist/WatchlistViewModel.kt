@@ -2,6 +2,7 @@ package com.escalondev.movies_app_kmp.android.ui.watchlist
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.escalondev.movies_app_kmp.android.ui.filter.SortType
 import com.escalondev.movies_app_kmp.android.util.Constants.ONE_SECOND
 import com.escalondev.movies_app_kmp.core.manager.SharedCoreManager
 import com.escalondev.movies_app_kmp.domain.util.onFailure
@@ -36,21 +37,26 @@ class WatchlistViewModel @Inject constructor(
         }
     }
 
-    private fun getWatchlistMovies() {
+    private fun getWatchlistMovies(sortType: String = SortType.FIRST_ADDED.sortType) {
         _uiState.update { it.copy(isLoading = true) }
         viewModelScope.launch {
-            sharedCoreManager.useCaseProvider.getWatchlistMovies()
-                .onSuccess { watchlist ->
-                    _uiState.update {
-                        it.copy(isLoading = false, watchlist = watchlist, errorMessage = null)
-                    }
+            sharedCoreManager.useCaseProvider.getWatchlistMovies(
+                sortBy = sortType
+            ).onSuccess { watchlist ->
+                _uiState.update {
+                    it.copy(isLoading = false, watchlist = watchlist, errorMessage = null)
                 }
-                .onFailure { error ->
-                    _uiState.update {
-                        it.copy(isLoading = false, errorMessage = error?.statusMessage)
-                    }
+            }.onFailure { error ->
+                _uiState.update {
+                    it.copy(isLoading = false, errorMessage = error?.statusMessage)
                 }
+            }
         }
+    }
+
+    private fun onFilterMoviesBySelectedOption(selectedOption: String) {
+        val sortType = _uiState.value.options.find { it.displayName == selectedOption }?.sortType
+        sortType?.let { getWatchlistMovies(it) }
     }
 
     fun onUiEvent(uiEvent: WatchlistUiEvent) {
@@ -58,7 +64,7 @@ class WatchlistViewModel @Inject constructor(
             WatchlistUiEvent.OnFetchWatchlist -> getWatchlistMovies()
             is WatchlistUiEvent.OnOptionSelected -> {
                 _uiState.update { it.copy(selectedOption = uiEvent.selectedOption) }
-                // TODO, call API with the selected option to make the filter.
+                onFilterMoviesBySelectedOption(uiEvent.selectedOption)
             }
 
             is WatchlistUiEvent.OnSelectOption -> {

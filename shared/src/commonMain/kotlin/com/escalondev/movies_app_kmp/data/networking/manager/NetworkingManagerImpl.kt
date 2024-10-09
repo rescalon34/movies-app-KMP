@@ -1,7 +1,10 @@
 package com.escalondev.movies_app_kmp.data.networking.manager
 
+import com.escalondev.movies_app_kmp.data.networking.api.MoviesApi
+import com.escalondev.movies_app_kmp.data.networking.api.createMoviesApi
 import com.escalondev.movies_app_kmp.data.networking.expectactual.ktorHttpClient
 import com.escalondev.movies_app_kmp.data.networking.getJsonDecoder
+import de.jensklingenberg.ktorfit.Ktorfit
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.DefaultRequest
 import io.ktor.client.plugins.auth.Auth
@@ -28,9 +31,8 @@ internal class NetworkingManagerImpl(
     private val httpClient: HttpClient
 ) : NetworkingManager {
 
-    override fun getKtorClient(): HttpClient {
-        println("$TAG: $httpClient")
-        return buildKtorClient()
+    override fun getApi(): MoviesApi {
+        return moviesApi
     }
 
     private fun buildKtorClient(): HttpClient {
@@ -62,6 +64,12 @@ internal class NetworkingManagerImpl(
             }
         }
     }
+
+    private val moviesApi = Ktorfit.Builder()
+        .baseUrl(BASE_URL)
+        .httpClient(buildKtorClient())
+        .build()
+        .createMoviesApi()
 
     /**
      * Custom networking logger.

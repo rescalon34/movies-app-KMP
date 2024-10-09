@@ -8,5 +8,5 @@ internal interface MoviesRepository {
 
     fun getWatchlist(): Flow<List<Movie>>
 
-    suspend fun getWatchlistMovies(): NetworkResult<List<Movie>>
+    suspend fun getWatchlistMovies(sortBy: String): NetworkResult<List<Movie>>
 }

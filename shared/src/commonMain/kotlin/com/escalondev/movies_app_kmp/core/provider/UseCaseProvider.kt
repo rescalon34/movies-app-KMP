@@ -70,5 +70,7 @@ interface UseCaseProvider {
      * @return a [NetworkResult] object Where `T` represents a [List] of [Movie].
      */
     @NativeCoroutines
-    suspend fun getWatchlistMovies(): NetworkResult<List<Movie>>
+    suspend fun getWatchlistMovies(
+        sortBy: String
+    ): NetworkResult<List<Movie>>
 }
