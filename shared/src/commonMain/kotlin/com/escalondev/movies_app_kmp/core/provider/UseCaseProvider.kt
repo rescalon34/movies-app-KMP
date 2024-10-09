@@ -71,6 +71,7 @@ interface UseCaseProvider {
      */
     @NativeCoroutines
     suspend fun getWatchlistMovies(
-        sortBy: String
+        sortBy: String,
+        language: String
     ): NetworkResult<List<Movie>>
 }

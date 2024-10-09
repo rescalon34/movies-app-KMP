@@ -1,6 +1,8 @@
 package com.escalondev.movies_app_kmp.android.util
 
+import android.content.res.Resources
 import androidx.compose.ui.graphics.Color
+import androidx.core.os.ConfigurationCompat
 
 fun getGradientBackgroundMask(): List<Color> {
     return listOf(
@@ -10,3 +12,12 @@ fun getGradientBackgroundMask(): List<Color> {
         Color.Black.copy(alpha = 0.8f),
     )
 }
+
+fun getLanguageFromSystem(): String {
+    val languageTag = ConfigurationCompat.getLocales(
+        Resources.getSystem().configuration
+    ).get(0)?.toLanguageTag() ?: DEFAULT_LANGUAGE_TAG
+    return languageTag
+}
+
+const val DEFAULT_LANGUAGE_TAG = "en-US"

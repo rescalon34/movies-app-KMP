@@ -37,11 +37,15 @@ class WatchlistViewModel @Inject constructor(
         }
     }
 
-    private fun getWatchlistMovies(sortType: String = SortType.FIRST_ADDED.sortType) {
+    private fun getWatchlistMovies(
+        sortType: String = SortType.FIRST_ADDED.sortType,
+        language: String
+    ) {
         _uiState.update { it.copy(isLoading = true) }
         viewModelScope.launch {
             sharedCoreManager.useCaseProvider.getWatchlistMovies(
-                sortBy = sortType
+                sortBy = sortType,
+                language = language
             ).onSuccess { watchlist ->
                 _uiState.update {
                     it.copy(isLoading = false, watchlist = watchlist, errorMessage = null)
@@ -54,17 +58,31 @@ class WatchlistViewModel @Inject constructor(
         }
     }
 
-    private fun onFilterMoviesBySelectedOption(selectedOption: String) {
+    private fun onFilterMoviesBySelectedOption(
+        selectedOption: String,
+        language: String
+    ) {
         val sortType = _uiState.value.options.find { it.displayName == selectedOption }?.sortType
-        sortType?.let { getWatchlistMovies(it) }
+        sortType?.let {
+            getWatchlistMovies(
+                sortType = it,
+                language = language
+            )
+        }
     }
 
     fun onUiEvent(uiEvent: WatchlistUiEvent) {
         when (uiEvent) {
-            WatchlistUiEvent.OnFetchWatchlist -> getWatchlistMovies()
+            is WatchlistUiEvent.OnFetchWatchlist -> {
+                getWatchlistMovies(language = uiEvent.language)
+            }
+
             is WatchlistUiEvent.OnOptionSelected -> {
                 _uiState.update { it.copy(selectedOption = uiEvent.selectedOption) }
-                onFilterMoviesBySelectedOption(uiEvent.selectedOption)
+                onFilterMoviesBySelectedOption(
+                    selectedOption = uiEvent.selectedOption,
+                    language = uiEvent.language
+                )
             }
 
             is WatchlistUiEvent.OnSelectOption -> {
