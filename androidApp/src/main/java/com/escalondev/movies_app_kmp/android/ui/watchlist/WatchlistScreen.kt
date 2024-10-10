@@ -37,13 +37,13 @@ import com.escalondev.movies_app_kmp.android.ui.component.CategoryCard
 import com.escalondev.movies_app_kmp.android.ui.component.MovieItem
 import com.escalondev.movies_app_kmp.android.ui.component.SimpleProgressIndicator
 import com.escalondev.movies_app_kmp.android.ui.filter.SelectOptionsScreen
-import com.escalondev.movies_app_kmp.android.util.getCurrentLanguageCode
 import com.escalondev.movies_app_kmp.data.repository.MockedMoviesRepository
 
 @Composable
 fun WatchlistScreen(
     viewModel: WatchlistViewModel = hiltViewModel()
 ) {
+
     LaunchedEffect(Unit) {
         viewModel.onUiEvent(WatchlistUiEvent.OnFetchWatchlist)
     }
