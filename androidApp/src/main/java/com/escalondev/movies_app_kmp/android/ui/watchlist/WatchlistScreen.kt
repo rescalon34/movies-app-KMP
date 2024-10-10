@@ -73,12 +73,7 @@ fun WatchlistContent(
             options = uiState.options.map { it.displayName },
             selectedOption = uiState.selectedOption,
             onSelectedOption = {
-                onUiEvent(
-                    WatchlistUiEvent.OnOptionSelected(
-                        selectedOption = it,
-                        language = getCurrentLanguageCode()
-                    )
-                )
+                onUiEvent(WatchlistUiEvent.OnOptionSelected(selectedOption = it))
             },
             onDismiss = {
                 onUiEvent(WatchlistUiEvent.OnSelectOption(showSelectOptionScreen = false))
