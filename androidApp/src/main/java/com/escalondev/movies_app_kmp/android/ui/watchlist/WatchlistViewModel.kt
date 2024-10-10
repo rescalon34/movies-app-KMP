@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.escalondev.movies_app_kmp.android.ui.filter.SortType
 import com.escalondev.movies_app_kmp.android.util.Constants.ONE_SECOND
+import com.escalondev.movies_app_kmp.android.util.getCurrentLanguageCode
 import com.escalondev.movies_app_kmp.core.manager.SharedCoreManager
 import com.escalondev.movies_app_kmp.domain.util.onFailure
 import com.escalondev.movies_app_kmp.domain.util.onSuccess
@@ -37,15 +38,12 @@ class WatchlistViewModel @Inject constructor(
         }
     }
 
-    private fun getWatchlistMovies(
-        sortType: String = SortType.FIRST_ADDED.sortType,
-        language: String
-    ) {
+    private fun getWatchlistMovies(sortType: String = SortType.FIRST_ADDED.sortType) {
         _uiState.update { it.copy(isLoading = true) }
         viewModelScope.launch {
             sharedCoreManager.useCaseProvider.getWatchlistMovies(
                 sortBy = sortType,
-                language = language
+                language = getCurrentLanguageCode()
             ).onSuccess { watchlist ->
                 _uiState.update {
                     it.copy(isLoading = false, watchlist = watchlist, errorMessage = null)
@@ -58,31 +56,18 @@ class WatchlistViewModel @Inject constructor(
         }
     }
 
-    private fun onFilterMoviesBySelectedOption(
-        selectedOption: String,
-        language: String
-    ) {
+    private fun onFilterMoviesBySelectedOption(selectedOption: String) {
         val sortType = _uiState.value.options.find { it.displayName == selectedOption }?.sortType
-        sortType?.let {
-            getWatchlistMovies(
-                sortType = it,
-                language = language
-            )
-        }
+        sortType?.let { getWatchlistMovies(sortType = it) }
     }
 
     fun onUiEvent(uiEvent: WatchlistUiEvent) {
         when (uiEvent) {
-            is WatchlistUiEvent.OnFetchWatchlist -> {
-                getWatchlistMovies(language = uiEvent.language)
-            }
+            is WatchlistUiEvent.OnFetchWatchlist -> getWatchlistMovies()
 
             is WatchlistUiEvent.OnOptionSelected -> {
                 _uiState.update { it.copy(selectedOption = uiEvent.selectedOption) }
-                onFilterMoviesBySelectedOption(
-                    selectedOption = uiEvent.selectedOption,
-                    language = uiEvent.language
-                )
+                onFilterMoviesBySelectedOption(selectedOption = uiEvent.selectedOption)
             }
 
             is WatchlistUiEvent.OnSelectOption -> {

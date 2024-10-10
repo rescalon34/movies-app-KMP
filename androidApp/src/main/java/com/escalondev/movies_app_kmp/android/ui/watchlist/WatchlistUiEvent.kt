@@ -4,5 +4,5 @@ sealed class WatchlistUiEvent {
     data class OnSelectOption(val showSelectOptionScreen: Boolean) : WatchlistUiEvent()
     data class OnOptionSelected(val selectedOption: String, val language: String) : WatchlistUiEvent()
 
-    data class OnFetchWatchlist(val language: String) : WatchlistUiEvent()
+    data object OnFetchWatchlist : WatchlistUiEvent()
 }

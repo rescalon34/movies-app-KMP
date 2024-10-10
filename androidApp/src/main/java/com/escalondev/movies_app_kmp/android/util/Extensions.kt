@@ -13,7 +13,7 @@ fun getGradientBackgroundMask(): List<Color> {
     )
 }
 
-fun getLanguageFromSystem(): String {
+fun getCurrentLanguageCode(): String {
     val languageTag = ConfigurationCompat.getLocales(
         Resources.getSystem().configuration
     ).get(0)?.toLanguageTag() ?: DEFAULT_LANGUAGE_TAG
