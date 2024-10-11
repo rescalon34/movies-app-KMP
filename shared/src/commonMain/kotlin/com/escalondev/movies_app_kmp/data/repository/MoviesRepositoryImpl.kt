@@ -26,12 +26,16 @@ internal class MoviesRepositoryImpl(
         }
     }
 
-    override suspend fun getWatchlistMovies(sortBy: String): NetworkResult<List<Movie>> {
+    override suspend fun getWatchlistMovies(
+        sortBy: String,
+        language: String
+    ): NetworkResult<List<Movie>> {
         return safeApiRequest {
             networkingManager.getApi()
                 .getWatchlistMovies(
                     accountId = 0,
-                    sortBy = sortBy
+                    sortBy = sortBy,
+                    language = language
                 ).mapToResponse<MovieDataResponse>()
         }
     }

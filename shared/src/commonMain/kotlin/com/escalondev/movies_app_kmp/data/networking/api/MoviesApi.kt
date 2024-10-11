@@ -11,5 +11,6 @@ internal interface MoviesApi {
     suspend fun getWatchlistMovies(
         @Path("account_id") accountId: Int,
         @Query("sort_by") sortBy: String,
+        @Query("language") language: String,
     ): HttpResponse
 }

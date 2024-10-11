@@ -55,13 +55,15 @@ class WatchlistViewModel: ObservableObject {
     }
     
     func getWatchlistMovies(sortBy: String = SortType.FirstAdded.displayName) {
+        let language = LocalizationUtils.getCurrentLanguageCode()
         isLoading = true
         sharedCoreManager.useCaseProvider.executeUseCase { manager, provider in
             Task { @MainActor [weak self] in
                 try await asyncFunction(
                     for: manager.getWatchlistMovies(
                         provider,
-                        sortBy: sortBy
+                        sortBy: sortBy,
+                        language: language
                     )
                 )
                 .onSuccess { data in

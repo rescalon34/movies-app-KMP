@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.escalondev.movies_app_kmp.android.ui.filter.SortType
 import com.escalondev.movies_app_kmp.android.util.Constants.ONE_SECOND
+import com.escalondev.movies_app_kmp.android.util.getCurrentLanguageCode
 import com.escalondev.movies_app_kmp.core.manager.SharedCoreManager
 import com.escalondev.movies_app_kmp.domain.util.onFailure
 import com.escalondev.movies_app_kmp.domain.util.onSuccess
@@ -41,7 +42,8 @@ class WatchlistViewModel @Inject constructor(
         _uiState.update { it.copy(isLoading = true) }
         viewModelScope.launch {
             sharedCoreManager.useCaseProvider.getWatchlistMovies(
-                sortBy = sortType
+                sortBy = sortType,
+                language = getCurrentLanguageCode()
             ).onSuccess { watchlist ->
                 _uiState.update {
                     it.copy(isLoading = false, watchlist = watchlist, errorMessage = null)
@@ -56,15 +58,16 @@ class WatchlistViewModel @Inject constructor(
 
     private fun onFilterMoviesBySelectedOption(selectedOption: String) {
         val sortType = _uiState.value.options.find { it.displayName == selectedOption }?.sortType
-        sortType?.let { getWatchlistMovies(it) }
+        sortType?.let { getWatchlistMovies(sortType = it) }
     }
 
     fun onUiEvent(uiEvent: WatchlistUiEvent) {
         when (uiEvent) {
-            WatchlistUiEvent.OnFetchWatchlist -> getWatchlistMovies()
+            is WatchlistUiEvent.OnFetchWatchlist -> getWatchlistMovies()
+
             is WatchlistUiEvent.OnOptionSelected -> {
                 _uiState.update { it.copy(selectedOption = uiEvent.selectedOption) }
-                onFilterMoviesBySelectedOption(uiEvent.selectedOption)
+                onFilterMoviesBySelectedOption(selectedOption = uiEvent.selectedOption)
             }
 
             is WatchlistUiEvent.OnSelectOption -> {

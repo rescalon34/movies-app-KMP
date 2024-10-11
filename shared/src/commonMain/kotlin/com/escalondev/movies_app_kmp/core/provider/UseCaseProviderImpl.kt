@@ -24,7 +24,8 @@ internal class UseCaseProviderImpl : KoinComponent, UseCaseProvider {
     // Exposed functions for the consumers.
     override fun getWatchlist(): Flow<List<Movie>> = getWatchlistUseCase()
 
-    override suspend fun getWatchlistMovies(sortBy: String) =
-        getWatchlistMoviesUseCase(sortBy = sortBy)
-
+    override suspend fun getWatchlistMovies(
+        sortBy: String,
+        language: String
+    ) = getWatchlistMoviesUseCase(sortBy = sortBy, language = language)
 }
