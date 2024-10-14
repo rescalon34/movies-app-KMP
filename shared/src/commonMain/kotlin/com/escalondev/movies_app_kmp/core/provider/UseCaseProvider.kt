@@ -74,4 +74,14 @@ interface UseCaseProvider {
         sortBy: String,
         language: String
     ): NetworkResult<List<Movie>>
+
+    /**
+     * @return a [NetworkResult] object Where `T` represents a [List] of [Movie] filtered by category.
+     */
+    @NativeCoroutines
+    suspend fun getMovies(
+        category: String,
+        page: Int,
+        language: String
+    ): NetworkResult<List<Movie>>
 }

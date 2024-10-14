@@ -4,6 +4,7 @@ import com.escalondev.movies_app_kmp.data.model.MovieDataResponse
 import com.escalondev.movies_app_kmp.data.networking.manager.NetworkingManager
 import com.escalondev.movies_app_kmp.data.networking.mapToResponse
 import com.escalondev.movies_app_kmp.data.networking.safeApiRequest
+import com.escalondev.movies_app_kmp.data.util.getMovieEndpointByCategory
 import com.escalondev.movies_app_kmp.domain.model.Movie
 import com.escalondev.movies_app_kmp.domain.repository.MoviesRepository
 import com.escalondev.movies_app_kmp.domain.util.NetworkResult
@@ -26,6 +27,7 @@ internal class MoviesRepositoryImpl(
         }
     }
 
+
     override suspend fun getWatchlistMovies(
         sortBy: String,
         language: String
@@ -37,6 +39,20 @@ internal class MoviesRepositoryImpl(
                     sortBy = sortBy,
                     language = language
                 ).mapToResponse<MovieDataResponse>()
+        }
+    }
+
+    override suspend fun getMovies(
+        category: String,
+        page: Int,
+        language: String
+    ): NetworkResult<List<Movie>> {
+        return safeApiRequest {
+            networkingManager.getApi().getMovies(
+                url = category.getMovieEndpointByCategory(),
+                page = page,
+                language = language
+            ).mapToResponse<MovieDataResponse>()
         }
     }
 }
