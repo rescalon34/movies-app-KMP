@@ -52,8 +52,18 @@ struct LazyVGridMoviesView: View {
     ScrollView {
         LazyVGridMoviesView(
             movies: [
-                Movie(id: 0, title: "", imageUrl: DEFAULT_PLACEHOLDER_POSTER),
-                Movie(id: 0, title: "", imageUrl: DEFAULT_PLACEHOLDER_POSTER)
+                Movie(
+                    id: 0,
+                    title: "",
+                    imageUrl: DEFAULT_PLACEHOLDER_POSTER,
+                    releaseDate: ""
+                ),
+                Movie(
+                    id: 0,
+                    title: "",
+                    imageUrl: DEFAULT_PLACEHOLDER_POSTER,
+                    releaseDate: ""
+                )
             ],
             movieItemSize: CGSize(width: 160, height: 250),
             lazyVGridColumns: 2,

@@ -2,6 +2,7 @@ package com.escalondev.movies_app_kmp.android.ui.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.escalondev.movies_app_kmp.android.util.Constants.ONE_VALUE
 import com.escalondev.movies_app_kmp.android.util.MovieFilter
 import com.escalondev.movies_app_kmp.android.util.getCurrentLanguageCode
 import com.escalondev.movies_app_kmp.core.manager.SharedCoreManager
@@ -31,8 +32,8 @@ class HomeViewModel @Inject constructor(
         _uiState.update { it.copy(isLoading = true) }
         viewModelScope.launch {
             sharedCoreManager.useCaseProvider.getMovies(
-                category = MovieFilter.TOP_RATED.value,
-                page = 1,
+                category = MovieFilter.UPCOMING.value,
+                page = ONE_VALUE,
                 language = getCurrentLanguageCode()
             ).onSuccess { movies ->
                 _uiState.update {

@@ -6,6 +6,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.FontWeight
@@ -70,4 +72,17 @@ fun getOptionTextStyle(isSelected: Boolean) = if (isSelected) {
         fontWeight = FontWeight.Normal,
         color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.8f)
     )
+}
+
+/**
+ * Modifier function to detect whenever the composable item is being pressed or not.
+ */
+fun Modifier.detectOnPress(isPressing: (Boolean) -> Unit) = pointerInput(Unit) {
+    awaitPointerEventScope {
+        while (true) {
+            val event = awaitPointerEvent()
+            val isPressed = event.changes.any { it.pressed }
+            isPressing(isPressed)
+        }
+    }
 }
