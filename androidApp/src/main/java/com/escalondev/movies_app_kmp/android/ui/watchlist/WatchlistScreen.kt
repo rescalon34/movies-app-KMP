@@ -154,7 +154,7 @@ fun WatchlistTopAppBar(
 }
 
 @Composable
-fun NoWatchlistErrorMessage(
+private fun NoWatchlistErrorMessage(
     modifier: Modifier = Modifier,
     errorMessage: String
 ) {
