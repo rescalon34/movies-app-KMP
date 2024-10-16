@@ -3,6 +3,10 @@
     <!-- Home -->
     <string name="home_title">Home</string>
 
+    <!-- Movies filter -->
+    <string name="popular">Popular</string>
+    <string name="now_playing">Now Playing</string>
+
     <!-- Watchlist -->
     <string name="watchlist_title">Watchlist</string>
     <string name="watchlist_subtitle">My movies</string>

@@ -9,6 +9,9 @@ import com.escalondev.movies_app_kmp.core.manager.SharedCoreManager
 import com.escalondev.movies_app_kmp.domain.util.onFailure
 import com.escalondev.movies_app_kmp.domain.util.onSuccess
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -25,25 +28,37 @@ class HomeViewModel @Inject constructor(
     val uiState: StateFlow<HomeUiState> = _uiState.asStateFlow()
 
     init {
-        getMovies()
+        getMoviesData()
     }
 
-    private fun getMovies() {
+    private fun getMoviesData() {
         _uiState.update { it.copy(isLoading = true) }
         viewModelScope.launch {
-            sharedCoreManager.useCaseProvider.getMovies(
-                category = MovieFilter.UPCOMING.value,
-                page = ONE_VALUE,
-                language = getCurrentLanguageCode()
-            ).onSuccess { movies ->
-                _uiState.update {
-                    it.copy(isLoading = false, pagerMovies = movies)
-                }
-            }.onFailure { error ->
-                _uiState.update {
-                    it.copy(isLoading = false, errorMessage = error?.statusMessage)
-                }
-            }
+            val getPagedMoviesAsync = async { getPagerMovies() }
+            val getPopularMoviesAsync = async { getPopularMovies() }
+
+            awaitAll(getPagedMoviesAsync, getPopularMoviesAsync)
+            _uiState.update { it.copy(isLoading = false) }
         }
+    }
+
+    private suspend fun getPagerMovies() {
+        sharedCoreManager.useCaseProvider.getMovies(
+            category = MovieFilter.TOP_RATED.value,
+            page = ONE_VALUE,
+            language = getCurrentLanguageCode()
+        ).onSuccess { movies ->
+            _uiState.update { it.copy(pagerMovies = movies) }
+        }.onFailure { error ->
+            _uiState.update { it.copy(errorMessage = error?.statusMessage) }
+        }
+    }
+
+    private suspend fun getPopularMovies() {
+        sharedCoreManager.useCaseProvider.getMovies(
+            category = MovieFilter.POPULAR.value,
+            page = ONE_VALUE,
+            language = getCurrentLanguageCode()
+        ).onSuccess { movies -> _uiState.update { it.copy(popularMovies = movies) } }
     }
 }

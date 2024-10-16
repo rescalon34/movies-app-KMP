@@ -1,15 +1,20 @@
 package com.escalondev.movies_app_kmp.android.ui.home
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -22,10 +27,13 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.escalondev.movies_app_kmp.android.R
 import com.escalondev.movies_app_kmp.android.theme.MoviesAppTheme
 import com.escalondev.movies_app_kmp.android.ui.base.BaseScreen
 import com.escalondev.movies_app_kmp.android.ui.component.BaseAppBar
@@ -60,22 +68,28 @@ fun HomeContent(
     uiState: HomeUiState
 ) {
     BaseScreen(
-        topBar = {
-            BaseAppBar(title = "Home")
-        },
+        modifier = Modifier.padding(bottom = 88.dp),
+        topBar = { BaseAppBar(title = stringResource(R.string.home_title)) },
         screen = { paddingValues ->
-            Column(Modifier.padding(paddingValues)) {
-                if (uiState.isLoading) SimpleProgressIndicator()
-                HorizontalPagerMovies(
-                    pagerItems = uiState.pagerMovies
-                )
+            if (uiState.isLoading) {
+                SimpleProgressIndicator()
+            } else {
+                Column(
+                    Modifier
+                        .padding(paddingValues)
+                        .verticalScroll(rememberScrollState())
+                ) {
+                    HorizontalPagerMoviesSection(pagerItems = uiState.pagerMovies)
+                    PopularMoviesSection(movies = uiState.popularMovies)
+                    PopularMoviesSection(movies = uiState.popularMovies)
+                }
             }
         }
     )
 }
 
 @Composable
-private fun HorizontalPagerMovies(
+private fun HorizontalPagerMoviesSection(
     pagerItems: List<Movie>
 ) {
     var shouldAutoScroll by remember { mutableStateOf(true) }
@@ -87,11 +101,13 @@ private fun HorizontalPagerMovies(
     HandleAutoScrollPagerItemAnimation(pagerState, shouldAutoScroll)
 
     HorizontalPager(
+        modifier = Modifier.height(90.dp * (FIVE_VALUE)),
         state = pagerState,
         contentPadding = PaddingValues(horizontal = 16.dp)
     ) { page ->
 
         val pageOffset = pagerState.getOffsetDistanceInPages(page).absoluteValue
+
         PagerItem(
             movie = pagerItems[page],
             modifier = Modifier
@@ -128,7 +144,11 @@ private fun PagerItem(movie: Movie, modifier: Modifier = Modifier) {
             movie.releaseDate?.formatDate()?.let {
                 Text(
                     text = it,
-                    style = MaterialTheme.typography.titleSmall,
+                    style = MaterialTheme.typography.titleSmall
+                        .copy(
+                            color = MaterialTheme.colorScheme.onPrimaryContainer,
+                            fontWeight = FontWeight.Bold
+                        ),
                     modifier = Modifier
                         .align(Alignment.BottomStart)
                         .padding(horizontal = 24.dp, vertical = 16.dp)
@@ -161,13 +181,40 @@ fun HandleAutoScrollPagerItemAnimation(
     }
 }
 
+@Composable
+fun PopularMoviesSection(
+    modifier: Modifier = Modifier,
+    movies: List<Movie>
+) {
+    Column(modifier = modifier.padding(top = 20.dp)) {
+        Text(
+            modifier = Modifier.padding(horizontal = 16.dp),
+            color = MaterialTheme.colorScheme.onSecondaryContainer,
+            text = stringResource(R.string.popular),
+            style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold)
+        )
+        LazyRow(
+            contentPadding = PaddingValues(horizontal = 16.dp),
+            horizontalArrangement = Arrangement.spacedBy(10.dp)
+        ) {
+            items(movies) { movie ->
+                MovieItem(
+                    modifier = Modifier.padding(vertical = 4.dp),
+                    movie = movie
+                )
+            }
+        }
+    }
+}
+
 @Preview(showSystemUi = true, showBackground = true)
 @Composable
 private fun HomeContentPreview() {
     MoviesAppTheme {
         HomeContent(
             uiState = HomeUiState(
-                pagerMovies = MockedMoviesRepository.getWatchlist()
+                pagerMovies = MockedMoviesRepository.getWatchlist(),
+                popularMovies = MockedMoviesRepository.getWatchlist()
             )
         )
     }
