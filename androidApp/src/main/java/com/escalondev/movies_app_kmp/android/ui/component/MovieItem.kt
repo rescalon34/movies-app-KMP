@@ -20,8 +20,9 @@ import com.escalondev.movies_app_kmp.domain.util.getSizedImage
 fun MovieItem(
     modifier: Modifier = Modifier,
     cardShape: Shape = CardDefaults.shape,
+    imageSize: String = DEFAULT_POSTER_SIZE,
+    contentScale: ContentScale = ContentScale.Crop,
     movie: Movie,
-    imageSize: String = DEFAULT_POSTER_SIZE
 ) {
     Card(
         modifier = modifier,
@@ -30,7 +31,7 @@ fun MovieItem(
         AsyncImage(
             modifier = Modifier.fillMaxSize(),
             model = movie.imageUrl?.getSizedImage(imageSize),
-            contentScale = ContentScale.Crop,
+            contentScale = contentScale,
             contentDescription = null
         )
     }

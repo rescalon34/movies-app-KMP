@@ -1,17 +1,14 @@
 package com.escalondev.movies_app_kmp.android.ui.home
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.pager.HorizontalPager
-import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -19,11 +16,9 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -37,21 +32,18 @@ import com.escalondev.movies_app_kmp.android.R
 import com.escalondev.movies_app_kmp.android.theme.MoviesAppTheme
 import com.escalondev.movies_app_kmp.android.ui.base.BaseScreen
 import com.escalondev.movies_app_kmp.android.ui.component.BaseAppBar
+import com.escalondev.movies_app_kmp.android.ui.component.HorizontalMoviesSection
 import com.escalondev.movies_app_kmp.android.ui.component.MovieItem
 import com.escalondev.movies_app_kmp.android.ui.component.SimpleProgressIndicator
-import com.escalondev.movies_app_kmp.android.util.Constants.AUTO_SCROLLING_TIMER
 import com.escalondev.movies_app_kmp.android.util.Constants.FIVE_VALUE
-import com.escalondev.movies_app_kmp.android.util.Constants.ONE_SECOND
-import com.escalondev.movies_app_kmp.android.util.Constants.ONE_VALUE
 import com.escalondev.movies_app_kmp.android.util.Constants.ZERO_VALUE
+import com.escalondev.movies_app_kmp.android.util.HandleAutoScrollPagerItemAnimation
 import com.escalondev.movies_app_kmp.android.util.addBottomBackgroundBrush
 import com.escalondev.movies_app_kmp.android.util.detectOnPress
 import com.escalondev.movies_app_kmp.android.util.formatDate
 import com.escalondev.movies_app_kmp.data.repository.MockedMoviesRepository
 import com.escalondev.movies_app_kmp.domain.model.Movie
 import com.escalondev.movies_app_kmp.domain.util.ORIGINAL_POSTER_SIZE
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import kotlin.math.absoluteValue
 
 @Composable
@@ -80,8 +72,21 @@ fun HomeContent(
                         .verticalScroll(rememberScrollState())
                 ) {
                     HorizontalPagerMoviesSection(pagerItems = uiState.pagerMovies)
-                    PopularMoviesSection(movies = uiState.popularMovies)
-                    PopularMoviesSection(movies = uiState.popularMovies)
+                    HorizontalMoviesSection(
+                        movies = uiState.popularMovies,
+                        category = stringResource(R.string.popular),
+                        content = { MovieItem(movie = it) }
+                    )
+                    HorizontalMoviesSection(
+                        movies = uiState.nowPlayingMovies,
+                        category = stringResource(R.string.now_playing),
+                        content = { NowPlayingMovieBannerItem(movie = it) }
+                    )
+                    HorizontalMoviesSection(
+                        movies = uiState.topRatedMovies,
+                        category = stringResource(R.string.top_rated),
+                        content = { MovieItem(movie = it) }
+                    )
                 }
             }
         }
@@ -108,7 +113,7 @@ private fun HorizontalPagerMoviesSection(
 
         val pageOffset = pagerState.getOffsetDistanceInPages(page).absoluteValue
 
-        PagerItem(
+        PagerMovieItem(
             movie = pagerItems[page],
             modifier = Modifier
                 .height(90.dp * (FIVE_VALUE - pageOffset))
@@ -121,7 +126,7 @@ private fun HorizontalPagerMoviesSection(
 }
 
 @Composable
-private fun PagerItem(movie: Movie, modifier: Modifier = Modifier) {
+private fun PagerMovieItem(movie: Movie, modifier: Modifier = Modifier) {
     Box {
         MovieItem(
             modifier = modifier,
@@ -159,52 +164,17 @@ private fun PagerItem(movie: Movie, modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun HandleAutoScrollPagerItemAnimation(
-    pagerState: PagerState,
-    shouldAutoScroll: Boolean,
-) {
-    val coroutineScope = rememberCoroutineScope()
-    LaunchedEffect(shouldAutoScroll) {
-        delay(ONE_SECOND)
-        if (pagerState.pageCount > ZERO_VALUE) {
-            while (shouldAutoScroll) {
-                delay(AUTO_SCROLLING_TIMER)
-                coroutineScope.launch {
-                    // scroll pager one by one, and loops back to the first item
-                    // when reaching the last one, enabling infinite scrolling.
-                    pagerState.animateScrollToPage(
-                        page = (pagerState.currentPage + ONE_VALUE) % pagerState.pageCount
-                    )
-                }
-            }
-        }
-    }
-}
-
-@Composable
-fun PopularMoviesSection(
+fun NowPlayingMovieBannerItem(
     modifier: Modifier = Modifier,
-    movies: List<Movie>
+    movie: Movie
 ) {
-    Column(modifier = modifier.padding(top = 20.dp)) {
-        Text(
-            modifier = Modifier.padding(horizontal = 16.dp),
-            color = MaterialTheme.colorScheme.onSecondaryContainer,
-            text = stringResource(R.string.popular),
-            style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold)
-        )
-        LazyRow(
-            contentPadding = PaddingValues(horizontal = 16.dp),
-            horizontalArrangement = Arrangement.spacedBy(10.dp)
-        ) {
-            items(movies) { movie ->
-                MovieItem(
-                    modifier = Modifier.padding(vertical = 4.dp),
-                    movie = movie
-                )
-            }
-        }
-    }
+    MovieItem(
+        modifier = modifier
+            .width(280.dp)
+            .height(160.dp),
+        cardShape = MaterialTheme.shapes.small,
+        movie = movie,
+    )
 }
 
 @Preview(showSystemUi = true, showBackground = true)
