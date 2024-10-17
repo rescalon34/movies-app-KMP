@@ -174,6 +174,7 @@ fun NowPlayingMovieBannerItem(
             .height(160.dp),
         cardShape = MaterialTheme.shapes.small,
         movie = movie,
+        isPlayButtonVisible = true
     )
 }
 
