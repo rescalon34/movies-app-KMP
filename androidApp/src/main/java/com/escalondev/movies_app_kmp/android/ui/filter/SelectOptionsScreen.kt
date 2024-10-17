@@ -36,7 +36,7 @@ import com.escalondev.movies_app_kmp.android.util.Constants.MILLISECONDS_200
 import com.escalondev.movies_app_kmp.android.util.Constants.NINETY_DEGREES
 import com.escalondev.movies_app_kmp.android.util.Constants.ONE_HUNDRED
 import com.escalondev.movies_app_kmp.android.util.Constants.TWO_HUNDRED
-import com.escalondev.movies_app_kmp.android.util.Constants.ZERO
+import com.escalondev.movies_app_kmp.android.util.Constants.ZERO_DEGREES
 import com.escalondev.movies_app_kmp.android.util.calculateAlphaForItem
 import com.escalondev.movies_app_kmp.android.util.getGradientBackgroundMask
 import com.escalondev.movies_app_kmp.android.util.getOptionTextStyle
@@ -79,7 +79,7 @@ fun SelectOptionContent(
     onDismiss: () -> Unit,
 ) {
 
-    val dismissIconRotation = remember { Animatable(ZERO) }
+    val dismissIconRotation = remember { Animatable(ZERO_DEGREES) }
     val coroutineScope = rememberCoroutineScope()
 
     // Execute icon animation right after opening the screen.
@@ -213,7 +213,7 @@ fun SelectOptionItem(
 fun handleIconRotationAnimation(
     dismissIconRotation: Animatable<Float, *>,
     coroutineScope: CoroutineScope,
-    degrees: Float = ZERO,
+    degrees: Float = ZERO_DEGREES,
     onDismiss: () -> Unit = { }
 ) {
     coroutineScope.launch {

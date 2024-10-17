@@ -1,6 +1,7 @@
 package com.escalondev.movies_app_kmp.android.util
 
 import android.content.res.Resources
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.core.os.ConfigurationCompat
 
@@ -10,6 +11,19 @@ fun getGradientBackgroundMask(): List<Color> {
         Color.Transparent,
         Color.Black.copy(alpha = 0.5f),
         Color.Black.copy(alpha = 0.8f),
+    )
+}
+
+fun addBottomBackgroundBrush(): Brush {
+    return Brush.verticalGradient(
+        colors = listOf(
+            Color.Transparent,
+            Color.Black.copy(alpha = 0.3f),
+            Color.Black.copy(alpha = 0.5f),
+            Color.Black.copy(alpha = 0.8f),
+        ),
+        startY = 0f,
+        endY = 180f
     )
 }
 
