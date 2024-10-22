@@ -1,5 +1,6 @@
 package com.escalondev.movies_app_kmp.data.networking.manager
 
+import com.escalondev.movies_app_kmp.core.manager.TokenManager
 import com.escalondev.movies_app_kmp.data.networking.api.MoviesApi
 import com.escalondev.movies_app_kmp.data.networking.api.createMoviesApi
 import com.escalondev.movies_app_kmp.data.networking.expectactual.ktorHttpClient
@@ -50,15 +51,15 @@ internal class NetworkingManagerImpl(
             }
 
             install(DefaultRequest) {
-                header(AUTHORIZATION, "$BEARER$TOKEN_VALUE")
-                header(API_KEY, API_KEY_VALUE)
+                header(AUTHORIZATION, "$BEARER${TokenManager.accessTokenValue}")
+                header(API_KEY, "${TokenManager.apiKeyValue}")
             }
 
             install(Auth) {
                 bearer {
                     sendWithoutRequest { false }
                     loadTokens {
-                        BearerTokens(BEARER, API_KEY_VALUE)
+                        BearerTokens(BEARER, "${TokenManager.apiKeyValue}")
                     }
                 }
             }
@@ -87,7 +88,5 @@ internal class NetworkingManagerImpl(
         const val BEARER = "Bearer "
         const val AUTHORIZATION = "Authorization"
         const val API_KEY = "api_key"
-        const val API_KEY_VALUE = ""
-        const val TOKEN_VALUE = ""
     }
 }
