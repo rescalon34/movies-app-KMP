@@ -6,7 +6,7 @@
 //  Copyright © 2024 orgName. All rights reserved.
 //
 
-import shared
+import Shared
 import UIKit
 
 class AppDelegate: NSObject, UIApplicationDelegate {
@@ -14,7 +14,8 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
     ) -> Bool {
-        SharedCoreManager.companion.doInit()
+        SharedCoreManager.companion.getInstance().doInit()
+        
         return true
     }
 }

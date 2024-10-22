@@ -11,7 +11,7 @@ internal class GetWatchlistMoviesUseCaseImpl(
     private val moviesRepository: MoviesRepository
 ) : GetWatchlistMoviesUseCase {
 
-    override suspend fun invoke(sortBy: String): NetworkResult<List<Movie>> {
-        return moviesRepository.getWatchlistMovies(sortBy = sortBy)
+    override suspend fun invoke(sortBy: String, language: String): NetworkResult<List<Movie>> {
+        return moviesRepository.getWatchlistMovies(sortBy = sortBy, language = language)
     }
 }

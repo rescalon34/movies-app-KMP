@@ -8,13 +8,16 @@ import kotlinx.serialization.Serializable
 @Serializable
 internal data class MovieResponse(
     val id: Int,
-    val title: String,
+    val title: String?,
     @SerialName("poster_path")
-    val imageUrl: String?
+    val imageUrl: String?,
+    @SerialName("release_date")
+    val releaseDate: String?,
 ) : DomainMapper<Movie> {
     override fun toDomain() = Movie(
         id = id,
         title = title,
-        imageUrl = imageUrl
+        imageUrl = imageUrl,
+        releaseDate = releaseDate
     )
 }

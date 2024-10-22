@@ -3,6 +3,7 @@ package com.escalondev.movies_app_kmp.data.networking.api
 import de.jensklingenberg.ktorfit.http.GET
 import de.jensklingenberg.ktorfit.http.Path
 import de.jensklingenberg.ktorfit.http.Query
+import de.jensklingenberg.ktorfit.http.Url
 import io.ktor.client.statement.HttpResponse
 
 internal interface MoviesApi {
@@ -11,5 +12,13 @@ internal interface MoviesApi {
     suspend fun getWatchlistMovies(
         @Path("account_id") accountId: Int,
         @Query("sort_by") sortBy: String,
+        @Query("language") language: String,
+    ): HttpResponse
+
+    @GET
+    suspend fun getMovies(
+        @Url url: String,
+        @Query("page") page: Int? = null,
+        @Query("language") language: String,
     ): HttpResponse
 }

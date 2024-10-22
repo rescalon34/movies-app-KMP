@@ -33,7 +33,7 @@ kotlin {
         iosSimulatorArm64()
     ).forEach {
         it.binaries.framework {
-            baseName = "shared"
+            baseName = "Shared"
             isStatic = true
         }
     }
@@ -69,10 +69,4 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
-}
-
-dependencies {
-    // Exposed Koin Dependency for the Android consumer to have access to
-    // the wrapped: `GlobalContext.get()` from the `getKoinGlobalContext()` function.
-    api(libs.koin.core)
 }

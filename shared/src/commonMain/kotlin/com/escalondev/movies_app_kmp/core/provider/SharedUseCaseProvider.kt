@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.Flow
  * Access this provider via `SharedCoreManager.useCaseProvider` instead of direct instantiation.
  */
 @Deprecated("Direct instantiation is discouraged. Access via `SharedCoreManager.useCaseProvider`.")
-interface UseCaseProvider {
+interface SharedUseCaseProvider {
 
     /**
      *
@@ -71,6 +71,17 @@ interface UseCaseProvider {
      */
     @NativeCoroutines
     suspend fun getWatchlistMovies(
-        sortBy: String
+        sortBy: String,
+        language: String
+    ): NetworkResult<List<Movie>>
+
+    /**
+     * @return a [NetworkResult] object Where `T` represents a [List] of [Movie] filtered by category.
+     */
+    @NativeCoroutines
+    suspend fun getMovies(
+        category: String,
+        page: Int,
+        language: String
     ): NetworkResult<List<Movie>>
 }
