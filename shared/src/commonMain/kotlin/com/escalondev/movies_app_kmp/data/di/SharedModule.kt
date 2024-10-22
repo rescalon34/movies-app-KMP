@@ -1,6 +1,5 @@
 package com.escalondev.movies_app_kmp.data.di
 
-import com.escalondev.movies_app_kmp.core.di.coreModule
 import com.escalondev.movies_app_kmp.domain.di.useCaseModule
 
 /**
@@ -9,7 +8,6 @@ import com.escalondev.movies_app_kmp.domain.di.useCaseModule
  * at their very first entry point.
  */
 internal val sharedCoreModule = listOf(
-    coreModule,
     networkingModule,
     repositoryModule,
     useCaseModule

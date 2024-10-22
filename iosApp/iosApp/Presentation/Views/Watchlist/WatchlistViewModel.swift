@@ -7,7 +7,7 @@
 //
 
 import Combine
-import shared
+import Shared
 import KMPNativeCoroutinesCombine
 import KMPNativeCoroutinesAsync
 
@@ -24,7 +24,7 @@ class WatchlistViewModel: ObservableObject {
     private var cancellable = Set<AnyCancellable>()
     
     // MARK: - Shared SDK
-    let sharedCoreManager: SharedCoreManager = SharedCoreManager()
+    let sharedCoreManager = SharedCoreManager.companion.getInstance()
     
     // MARK: - init
     init() {

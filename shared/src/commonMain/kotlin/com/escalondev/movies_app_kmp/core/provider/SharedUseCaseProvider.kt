@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.Flow
  * Access this provider via `SharedCoreManager.useCaseProvider` instead of direct instantiation.
  */
 @Deprecated("Direct instantiation is discouraged. Access via `SharedCoreManager.useCaseProvider`.")
-interface UseCaseProvider {
+interface SharedUseCaseProvider {
 
     /**
      *

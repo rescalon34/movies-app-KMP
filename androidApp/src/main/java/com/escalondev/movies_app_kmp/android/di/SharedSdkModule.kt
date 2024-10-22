@@ -1,7 +1,6 @@
 package com.escalondev.movies_app_kmp.android.di
 
 import com.escalondev.movies_app_kmp.core.manager.SharedCoreManager
-import com.escalondev.movies_app_kmp.core.util.getKoinGlobalContext
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -18,6 +17,6 @@ object SharedSdkModule {
 
     @Provides
     fun provideSharedCoreManager(): SharedCoreManager {
-        return getKoinGlobalContext().get()
+        return SharedCoreManager.getInstance()
     }
 }

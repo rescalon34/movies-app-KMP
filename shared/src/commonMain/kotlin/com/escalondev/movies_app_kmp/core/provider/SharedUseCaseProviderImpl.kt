@@ -17,7 +17,7 @@ import org.koin.core.component.inject
  * The public functions will be used by the consumers (Android, iOS) and the useCase will be limited
  * to internal uses within the SDK.
  */
-internal class UseCaseProviderImpl : KoinComponent, UseCaseProvider {
+internal class SharedUseCaseProviderImpl : KoinComponent, SharedUseCaseProvider {
 
     // UseCases instances
     private val getWatchlistUseCase: GetWatchlistUseCase by inject<GetWatchlistUseCase>()
