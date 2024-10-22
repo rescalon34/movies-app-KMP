@@ -6,7 +6,7 @@
 //  Copyright © 2024 orgName. All rights reserved.
 //
 
-import shared
+import Shared
 import UIKit
 
 class AppDelegate: NSObject, UIApplicationDelegate {

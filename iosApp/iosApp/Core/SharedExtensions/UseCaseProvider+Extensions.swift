@@ -6,7 +6,7 @@
 //  Copyright © 2024 orgName. All rights reserved.
 //
 
-import shared
+import Shared
 import KMPNativeCoroutinesCore
 
 /// This extension provides convenient functions to simplify the process of invoking Native Kotlin usecases

@@ -7,7 +7,7 @@
 //
 
 import Combine
-import shared
+import Shared
 import KMPNativeCoroutinesCombine
 import KMPNativeCoroutinesAsync
 
