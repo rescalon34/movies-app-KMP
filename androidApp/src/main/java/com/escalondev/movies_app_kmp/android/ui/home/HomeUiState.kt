@@ -8,5 +8,5 @@ data class HomeUiState(
     val nowPlayingMovies: List<Movie> = emptyList(),
     val topRatedMovies: List<Movie> = emptyList(),
     val isLoading: Boolean = false,
-    val errorMessage: String? = ""
+    val errorMessage: String? = null
 )

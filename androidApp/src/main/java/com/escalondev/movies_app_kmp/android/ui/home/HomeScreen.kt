@@ -33,6 +33,7 @@ import com.escalondev.movies_app_kmp.android.theme.MoviesAppTheme
 import com.escalondev.movies_app_kmp.android.ui.base.BaseScreen
 import com.escalondev.movies_app_kmp.android.ui.component.BaseAppBar
 import com.escalondev.movies_app_kmp.android.ui.component.HorizontalMoviesSection
+import com.escalondev.movies_app_kmp.android.ui.component.InfoMessageCard
 import com.escalondev.movies_app_kmp.android.ui.component.MovieItem
 import com.escalondev.movies_app_kmp.android.ui.component.SimpleProgressIndicator
 import com.escalondev.movies_app_kmp.android.util.Constants.FIVE_VALUE
@@ -56,41 +57,54 @@ fun HomeScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeContent(
-    uiState: HomeUiState
-) {
+fun HomeContent(uiState: HomeUiState) {
     BaseScreen(
         modifier = Modifier.padding(bottom = 88.dp),
         topBar = { BaseAppBar(title = stringResource(R.string.home_title)) },
         screen = { paddingValues ->
-            if (uiState.isLoading) {
-                SimpleProgressIndicator()
-            } else {
-                Column(
-                    Modifier
-                        .padding(paddingValues)
-                        .verticalScroll(rememberScrollState())
-                ) {
-                    HorizontalPagerMoviesSection(pagerItems = uiState.pagerMovies)
-                    HorizontalMoviesSection(
-                        movies = uiState.popularMovies,
-                        category = stringResource(R.string.popular),
-                        content = { MovieItem(movie = it) }
-                    )
-                    HorizontalMoviesSection(
-                        movies = uiState.nowPlayingMovies,
-                        category = stringResource(R.string.now_playing),
-                        content = { NowPlayingMovieBannerItem(movie = it) }
-                    )
-                    HorizontalMoviesSection(
-                        movies = uiState.topRatedMovies,
-                        category = stringResource(R.string.top_rated),
-                        content = { MovieItem(movie = it) }
-                    )
-                }
+            if (uiState.isLoading) SimpleProgressIndicator()
+
+            uiState.errorMessage?.let { error ->
+                InfoMessageCard(
+                    modifier = Modifier.padding(paddingValues),
+                    title = stringResource(id = R.string.general_error_title),
+                    description = error
+                )
+            }
+
+            if (uiState.pagerMovies.isNotEmpty()) {
+                MainMoviesContent(
+                    modifier = Modifier.padding(paddingValues),
+                    uiState
+                )
             }
         }
     )
+}
+
+@Composable
+fun MainMoviesContent(
+    modifier: Modifier = Modifier,
+    uiState: HomeUiState
+) {
+    Column(modifier.verticalScroll(rememberScrollState())) {
+        HorizontalPagerMoviesSection(pagerItems = uiState.pagerMovies)
+        HorizontalMoviesSection(
+            movies = uiState.popularMovies,
+            category = stringResource(R.string.popular),
+            content = { MovieItem(movie = it) }
+        )
+        HorizontalMoviesSection(
+            movies = uiState.nowPlayingMovies,
+            category = stringResource(R.string.now_playing),
+            content = { NowPlayingMovieBannerItem(movie = it) }
+        )
+        HorizontalMoviesSection(
+            movies = uiState.topRatedMovies,
+            category = stringResource(R.string.top_rated),
+            content = { MovieItem(movie = it) }
+        )
+    }
 }
 
 @Composable
@@ -182,7 +196,7 @@ fun NowPlayingMovieBannerItem(
 @Composable
 private fun HomeContentPreview() {
     MoviesAppTheme {
-        HomeContent(
+        MainMoviesContent(
             uiState = HomeUiState(
                 pagerMovies = MockedMoviesRepository.getWatchlist(),
                 popularMovies = MockedMoviesRepository.getWatchlist()

@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <!-- General -->
+    <string name="general_error_title">An error occurred!</string>
+    <string name="general_coming_soon_title">Coming Soon!</string>
+    <string name="general_coming_soon_description">"This feature is currently being developed. Check back soon!"</string>
+
     <!-- Home -->
     <string name="home_title">Home</string>
 
