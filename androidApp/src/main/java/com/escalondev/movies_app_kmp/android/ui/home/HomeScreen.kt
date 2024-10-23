@@ -43,7 +43,7 @@ import com.escalondev.movies_app_kmp.android.util.addBottomBackgroundBrush
 import com.escalondev.movies_app_kmp.android.util.detectOnPress
 import com.escalondev.movies_app_kmp.android.util.formatDate
 import com.escalondev.movies_app_kmp.data.repository.MockedMoviesRepository
-import com.escalondev.movies_app_kmp.domain.model.Movie
+import com.escalondev.movies_app_kmp.domain.model.SharedMovie
 import com.escalondev.movies_app_kmp.domain.util.ORIGINAL_POSTER_SIZE
 import kotlin.math.absoluteValue
 
@@ -109,7 +109,7 @@ fun MainMoviesContent(
 
 @Composable
 private fun HorizontalPagerMoviesSection(
-    pagerItems: List<Movie>
+    pagerItems: List<SharedMovie>
 ) {
     var shouldAutoScroll by remember { mutableStateOf(true) }
     val pagerState = rememberPagerState(
@@ -140,7 +140,7 @@ private fun HorizontalPagerMoviesSection(
 }
 
 @Composable
-private fun PagerMovieItem(movie: Movie, modifier: Modifier = Modifier) {
+private fun PagerMovieItem(movie: SharedMovie, modifier: Modifier = Modifier) {
     Box {
         MovieItem(
             modifier = modifier,
@@ -180,7 +180,7 @@ private fun PagerMovieItem(movie: Movie, modifier: Modifier = Modifier) {
 @Composable
 fun NowPlayingMovieBannerItem(
     modifier: Modifier = Modifier,
-    movie: Movie
+    movie: SharedMovie
 ) {
     MovieItem(
         modifier = modifier

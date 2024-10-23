@@ -1,6 +1,6 @@
 package com.escalondev.movies_app_kmp.domain.usecase.home
 
-import com.escalondev.movies_app_kmp.domain.model.Movie
+import com.escalondev.movies_app_kmp.domain.model.SharedMovie
 import com.escalondev.movies_app_kmp.domain.util.NetworkResult
 
 internal interface GetMoviesUseCase {
@@ -9,5 +9,5 @@ internal interface GetMoviesUseCase {
         category: String,
         page: Int,
         language: String
-    ): NetworkResult<List<Movie>>
+    ): NetworkResult<List<SharedMovie>>
 }

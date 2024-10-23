@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.escalondev.movies_app_kmp.android.R
 import com.escalondev.movies_app_kmp.android.theme.MoviesAppTheme
-import com.escalondev.movies_app_kmp.domain.model.Movie
+import com.escalondev.movies_app_kmp.domain.model.SharedMovie
 import com.escalondev.movies_app_kmp.domain.util.DEFAULT_POSTER_SIZE
 import com.escalondev.movies_app_kmp.domain.util.getSizedImage
 
@@ -27,7 +27,7 @@ fun MovieItem(
     imageSize: String = DEFAULT_POSTER_SIZE,
     contentScale: ContentScale = ContentScale.Crop,
     isPlayButtonVisible: Boolean = false,
-    movie: Movie,
+    movie: SharedMovie,
 ) {
     val isPreview = LocalInspectionMode.current
     Card(
@@ -56,7 +56,7 @@ private fun MovieItemPreview() {
     MoviesAppTheme {
         MovieItem(
             modifier = Modifier.height(170.dp),
-            movie = Movie(
+            movie = SharedMovie(
                 id = 0,
                 title = "",
                 imageUrl = "https://media.themoviedb.org/t/p/original/t7bhjraXuN4hd3yZVBVVhP3BdX0.jpg",

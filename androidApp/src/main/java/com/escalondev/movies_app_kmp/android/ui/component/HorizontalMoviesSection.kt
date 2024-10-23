@@ -15,14 +15,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.escalondev.movies_app_kmp.android.theme.MoviesAppTheme
 import com.escalondev.movies_app_kmp.data.repository.MockedMoviesRepository
-import com.escalondev.movies_app_kmp.domain.model.Movie
+import com.escalondev.movies_app_kmp.domain.model.SharedMovie
 
 @Composable
 fun HorizontalMoviesSection(
     modifier: Modifier = Modifier,
     category: String,
-    movies: List<Movie>,
-    content: @Composable (Movie) -> Unit = {}
+    movies: List<SharedMovie>,
+    content: @Composable (SharedMovie) -> Unit = {}
 ) {
     Column(modifier = modifier.padding(top = 20.dp)) {
         Text(
