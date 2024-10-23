@@ -40,8 +40,7 @@ android {
 }
 
 dependencies {
-    // Shared KMP module
-    implementation(projects.shared)
+    implementation(project(":androidApp:domain"))
 
     // Compose
     implementation(platform(libs.androidx.compose.bom))

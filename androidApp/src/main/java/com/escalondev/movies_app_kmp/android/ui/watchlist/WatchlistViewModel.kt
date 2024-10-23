@@ -2,10 +2,11 @@ package com.escalondev.movies_app_kmp.android.ui.watchlist
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.escalondev.domain.usecase.watchlist.GetWatchlistMoviesUseCase
+import com.escalondev.domain.usecase.watchlist.GetWatchlistUseCase
 import com.escalondev.movies_app_kmp.android.ui.filter.SortType
 import com.escalondev.movies_app_kmp.android.util.Constants.ONE_SECOND
 import com.escalondev.movies_app_kmp.android.util.getCurrentLanguageCode
-import com.escalondev.movies_app_kmp.core.manager.SharedCoreManager
 import com.escalondev.movies_app_kmp.domain.util.onFailure
 import com.escalondev.movies_app_kmp.domain.util.onSuccess
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -20,7 +21,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class WatchlistViewModel @Inject constructor(
-    private val sharedCoreManager: SharedCoreManager
+    private val getWatchlistUseCase: GetWatchlistUseCase,
+    private val getWatchlistMoviesUseCase: GetWatchlistMoviesUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(WatchlistUiState())
@@ -30,7 +32,7 @@ class WatchlistViewModel @Inject constructor(
         _uiState.update { it.copy(isLoading = true) }
         viewModelScope.launch {
             delay(ONE_SECOND)
-            sharedCoreManager.useCaseProvider.getWatchlist().collectLatest { watchlist ->
+            getWatchlistUseCase().collectLatest { watchlist ->
                 _uiState.update {
                     it.copy(isLoading = false, watchlist = watchlist)
                 }
@@ -41,7 +43,7 @@ class WatchlistViewModel @Inject constructor(
     private fun getWatchlistMovies(sortType: String = SortType.FIRST_ADDED.sortType) {
         _uiState.update { it.copy(isLoading = true) }
         viewModelScope.launch {
-            sharedCoreManager.useCaseProvider.getWatchlistMovies(
+            getWatchlistMoviesUseCase(
                 sortBy = sortType,
                 language = getCurrentLanguageCode()
             ).onSuccess { watchlist ->

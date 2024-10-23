@@ -1,5 +1,3 @@
-@file:Suppress("DEPRECATION")
-
 package com.escalondev.movies_app_kmp.core.provider
 
 import com.escalondev.movies_app_kmp.domain.model.SharedMovie

@@ -6,12 +6,9 @@ import com.rickclephas.kmp.nativecoroutines.NativeCoroutines
 import kotlinx.coroutines.flow.Flow
 
 /**
- * Provides access to shared use cases, exposed for consumers but with restricted instantiation
- * to ensure better control.
- *
- * Access this provider via `SharedCoreManager.useCaseProvider` instead of direct instantiation.
+ * SharedUseCaseProvider facilitates access to functions that Native clients use to request data
+ * from the API through the Shared SDK.
  */
-@Deprecated("Direct instantiation is discouraged. Access via `SharedCoreManager.useCaseProvider`.")
 interface SharedUseCaseProvider {
 
     /**
