@@ -14,8 +14,8 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 
 /**
- * The SharedSdk module acts as a bridge to simplify the provision of SDK instances,
- * such as the SharedCoreManager. It integrates seamlessly with Hilt for Dependency Injection (DI),
+ * The SharedSDK module acts as a bridge to simplify the provision of SDK instances,
+ * such as the SharedUseCaseProvider. It integrates seamlessly with Hilt for Dependency Injection (DI),
  * allowing these instances to be easily injected into any class constructor that utilizes Hilt.
  */
 @Module

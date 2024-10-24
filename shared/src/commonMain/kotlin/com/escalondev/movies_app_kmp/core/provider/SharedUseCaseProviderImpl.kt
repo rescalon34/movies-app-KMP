@@ -8,17 +8,20 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
 /**
- * This class is intended to store all internal useCases instances for better organization.
+ * This internal class is intended to get data from the internal repositories and expose it
+ * to the consumers thought the SharedUseCaseProvider by exposing public functions.
  *
- * The public functions will be used by the consumers (Android, iOS) and the useCase will be limited
- * to internal uses within the SDK.
  */
 internal class SharedUseCaseProviderImpl : KoinComponent, SharedUseCaseProvider {
 
-    // provide access to all internal repositories within the SDK.
+    /**
+     * Provide access to all internal repositories within the SDK.
+     */
     private val moviesRepository: SharedMoviesRepository by inject<SharedMoviesRepository>()
 
-    // Exposed functions for the consumers.
+    /**
+     * Exposed functions for the consumers.
+     */
     override fun getWatchlist(): Flow<List<SharedMovie>> = moviesRepository.getWatchlist()
 
     override suspend fun getWatchlistMovies(

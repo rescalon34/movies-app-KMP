@@ -6,6 +6,7 @@ import com.escalondev.movies_app_kmp.domain.util.NetworkResult
 interface GetWatchlistMoviesUseCase {
 
     suspend operator fun invoke(
-        sortBy: String, language: String
+        sortBy: String,
+        language: String
     ): NetworkResult<List<Movie>>
 }

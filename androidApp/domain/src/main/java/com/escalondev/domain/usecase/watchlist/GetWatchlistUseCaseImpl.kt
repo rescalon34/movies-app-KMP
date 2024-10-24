@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 /**
- * Internal UseCase to fetch Watchlist from the API.
+ * UseCase to fetch Watchlist from the API.
  */
 class GetWatchlistUseCaseImpl(
     private val sharedUseCaseProvider: SharedUseCaseProvider

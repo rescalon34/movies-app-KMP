@@ -7,7 +7,7 @@ import com.escalondev.movies_app_kmp.domain.util.NetworkResult
 import com.escalondev.movies_app_kmp.domain.util.mapToDomainResult
 
 /**
- * Internal UseCase to fetch Watchlist from the API.
+ * UseCase to fetch Watchlist from the API.
  */
 class GetMoviesUseCaseImpl(
     private val sharedUseCaseProvider: SharedUseCaseProvider

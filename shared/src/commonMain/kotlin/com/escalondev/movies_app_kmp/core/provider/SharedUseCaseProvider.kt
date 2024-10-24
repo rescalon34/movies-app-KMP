@@ -73,7 +73,8 @@ interface SharedUseCaseProvider {
     ): NetworkResult<List<SharedMovie>>
 
     /**
-     * @return a [NetworkResult] object Where `T` represents a [List] of [SharedMovie] filtered by category.
+     * @return a [NetworkResult] object Where `T` represents a [List] of [SharedMovie]
+     * filtered by category.
      */
     @NativeCoroutines
     suspend fun getMovies(
