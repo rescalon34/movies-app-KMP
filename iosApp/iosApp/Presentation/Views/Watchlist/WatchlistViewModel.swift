@@ -48,7 +48,7 @@ class WatchlistViewModel: ObservableObject {
                         self?.isLoading = false
                     }
                 } receiveValue: { [weak self] movies in
-                    self?.movies = movies
+                    self?.movies = movies.map { $0.toMovie() }
                 }
                 .store(in: &self.cancellable)
         }
@@ -67,8 +67,8 @@ class WatchlistViewModel: ObservableObject {
                     )
                 )
                 .onSuccess { data in
-                    let movies = data as? [Movie] ?? []
-                    self?.movies = movies
+                    let movies = data as? [SharedMovie] ?? []
+                    self?.movies = movies.map { $0.toMovie() }
                     self?.isLoading = false
                 }
                 .onFailure { errorMessage in

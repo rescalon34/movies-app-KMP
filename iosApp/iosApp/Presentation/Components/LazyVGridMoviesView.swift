@@ -35,7 +35,7 @@ struct LazyVGridMoviesView: View {
             columns: getFlexibleGridColumns(lazyVGridColumns, lazyVGridSpacing.horizontal),
             spacing: lazyVGridSpacing.vertical
         ) {
-            ForEach(movies, id: \.self) { movie in
+            ForEach(movies) { movie in
                 MovieItemView(
                     imageUrl: movie.imageUrl,
                     movieItemSize: movieItemSize

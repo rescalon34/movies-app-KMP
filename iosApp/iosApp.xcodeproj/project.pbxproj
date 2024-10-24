@@ -11,6 +11,8 @@
 		058557D9273AAEEB004C7B11 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 058557D8273AAEEB004C7B11 /* Preview Assets.xcassets */; };
 		2152FB042600AC8F00CF470E /* iOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2152FB032600AC8F00CF470E /* iOSApp.swift */; };
 		2501AD3C2CB780FB00EB4ACD /* LocalizationUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2501AD3B2CB780FB00EB4ACD /* LocalizationUtils.swift */; };
+		2509B0402CC9F0A100AF994A /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2509B03F2CC9F0A100AF994A /* Movie.swift */; };
+		2509B0432CC9F17400AF994A /* Movie+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2509B0422CC9F17400AF994A /* Movie+Extensions.swift */; };
 		250A20B02C9B98E3006534A4 /* KMPNativeCoroutinesAsync in Frameworks */ = {isa = PBXBuildFile; productRef = 250A20AF2C9B98E3006534A4 /* KMPNativeCoroutinesAsync */; };
 		250A20B22C9B98E3006534A4 /* KMPNativeCoroutinesCombine in Frameworks */ = {isa = PBXBuildFile; productRef = 250A20B12C9B98E3006534A4 /* KMPNativeCoroutinesCombine */; };
 		250A20B42C9B98E3006534A4 /* KMPNativeCoroutinesCore in Frameworks */ = {isa = PBXBuildFile; productRef = 250A20B32C9B98E3006534A4 /* KMPNativeCoroutinesCore */; };
@@ -56,6 +58,8 @@
 		058557D8273AAEEB004C7B11 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		2152FB032600AC8F00CF470E /* iOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOSApp.swift; sourceTree = "<group>"; };
 		2501AD3B2CB780FB00EB4ACD /* LocalizationUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizationUtils.swift; sourceTree = "<group>"; };
+		2509B03F2CC9F0A100AF994A /* Movie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
+		2509B0422CC9F17400AF994A /* Movie+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Movie+Extensions.swift"; sourceTree = "<group>"; };
 		250A20BE2C9E2D00006534A4 /* UseCaseProvider+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UseCaseProvider+Extensions.swift"; sourceTree = "<group>"; };
 		250A20C02C9E79BF006534A4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2554A74D2C8BBCD300B8E4C3 /* HomeScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScreenView.swift; sourceTree = "<group>"; };
@@ -102,6 +106,14 @@
 				058557D8273AAEEB004C7B11 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		2509B0412CC9F16500AF994A /* Mapper */ = {
+			isa = PBXGroup;
+			children = (
+				2509B0422CC9F17400AF994A /* Movie+Extensions.swift */,
+			);
+			path = Mapper;
 			sourceTree = "<group>";
 		};
 		2554A7442C8BBC5000B8E4C3 /* Core */ = {
@@ -220,6 +232,7 @@
 		255EFFBB2C90EDB4006857C8 /* Domain */ = {
 			isa = PBXGroup;
 			children = (
+				2509B0412CC9F16500AF994A /* Mapper */,
 				255EFFBC2C90EDBB006857C8 /* Model */,
 			);
 			path = Domain;
@@ -228,6 +241,7 @@
 		255EFFBC2C90EDBB006857C8 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				2509B03F2CC9F0A100AF994A /* Movie.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -394,6 +408,7 @@
 				2554A74E2C8BBCD300B8E4C3 /* HomeScreenView.swift in Sources */,
 				255EFFA52C8FECC5006857C8 /* BottomTabItem.swift in Sources */,
 				255EFFAC2C90BCF9006857C8 /* WatchlistViewModel.swift in Sources */,
+				2509B0402CC9F0A100AF994A /* Movie.swift in Sources */,
 				255EFFA72C8FEDB7006857C8 /* WatchlistScreenView.swift in Sources */,
 				255EFFAE2C90BE93006857C8 /* CategoryCardView.swift in Sources */,
 				255EFFC52C90F463006857C8 /* CircleIconView.swift in Sources */,
@@ -413,6 +428,7 @@
 				2501AD3C2CB780FB00EB4ACD /* LocalizationUtils.swift in Sources */,
 				2152FB042600AC8F00CF470E /* iOSApp.swift in Sources */,
 				7555FF83242A565900829871 /* ContentView.swift in Sources */,
+				2509B0432CC9F17400AF994A /* Movie+Extensions.swift in Sources */,
 				2554A7552C8BBE8200B8E4C3 /* BaseScreenView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
