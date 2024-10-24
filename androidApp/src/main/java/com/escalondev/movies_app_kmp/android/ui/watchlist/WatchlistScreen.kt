@@ -25,6 +25,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.escalondev.domain.mapper.movie.toMovie
 import com.escalondev.movies_app_kmp.android.R
 import com.escalondev.movies_app_kmp.android.theme.MoviesAppTheme
 import com.escalondev.movies_app_kmp.android.ui.base.BaseScreen
@@ -161,7 +162,7 @@ private fun WatchlistContentPreview() {
     MoviesAppTheme {
         WatchlistContent(
             uiState = WatchlistUiState(
-                watchlist = MockedMoviesRepository.getWatchlist()
+                watchlist = MockedMoviesRepository.getWatchlist().map { it.toMovie() }
             )
         )
     }
