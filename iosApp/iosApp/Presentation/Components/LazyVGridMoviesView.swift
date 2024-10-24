@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import Shared
 
 /// A reusable LazyVGrid view container for displaying a list of movies in a grid layout.
 ///

@@ -24,7 +24,7 @@ class WatchlistViewModel: ObservableObject {
     private var cancellable = Set<AnyCancellable>()
     
     // MARK: - Shared SDK
-    let sharedCoreManager = SharedCoreManager.companion.getInstance()
+    let useCaseProvider = SharedCoreManager.companion.getInstance().useCaseProvider
     
     // MARK: - init
     init() {
@@ -36,7 +36,7 @@ class WatchlistViewModel: ObservableObject {
     // MARK: - API calls thougth the shared SDK.
     func getWatchlist() {
         isLoading = true
-        sharedCoreManager.useCaseProvider.executeUseCase { manager, provider in
+        useCaseProvider.executeUseCase { manager, provider in
             createPublisher(for: manager.getWatchlist(provider))
                 .receive(on: DispatchQueue.main)
                 .sink { [weak self] result in
@@ -57,7 +57,7 @@ class WatchlistViewModel: ObservableObject {
     func getWatchlistMovies(sortBy: String = SortType.FirstAdded.displayName) {
         let language = LocalizationUtils.getCurrentLanguageCode()
         isLoading = true
-        sharedCoreManager.useCaseProvider.executeUseCase { manager, provider in
+        useCaseProvider.executeUseCase { manager, provider in
             Task { @MainActor [weak self] in
                 try await asyncFunction(
                     for: manager.getWatchlistMovies(
