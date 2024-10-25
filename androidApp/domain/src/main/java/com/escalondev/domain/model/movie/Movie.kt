@@ -1,4 +1,4 @@
-package com.escalondev.movies_app_kmp.domain.model
+package com.escalondev.domain.model.movie
 
 data class Movie(
     val id: Int,

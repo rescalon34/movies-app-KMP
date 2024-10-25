@@ -1,6 +1,6 @@
 package com.escalondev.movies_app_kmp.android.ui.home
 
-import com.escalondev.movies_app_kmp.domain.model.Movie
+import com.escalondev.domain.model.movie.Movie
 
 data class HomeUiState(
     val pagerMovies: List<Movie> = emptyList(),

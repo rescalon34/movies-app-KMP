@@ -1,5 +1,5 @@
 //
-//  SharedCoreManager+Extensions.swift
+//  SharedUseCaseProvider+Extensions.swift
 //  iosApp
 //
 //  Created by rescalon on 20/9/24.
@@ -18,7 +18,7 @@ extension SharedUseCaseProvider {
     ///
     /// Example usage:
     ///   ```
-    ///   let data = sharedCoreManager.useCaseProvider.fetchUseCase { manager, provider in
+    ///   let data = useCaseProvider.fetchUseCase { manager, provider in
     ///       manager.getData(provider)
     ///   }
     ///   ```
@@ -32,7 +32,7 @@ extension SharedUseCaseProvider {
     ///
     /// Example:
     ///   ```
-    ///   sharedCoreManager.useCaseProvider.executeUseCase { manager, provider in
+    ///   useCaseProvider.executeUseCase { manager, provider in
     ///       createPublisher(for: manager.getData(provider))
     ///   }
     ///   ```

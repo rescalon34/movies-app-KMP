@@ -28,6 +28,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.escalondev.domain.mapper.movie.toMovie
+import com.escalondev.domain.model.movie.Movie
 import com.escalondev.movies_app_kmp.android.R
 import com.escalondev.movies_app_kmp.android.theme.MoviesAppTheme
 import com.escalondev.movies_app_kmp.android.ui.base.BaseScreen
@@ -43,7 +45,6 @@ import com.escalondev.movies_app_kmp.android.util.addBottomBackgroundBrush
 import com.escalondev.movies_app_kmp.android.util.detectOnPress
 import com.escalondev.movies_app_kmp.android.util.formatDate
 import com.escalondev.movies_app_kmp.data.repository.MockedMoviesRepository
-import com.escalondev.movies_app_kmp.domain.model.Movie
 import com.escalondev.movies_app_kmp.domain.util.ORIGINAL_POSTER_SIZE
 import kotlin.math.absoluteValue
 
@@ -196,10 +197,11 @@ fun NowPlayingMovieBannerItem(
 @Composable
 private fun HomeContentPreview() {
     MoviesAppTheme {
+        val movies = MockedMoviesRepository.getWatchlist().map { it.toMovie() }
         MainMoviesContent(
             uiState = HomeUiState(
-                pagerMovies = MockedMoviesRepository.getWatchlist(),
-                popularMovies = MockedMoviesRepository.getWatchlist()
+                pagerMovies = movies,
+                popularMovies = movies
             )
         )
     }

@@ -10,9 +10,9 @@ import kotlin.jvm.Synchronized
 
 /**
  * This CoreManager is responsible for initializing internal shared dependencies as well as exposing
- * the functions that will be used from the Native clients.
+ * the other classes that will be used from the Native clients.
  */
-class SharedCoreManager {
+class SharedCoreManager private constructor() {
 
     /**
      * Provides a single instance of the SharedCoreManager class.

@@ -14,9 +14,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import com.escalondev.domain.model.movie.Movie
 import com.escalondev.movies_app_kmp.android.R
 import com.escalondev.movies_app_kmp.android.theme.MoviesAppTheme
-import com.escalondev.movies_app_kmp.domain.model.Movie
 import com.escalondev.movies_app_kmp.domain.util.DEFAULT_POSTER_SIZE
 import com.escalondev.movies_app_kmp.domain.util.getSizedImage
 

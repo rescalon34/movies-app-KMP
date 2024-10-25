@@ -2,10 +2,10 @@ package com.escalondev.movies_app_kmp.android.ui.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.escalondev.domain.usecase.home.GetMoviesUseCase
 import com.escalondev.movies_app_kmp.android.util.Constants.ONE_VALUE
 import com.escalondev.movies_app_kmp.android.util.MovieFilter
 import com.escalondev.movies_app_kmp.android.util.getCurrentLanguageCode
-import com.escalondev.movies_app_kmp.core.manager.SharedCoreManager
 import com.escalondev.movies_app_kmp.domain.util.onFailure
 import com.escalondev.movies_app_kmp.domain.util.onSuccess
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -20,7 +20,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val sharedCoreManager: SharedCoreManager
+    private val getMoviesUseCase: GetMoviesUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(HomeUiState())
@@ -56,7 +56,7 @@ class HomeViewModel @Inject constructor(
     }
 
     private suspend fun getPagerMovies() {
-        sharedCoreManager.useCaseProvider.getMovies(
+        getMoviesUseCase(
             category = MovieFilter.UPCOMING.value,
             page = ONE_VALUE,
             language = getCurrentLanguageCode()
@@ -70,7 +70,7 @@ class HomeViewModel @Inject constructor(
     private suspend fun getMoviesByCategory(
         category: String
     ) {
-        sharedCoreManager.useCaseProvider.getMovies(
+        getMoviesUseCase(
             category = category,
             page = ONE_VALUE,
             language = getCurrentLanguageCode()

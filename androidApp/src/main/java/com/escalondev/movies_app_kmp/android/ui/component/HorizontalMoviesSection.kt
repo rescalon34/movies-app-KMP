@@ -13,9 +13,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.escalondev.domain.mapper.movie.toMovie
+import com.escalondev.domain.model.movie.Movie
 import com.escalondev.movies_app_kmp.android.theme.MoviesAppTheme
 import com.escalondev.movies_app_kmp.data.repository.MockedMoviesRepository
-import com.escalondev.movies_app_kmp.domain.model.Movie
 
 @Composable
 fun HorizontalMoviesSection(
@@ -51,6 +52,7 @@ private fun HorizontalMoviesSectionPreview() {
         HorizontalMoviesSection(
             category = "Popular",
             movies = MockedMoviesRepository.getWatchlist()
+                .map { it.toMovie() }
         )
     }
 }

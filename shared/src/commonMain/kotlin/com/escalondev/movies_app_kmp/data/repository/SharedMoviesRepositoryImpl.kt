@@ -5,8 +5,8 @@ import com.escalondev.movies_app_kmp.data.networking.manager.NetworkingManager
 import com.escalondev.movies_app_kmp.data.networking.mapToResponse
 import com.escalondev.movies_app_kmp.data.networking.safeApiRequest
 import com.escalondev.movies_app_kmp.data.util.getMovieEndpointByCategory
-import com.escalondev.movies_app_kmp.domain.model.Movie
-import com.escalondev.movies_app_kmp.domain.repository.MoviesRepository
+import com.escalondev.movies_app_kmp.domain.model.SharedMovie
+import com.escalondev.movies_app_kmp.domain.repository.SharedMoviesRepository
 import com.escalondev.movies_app_kmp.domain.util.NetworkResult
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
@@ -15,11 +15,11 @@ import kotlinx.coroutines.flow.flow
 /**
  * Repository responsible for handling all networking operations related to the Movies feature.
  */
-internal class MoviesRepositoryImpl(
+internal class SharedMoviesRepositoryImpl(
     private val networkingManager: NetworkingManager
-) : MoviesRepository {
+) : SharedMoviesRepository {
 
-    override fun getWatchlist(): Flow<List<Movie>> {
+    override fun getWatchlist(): Flow<List<SharedMovie>> {
         return flow {
             // Mimic API call for now.
             delay(1000)
@@ -30,7 +30,7 @@ internal class MoviesRepositoryImpl(
     override suspend fun getWatchlistMovies(
         sortBy: String,
         language: String
-    ): NetworkResult<List<Movie>> {
+    ): NetworkResult<List<SharedMovie>> {
         return safeApiRequest {
             networkingManager.getApi()
                 .getWatchlistMovies(
@@ -45,7 +45,7 @@ internal class MoviesRepositoryImpl(
         category: String,
         page: Int,
         language: String
-    ): NetworkResult<List<Movie>> {
+    ): NetworkResult<List<SharedMovie>> {
         return safeApiRequest {
             networkingManager.getApi().getMovies(
                 url = category.getMovieEndpointByCategory(),

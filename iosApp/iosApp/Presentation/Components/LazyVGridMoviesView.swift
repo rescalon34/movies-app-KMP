@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import Shared
 
 /// A reusable LazyVGrid view container for displaying a list of movies in a grid layout.
 ///
@@ -35,7 +34,7 @@ struct LazyVGridMoviesView: View {
             columns: getFlexibleGridColumns(lazyVGridColumns, lazyVGridSpacing.horizontal),
             spacing: lazyVGridSpacing.vertical
         ) {
-            ForEach(movies, id: \.self) { movie in
+            ForEach(movies) { movie in
                 MovieItemView(
                     imageUrl: movie.imageUrl,
                     movieItemSize: movieItemSize

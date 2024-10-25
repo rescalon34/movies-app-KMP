@@ -1,42 +1,39 @@
-@file:Suppress("DEPRECATION")
-
 package com.escalondev.movies_app_kmp.core.provider
 
-import com.escalondev.movies_app_kmp.domain.model.Movie
-import com.escalondev.movies_app_kmp.domain.usecase.home.GetMoviesUseCase
-import com.escalondev.movies_app_kmp.domain.usecase.watchlist.GetWatchlistMoviesUseCase
-import com.escalondev.movies_app_kmp.domain.usecase.watchlist.GetWatchlistUseCase
+import com.escalondev.movies_app_kmp.domain.model.SharedMovie
+import com.escalondev.movies_app_kmp.domain.repository.SharedMoviesRepository
 import com.escalondev.movies_app_kmp.domain.util.NetworkResult
 import kotlinx.coroutines.flow.Flow
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
 /**
- * This class is intended to store all internal useCases instances for better organization.
+ * This internal class is intended to get data from the internal repositories and expose it
+ * to the consumers thought the SharedUseCaseProvider by exposing public functions.
  *
- * The public functions will be used by the consumers (Android, iOS) and the useCase will be limited
- * to internal uses within the SDK.
  */
 internal class SharedUseCaseProviderImpl : KoinComponent, SharedUseCaseProvider {
 
-    // UseCases instances
-    private val getWatchlistUseCase: GetWatchlistUseCase by inject<GetWatchlistUseCase>()
-    private val getWatchlistMoviesUseCase: GetWatchlistMoviesUseCase by inject<GetWatchlistMoviesUseCase>()
-    private val getMoviesUseCase: GetMoviesUseCase by inject<GetMoviesUseCase>()
+    /**
+     * Provide access to all internal repositories within the SDK.
+     */
+    private val moviesRepository: SharedMoviesRepository by inject<SharedMoviesRepository>()
 
-    // Exposed functions for the consumers.
-    override fun getWatchlist(): Flow<List<Movie>> = getWatchlistUseCase()
+    /**
+     * Exposed functions for the consumers.
+     */
+    override fun getWatchlist(): Flow<List<SharedMovie>> = moviesRepository.getWatchlist()
 
     override suspend fun getWatchlistMovies(
         sortBy: String,
         language: String
-    ) = getWatchlistMoviesUseCase(sortBy = sortBy, language = language)
+    ) = moviesRepository.getWatchlistMovies(sortBy = sortBy, language = language)
 
     override suspend fun getMovies(
         category: String,
         page: Int,
         language: String
-    ): NetworkResult<List<Movie>> = getMoviesUseCase(
+    ): NetworkResult<List<SharedMovie>> = moviesRepository.getMovies(
         category = category,
         page = page,
         language = language

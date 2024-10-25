@@ -1,7 +1,7 @@
 package com.escalondev.movies_app_kmp.android.ui.watchlist
 
+import com.escalondev.domain.model.movie.Movie
 import com.escalondev.movies_app_kmp.android.ui.filter.SortType
-import com.escalondev.movies_app_kmp.domain.model.Movie
 
 data class WatchlistUiState(
     val isLoading: Boolean = false,

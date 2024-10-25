@@ -1,22 +1,19 @@
 package com.escalondev.movies_app_kmp.core.provider
 
-import com.escalondev.movies_app_kmp.domain.model.Movie
+import com.escalondev.movies_app_kmp.domain.model.SharedMovie
 import com.escalondev.movies_app_kmp.domain.util.NetworkResult
 import com.rickclephas.kmp.nativecoroutines.NativeCoroutines
 import kotlinx.coroutines.flow.Flow
 
 /**
- * Provides access to shared use cases, exposed for consumers but with restricted instantiation
- * to ensure better control.
- *
- * Access this provider via `SharedCoreManager.useCaseProvider` instead of direct instantiation.
+ * SharedUseCaseProvider facilitates access to functions that Native clients use to request data
+ * from the API through the Shared SDK.
  */
-@Deprecated("Direct instantiation is discouraged. Access via `SharedCoreManager.useCaseProvider`.")
 interface SharedUseCaseProvider {
 
     /**
      *
-     * This function emits updates to the watchlist as a [Flow] of [List] of [Movie].
+     * This function emits updates to the watchlist as a [Flow] of [List] of [SharedMovie].
      * Use this to observe changes in the watchlist over time.
      *
      * iOS sample usage:
@@ -34,10 +31,10 @@ interface SharedUseCaseProvider {
      * }
      * ```
      *
-     * @return [Flow] emitting a list of [Movie] objects.
+     * @return [Flow] emitting a list of [SharedMovie] objects.
      */
     @NativeCoroutines
-    fun getWatchlist(): Flow<List<Movie>>
+    fun getWatchlist(): Flow<List<SharedMovie>>
 
     /**
      *
@@ -67,21 +64,22 @@ interface SharedUseCaseProvider {
      * }
      * ```
      *
-     * @return a [NetworkResult] object Where `T` represents a [List] of [Movie].
+     * @return a [NetworkResult] object Where `T` represents a [List] of [SharedMovie].
      */
     @NativeCoroutines
     suspend fun getWatchlistMovies(
         sortBy: String,
         language: String
-    ): NetworkResult<List<Movie>>
+    ): NetworkResult<List<SharedMovie>>
 
     /**
-     * @return a [NetworkResult] object Where `T` represents a [List] of [Movie] filtered by category.
+     * @return a [NetworkResult] object Where `T` represents a [List] of [SharedMovie]
+     * filtered by category.
      */
     @NativeCoroutines
     suspend fun getMovies(
         category: String,
         page: Int,
         language: String
-    ): NetworkResult<List<Movie>>
+    ): NetworkResult<List<SharedMovie>>
 }
