@@ -30,6 +30,25 @@ inline fun <T : Any> NetworkResult<T>.onSuccess(action: (T) -> Unit): NetworkRes
 }
 
 /**
+ * Helper function to get a failure result message after executing the api request on the consumer side.
+ *
+ * Example:
+ * ```
+ * useCase()
+ *   .onSuccess { _ -> }
+ *   .onFailure { error ->
+ *       // Rest of the code
+ *   }
+ * ```
+ */
+inline fun <T : Any> NetworkResult<T>.onFailure(action: (ErrorMessage?) -> Unit): NetworkResult<T> {
+    if (this is NetworkResult.Failure) {
+        action(errorMessage?.toDomain())
+    }
+    return this
+}
+
+/**
  * Maps the current `NetworkResult` of type `T` to a new `NetworkResult` of type `R` by applying
  * a transformation function to the success data.
  *
@@ -50,23 +69,4 @@ inline fun <T : Any, R : Any> NetworkResult<T>.mapToDomainResult(
         is NetworkResult.Success -> NetworkResult.Success(transform(this.data))
         is NetworkResult.Failure -> NetworkResult.Failure(this.errorMessage)
     }
-}
-
-/**
- * Helper function to get a failure result message after executing the api request on the consumer side.
- *
- * Example:
- * ```
- * useCase()
- *   .onSuccess { _ -> }
- *   .onFailure { error ->
- *       // Rest of the code
- *   }
- * ```
- */
-inline fun <T : Any> NetworkResult<T>.onFailure(action: (ErrorMessage?) -> Unit): NetworkResult<T> {
-    if (this is NetworkResult.Failure) {
-        action(errorMessage?.toDomain())
-    }
-    return this
 }

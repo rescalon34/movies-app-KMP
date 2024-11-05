@@ -24,40 +24,19 @@ class WatchlistViewModel: ObservableObject {
     private var cancellable = Set<AnyCancellable>()
     
     // MARK: - Shared SDK
-    let useCaseProvider = SharedCoreManager.companion.getInstance().useCaseProvider
+    let moviesUseCaseProvider: MoviesUseCaseProvider = SharedCoreManager.companion.getInstance()
+        .createMoviesUseCaseProvider()
     
     // MARK: - init
     init() {
-//        getWatchlist()
         getWatchlistMovies()
         setupBindings()
-    }
-    
-    // MARK: - API calls thougth the shared SDK.
-    func getWatchlist() {
-        isLoading = true
-        useCaseProvider.executeUseCase { manager, provider in
-            createPublisher(for: manager.getWatchlist(provider))
-                .receive(on: DispatchQueue.main)
-                .sink { [weak self] result in
-                    switch result {
-                    case .finished:
-                        self?.isLoading = false
-                    case .failure(let error):
-                        self?.errorMessage = error.localizedDescription
-                        self?.isLoading = false
-                    }
-                } receiveValue: { [weak self] movies in
-                    self?.movies = movies.map { $0.toMovie() }
-                }
-                .store(in: &self.cancellable)
-        }
     }
     
     func getWatchlistMovies(sortBy: String = SortType.FirstAdded.displayName) {
         let language = LocalizationUtils.getCurrentLanguageCode()
         isLoading = true
-        useCaseProvider.executeUseCase { manager, provider in
+        moviesUseCaseProvider.executeUseCase { manager, provider in
             Task { @MainActor [weak self] in
                 try await asyncFunction(
                     for: manager.getWatchlistMovies(

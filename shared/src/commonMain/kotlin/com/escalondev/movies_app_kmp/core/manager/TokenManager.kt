@@ -6,16 +6,6 @@ package com.escalondev.movies_app_kmp.core.manager
  */
 internal object TokenManager {
 
-    var apiKeyValue: String? = ""
-    var accessTokenValue: String? = ""
-
-    fun setApiKey(apiKey: String): TokenManager {
-        this.apiKeyValue = apiKey
-        return this
-    }
-
-    fun setAccessToken(accessToken: String): TokenManager {
-        this.accessTokenValue = accessToken
-        return this
-    }
+    var apiKey: String? = null
+    var accessToken: String? = null
 }

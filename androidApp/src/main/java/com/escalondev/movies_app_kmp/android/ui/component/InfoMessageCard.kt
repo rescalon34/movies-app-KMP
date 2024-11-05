@@ -24,7 +24,7 @@ import com.escalondev.movies_app_kmp.android.theme.MoviesAppTheme
 fun InfoMessageCard(
     modifier: Modifier = Modifier,
     title: String = stringResource(R.string.general_coming_soon_title),
-    description: String = stringResource(R.string.general_coming_soon_description)
+    description: String? = stringResource(R.string.general_coming_soon_description)
 ) {
     Column(
         modifier = modifier
@@ -41,16 +41,18 @@ fun InfoMessageCard(
                     fontWeight = FontWeight.Bold
                 ),
         )
-        Text(
-            text = description,
-            modifier = Modifier
-                .padding(horizontal = 24.dp)
-                .padding(top = 4.dp),
-            textAlign = TextAlign.Center,
-            style = MaterialTheme.typography.bodySmall.copy(
-                color = MaterialTheme.colorScheme.onPrimaryContainer
-            ),
-        )
+        description?.let {
+            Text(
+                text = it,
+                modifier = Modifier
+                    .padding(horizontal = 24.dp)
+                    .padding(top = 4.dp),
+                textAlign = TextAlign.Center,
+                style = MaterialTheme.typography.bodySmall.copy(
+                    color = MaterialTheme.colorScheme.onPrimaryContainer
+                ),
+            )
+        }
     }
 }
 
