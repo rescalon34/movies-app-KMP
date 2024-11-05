@@ -1,4 +1,4 @@
-package com.escalondev.movies_app_kmp.core.provider
+package com.escalondev.movies_app_kmp.core.provider.movie
 
 import com.escalondev.movies_app_kmp.domain.model.SharedMovie
 import com.escalondev.movies_app_kmp.domain.repository.SharedMoviesRepository
@@ -8,11 +8,10 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
 /**
- * This internal class is intended to get data from the internal repositories and expose it
- * to the consumers thought the SharedUseCaseProvider by exposing public functions.
- *
+ * Provides access to movie-related data from internal repositories.
+ * This implementation is created on the ShareCoreManager to expose movie-specific functionality to consumers.
  */
-internal class SharedUseCaseProviderImpl : KoinComponent, SharedUseCaseProvider {
+internal class MoviesUseCaseProviderImpl : KoinComponent, MoviesUseCaseProvider {
 
     /**
      * Provide access to all internal repositories within the SDK.

@@ -12,7 +12,7 @@ import KMPNativeCoroutinesCore
 /// This extension provides convenient functions to simplify the process of invoking Native Kotlin usecases
 /// from the shared Kotlin Multiplatform (KMP) module with minimal code, using closures.
 ///
-extension SharedUseCaseProvider {
+extension MoviesUseCaseProvider {
     
     /// Fetches data from any Kotlin Multiplatform (KMP) use case in a concise and efficient way.
     ///
@@ -24,8 +24,8 @@ extension SharedUseCaseProvider {
     ///   ```
     /// - Parameter useCase: Closure to execute the desired use case.
     /// - Returns: The result from the Native Kotlin usecase.
-    func fetchUseCase<T>(_ useCase: @escaping (SharedUseCaseProviderNativeKt.Type, SharedUseCaseProvider) -> T) -> T {
-        useCase(SharedUseCaseProviderNativeKt.self, self)
+    func fetchUseCase<T>(_ useCase: @escaping (MoviesUseCaseProviderNativeKt.Type, MoviesUseCaseProvider) -> T) -> T {
+        useCase(MoviesUseCaseProviderNativeKt.self, self)
     }
     
     /// Executes a Kotlin Multiplatform (KMP) usecase without returning data.
@@ -37,7 +37,7 @@ extension SharedUseCaseProvider {
     ///   }
     ///   ```
     /// - Parameter useCase: Closure to execute the desired use case.
-    func executeUseCase(_ useCase: (SharedUseCaseProviderNativeKt.Type, SharedUseCaseProvider) -> ()) -> () {
-        useCase(SharedUseCaseProviderNativeKt.self, self)
+    func executeUseCase(_ useCase: (MoviesUseCaseProviderNativeKt.Type, MoviesUseCaseProvider) -> ()) -> () {
+        useCase(MoviesUseCaseProviderNativeKt.self, self)
     }
 }

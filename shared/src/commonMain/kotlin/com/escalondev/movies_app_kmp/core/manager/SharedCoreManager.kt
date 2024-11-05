@@ -2,8 +2,10 @@
 
 package com.escalondev.movies_app_kmp.core.manager
 
-import com.escalondev.movies_app_kmp.core.provider.SharedUseCaseProvider
-import com.escalondev.movies_app_kmp.core.provider.SharedUseCaseProviderImpl
+import com.escalondev.movies_app_kmp.core.provider.factory.SharedUseCaseProviderFactory
+import com.escalondev.movies_app_kmp.core.provider.factory.SharedUseCaseProviderFactoryImpl
+import com.escalondev.movies_app_kmp.core.provider.movie.MoviesUseCaseProvider
+import com.escalondev.movies_app_kmp.core.provider.profile.ProfileUseCaseProvider
 import com.escalondev.movies_app_kmp.data.di.sharedCoreModule
 import org.koin.core.context.startKoin
 import kotlin.jvm.Synchronized
@@ -44,8 +46,10 @@ class SharedCoreManager private constructor() {
     fun init(apiKey: String, accessToken: String) {
         initKoinModules()
         tokenManager
-            .setApiKey(apiKey)
-            .setAccessToken(accessToken)
+            .apply {
+                this.apiKey = apiKey
+                this.accessToken = accessToken
+            }
     }
 
     /**
@@ -58,13 +62,27 @@ class SharedCoreManager private constructor() {
     }
 
     /**
-     **************** Functions exposed to thought the SDK. ****************
+     * Object to store in memory the provided API Key and AccessToken from the consumers.
      */
+    private val tokenManager: TokenManager = TokenManager
+
+    private val factoryProvider: SharedUseCaseProviderFactory = SharedUseCaseProviderFactoryImpl()
 
     /**
-     * Exposed useCaseProvider to have access to any UseCase function from the Shared SDK.
+     * This function allows a smart way to create a UseCaseProvider by specifying the type of UseCase
+     * to return when the function is called.
      */
-    val useCaseProvider: SharedUseCaseProvider = SharedUseCaseProviderImpl()
+    private inline fun <reified T : Any> createUseCaseProvider(): T =
+        factoryProvider.createProvider(T::class)
 
-    private val tokenManager: TokenManager = TokenManager
+    /**
+     * Provides specific functions to create instances of each UseCaseProvider, that works well on
+     * cross-platform compatibility.
+     *
+     * This functions allow consumers to obtain the corresponding UseCaseProvider instance without
+     * needing generics. This approach is preferred for iOS interoperability, as it avoids the
+     * limitations of inline functions and reified types, which are unsupported in Swift and Objective-C.
+     */
+    fun createMoviesUseCaseProvider(): MoviesUseCaseProvider = createUseCaseProvider()
+    fun createProfileUseCaseProvider(): ProfileUseCaseProvider = createUseCaseProvider()
 }

@@ -51,15 +51,15 @@ internal class NetworkingManagerImpl(
             }
 
             install(DefaultRequest) {
-                header(AUTHORIZATION, "$BEARER${TokenManager.accessTokenValue}")
-                header(API_KEY, "${TokenManager.apiKeyValue}")
+                header(AUTHORIZATION, "$BEARER${TokenManager.accessToken}")
+                header(API_KEY, "${TokenManager.apiKey}")
             }
 
             install(Auth) {
                 bearer {
                     sendWithoutRequest { false }
                     loadTokens {
-                        BearerTokens(BEARER, "${TokenManager.apiKeyValue}")
+                        BearerTokens(BEARER, "${TokenManager.apiKey}")
                     }
                 }
             }

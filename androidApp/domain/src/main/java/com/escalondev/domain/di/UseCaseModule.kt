@@ -2,12 +2,14 @@ package com.escalondev.domain.di
 
 import com.escalondev.domain.usecase.home.GetMoviesUseCase
 import com.escalondev.domain.usecase.home.GetMoviesUseCaseImpl
+import com.escalondev.domain.usecase.profile.GetProfileUseCase
+import com.escalondev.domain.usecase.profile.GetProfileUseCaseImpl
 import com.escalondev.domain.usecase.watchlist.GetWatchlistMoviesUseCase
 import com.escalondev.domain.usecase.watchlist.GetWatchlistMoviesUseCaseImpl
 import com.escalondev.domain.usecase.watchlist.GetWatchlistUseCase
 import com.escalondev.domain.usecase.watchlist.GetWatchlistUseCaseImpl
-import com.escalondev.movies_app_kmp.core.manager.SharedCoreManager
-import com.escalondev.movies_app_kmp.core.provider.SharedUseCaseProvider
+import com.escalondev.movies_app_kmp.core.provider.movie.MoviesUseCaseProvider
+import com.escalondev.movies_app_kmp.core.provider.profile.ProfileUseCaseProvider
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -23,22 +25,22 @@ import dagger.hilt.components.SingletonComponent
 object UseCaseModule {
 
     @Provides
-    fun provideUseCaseProvider(): SharedUseCaseProvider {
-        return SharedCoreManager.getInstance().useCaseProvider
+    fun provideGetMoviesUseCase(moviesUseCaseProvider: MoviesUseCaseProvider): GetMoviesUseCase {
+        return GetMoviesUseCaseImpl(moviesUseCaseProvider)
     }
 
     @Provides
-    fun provideGetMoviesUseCase(): GetMoviesUseCase {
-        return GetMoviesUseCaseImpl(provideUseCaseProvider())
+    fun provideGetWatchlistUseCase(moviesUseCaseProvider: MoviesUseCaseProvider): GetWatchlistUseCase {
+        return GetWatchlistUseCaseImpl(moviesUseCaseProvider)
     }
 
     @Provides
-    fun provideGetWatchlistUseCase(): GetWatchlistUseCase {
-        return GetWatchlistUseCaseImpl(provideUseCaseProvider())
+    fun provideGetWatchlistMoviesUseCase(moviesUseCaseProvider: MoviesUseCaseProvider): GetWatchlistMoviesUseCase {
+        return GetWatchlistMoviesUseCaseImpl(moviesUseCaseProvider)
     }
 
     @Provides
-    fun provideGetWatchlistMoviesUseCase(): GetWatchlistMoviesUseCase {
-        return GetWatchlistMoviesUseCaseImpl(provideUseCaseProvider())
+    fun provideProfileUseCase(profileProvider: ProfileUseCaseProvider): GetProfileUseCase {
+        return GetProfileUseCaseImpl(profileProvider)
     }
 }

@@ -1,15 +1,11 @@
-package com.escalondev.movies_app_kmp.core.provider
+package com.escalondev.movies_app_kmp.core.provider.movie
 
 import com.escalondev.movies_app_kmp.domain.model.SharedMovie
 import com.escalondev.movies_app_kmp.domain.util.NetworkResult
 import com.rickclephas.kmp.nativecoroutines.NativeCoroutines
 import kotlinx.coroutines.flow.Flow
 
-/**
- * SharedUseCaseProvider facilitates access to functions that Native clients use to request data
- * from the API through the Shared SDK.
- */
-interface SharedUseCaseProvider {
+interface MoviesUseCaseProvider {
 
     /**
      *
@@ -18,7 +14,7 @@ interface SharedUseCaseProvider {
      *
      * iOS sample usage:
      * ```
-     * sharedCoreManager.useCaseProvider.invoke { manager, provider in
+     * moviesUseCaseProvider.invoke { manager, provider in
      *     createPublisher(for: manager.getWatchlist(provider))
      *     // rest of the code.
      * }
@@ -26,7 +22,7 @@ interface SharedUseCaseProvider {
      *
      * Android sample usage:
      * ```
-     * sharedCoreManager.useCaseProvider.getWatchlist().collectLatest { watchlist ->
+     * useCase().getWatchlist().collectLatest { watchlist ->
      *     // rest of the code
      * }
      * ```
@@ -42,7 +38,7 @@ interface SharedUseCaseProvider {
      *
      * iOS sample usage:
      * ```
-     * // your reactive code, publisher, etc.
+     * // your reactive asyncFunction, publisher, etc.
      * response.onSuccess { data in
      *     let movies = data as? [Movie] ?? []
      *     // rest of the code
@@ -54,7 +50,7 @@ interface SharedUseCaseProvider {
      *
      * Android sample usage:
      * ```
-     * sharedCoreManager.useCaseProvider.getWatchlistMovies()
+     * useCaseProvider.getWatchlistMovies()
      *      .onSuccess { watchlist ->
      *          // rest of the code
      *      }
