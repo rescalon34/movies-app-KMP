@@ -1,7 +1,9 @@
 package com.escalondev.movies_app_kmp.data.di
 
 import com.escalondev.movies_app_kmp.data.repository.SharedMoviesRepositoryImpl
+import com.escalondev.movies_app_kmp.data.repository.SharedProfileRepositoryImpl
 import com.escalondev.movies_app_kmp.domain.repository.SharedMoviesRepository
+import com.escalondev.movies_app_kmp.domain.repository.SharedProfileRepository
 import org.koin.dsl.module
 
 /**
@@ -9,4 +11,5 @@ import org.koin.dsl.module
  */
 internal val repositoryModule = module {
     single<SharedMoviesRepository> { SharedMoviesRepositoryImpl(get()) }
+    single<SharedProfileRepository> { SharedProfileRepositoryImpl(get()) }
 }

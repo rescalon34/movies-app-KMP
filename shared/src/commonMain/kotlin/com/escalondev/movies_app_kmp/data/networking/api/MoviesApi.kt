@@ -21,4 +21,7 @@ internal interface MoviesApi {
         @Query("page") page: Int? = null,
         @Query("language") language: String,
     ): HttpResponse
+
+    @GET("account/{account_id}")
+    suspend fun getProfile(@Path("account_id") accountId: Int): HttpResponse
 }

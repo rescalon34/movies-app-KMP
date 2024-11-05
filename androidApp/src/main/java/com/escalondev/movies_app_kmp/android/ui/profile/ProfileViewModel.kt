@@ -28,7 +28,7 @@ class ProfileViewModel @Inject constructor(
         viewModelScope.launch {
             getProfileUseCase().onSuccess { data ->
                 _uiState.update {
-                    it.copy(userName = data.username)
+                    it.copy(userName = data.username + data.name)
                 }
             }
         }
