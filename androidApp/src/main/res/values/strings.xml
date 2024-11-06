@@ -5,6 +5,7 @@
     <string name="general_error_title">An error occurred!</string>
     <string name="general_coming_soon_title">Coming Soon!</string>
     <string name="general_coming_soon_description">"This feature is currently being developed. Check back soon!"</string>
+    <string name="general_app_version">Version: 1.0.0</string>
 
     <!-- Home -->
     <string name="home_title">Home</string>
@@ -20,6 +21,12 @@
 
     <!-- Profile -->
     <string name="profile_title">Profile</string>
+    <string name="profile_edit_profile">Edit profile</string>
+    <string name="profile_app_settings">App settings</string>
+    <string name="profile_account_policy">Account policy</string>
+    <string name="profile_privacy_policy">Privacy policy</string>
+    <string name="profile_credits">Credits</string>
+    <string name="profile_log_out">Log out</string>
 
     <!-- Settings -->
     <string name="settings_title">Settings</string>
