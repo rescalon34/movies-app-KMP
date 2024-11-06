@@ -72,3 +72,7 @@ val surfaceContainerLowDark = Color(0xFF1C1B1C)
 val surfaceContainerDark = Color(0xFF201F20)
 val surfaceContainerHighDark = Color(0xFF2B2A2A)
 val surfaceContainerHighestDark = Color(0xFF363435)
+
+val md_theme_light_primary_gradient_1 = Color(0xFF6645FB)
+val md_theme_light_primary_gradient_2 = Color(0xFF2be4dc)
+val md_theme_light_primary_gradient_3 = Color(0xFF243484)
