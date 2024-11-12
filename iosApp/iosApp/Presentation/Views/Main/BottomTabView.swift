@@ -11,6 +11,7 @@ import SwiftUI
 /// This Bottom TabView contains all the menu options available.
 struct BottomTabView: View {
     @State private var selectedTabItem : BottomTabItem = .Home
+    let dependencyContainer: DependencyContainer
     
     var body: some View {
         bottomTabView
@@ -22,8 +23,7 @@ struct BottomTabView: View {
             HomeScreenView()
                 .tabItem { Image(systemName: "house.fill") }
             .tag(BottomTabItem.Home)
-            
-            WatchlistScreenView()
+            WatchlistScreenView(dependencyContainer: dependencyContainer)
                 .tabItem { Image(systemName: "plus.circle.fill") }
             .tag(BottomTabItem.Watchlist)
             
@@ -35,5 +35,5 @@ struct BottomTabView: View {
 }
 
 #Preview {
-    BottomTabView()
+    return BottomTabView(dependencyContainer: .shared)
 }

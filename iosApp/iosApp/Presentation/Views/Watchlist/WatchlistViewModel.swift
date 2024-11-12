@@ -7,11 +7,12 @@
 //
 
 import Combine
-import Shared
-import KMPNativeCoroutinesCombine
-import KMPNativeCoroutinesAsync
+import Foundation
 
 class WatchlistViewModel: ObservableObject {
+    
+    // MARK: - UseCase properties
+    let getWatchlistUseCase: GetWatchlistUseCase
     
     // MARK: - Published properties
     @Published var isLoading: Bool = false
@@ -23,39 +24,33 @@ class WatchlistViewModel: ObservableObject {
     // MARK: - Combine properties
     private var cancellable = Set<AnyCancellable>()
     
-    // MARK: - Shared SDK
-    let moviesUseCaseProvider: MoviesUseCaseProvider = SharedCoreManager.companion.getInstance()
-        .createMoviesUseCaseProvider()
-    
     // MARK: - init
-    init() {
-        getWatchlistMovies()
-        setupBindings()
+    init(getWatchlistUseCase: GetWatchlistUseCase) {
+        self.getWatchlistUseCase = getWatchlistUseCase
+        self.setupBindings()
+        self.getWatchlistMovies()
     }
     
+    // MARK: - UseCase functions
     func getWatchlistMovies(sortBy: String = SortType.FirstAdded.displayName) {
-        let language = LocalizationUtils.getCurrentLanguageCode()
-        isLoading = true
-        moviesUseCaseProvider.executeUseCase { manager, provider in
-            Task { @MainActor [weak self] in
-                try await asyncFunction(
-                    for: manager.getWatchlistMovies(
-                        provider,
-                        sortBy: sortBy,
-                        language: language
-                    )
-                )
-                .onSuccess { data in
-                    let movies = data as? [SharedMovie] ?? []
-                    self?.movies = movies.map { $0.toMovie() }
-                    self?.isLoading = false
-                }
-                .onFailure { errorMessage in
-                    self?.errorMessage = errorMessage?.statusMessage ?? ""
-                    self?.isLoading = false
-                }
+        self.isLoading = true
+        
+        getWatchlistUseCase.execute(
+            sortBy: sortBy,
+            language: LocalizationUtils.getCurrentLanguageCode()
+        )
+        .sink { _ in
+            print("getting watchlist!")
+        } receiveValue: { [weak self] response in
+            self?.isLoading = false
+            switch response {
+            case .success(let movies):
+                self?.movies = movies ?? []
+            case .failure(let error):
+                self?.errorMessage = error ?? ""
             }
         }
+        .store(in: &cancellable)
     }
     
     // MARK: - View functions.
@@ -67,9 +62,10 @@ class WatchlistViewModel: ObservableObject {
         $sortType
             .removeDuplicates()
             .receive(on: DispatchQueue.main)
-            .sink { option in
+            .sink { [weak self] option in
+                print("filter by this option: \(option)")
                 let sortType = SortType.allCases.first { $0.displayName == option }?.sortType
-                self.getWatchlistMovies(sortBy: sortType ?? SortType.FirstAdded.sortType)
+                self?.getWatchlistMovies(sortBy: sortType ?? SortType.FirstAdded.sortType)
             }
             .store(in: &cancellable)
     }

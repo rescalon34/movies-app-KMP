@@ -1,12 +1,10 @@
 import SwiftUI
 
 struct ContentView: View {
-
+    
+    let dependencyContainer: DependencyContainer
+        
 	var body: some View {
-        BottomTabView()
+        BottomTabView(dependencyContainer: dependencyContainer)
 	}
-}
-
-#Preview {
-    ContentView()
 }

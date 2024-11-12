@@ -11,10 +11,21 @@ import SwiftUI
 struct WatchlistScreenView: View {
     
     // MARK: - ViewModel
-    @StateObject var viewModel: WatchlistViewModel = .init()
+    @StateObject var viewModel: WatchlistViewModel
     
     // MARK: - Properties
     @State private var isPresented = false
+    
+    // MARK: - Init
+    init(dependencyContainer: DependencyContainer) {
+        let getWatchlistUseCase = dependencyContainer
+            .useCaseContainer
+            .makeGetWatchlistUseCase()
+        
+        _viewModel = StateObject(
+            wrappedValue: WatchlistViewModel(getWatchlistUseCase: getWatchlistUseCase)
+        )
+    }
     
     // MARK: Body
     var body: some View {
@@ -89,5 +100,5 @@ struct WatchlistScreenView: View {
 }
 
 #Preview {
-    WatchlistScreenView()
+    return WatchlistScreenView(dependencyContainer: .shared)
 }
