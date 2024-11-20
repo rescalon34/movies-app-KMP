@@ -11,7 +11,6 @@ import SwiftUI
 /// This Bottom TabView contains all the menu options available.
 struct BottomTabView: View {
     @State private var selectedTabItem : BottomTabItem = .Home
-    let dependencyContainer: DependencyContainer
     
     var body: some View {
         bottomTabView
@@ -22,18 +21,19 @@ struct BottomTabView: View {
         TabView(selection: $selectedTabItem) {
             HomeScreenView()
                 .tabItem { Image(systemName: "house.fill") }
-            .tag(BottomTabItem.Home)
-            WatchlistScreenView(dependencyContainer: dependencyContainer)
-                .tabItem { Image(systemName: "plus.circle.fill") }
+                .tag(BottomTabItem.Home)
+            
+            WatchlistScreenView(viewModel: .init(dependencies: WatchlistViewModelDependencies()))
+            .tabItem { Image(systemName: "plus.circle.fill") }
             .tag(BottomTabItem.Watchlist)
             
             ProfileScreenView()
                 .tabItem { Image(systemName: "person.crop.circle.fill") }
-            .tag(BottomTabItem.Profile)
+                .tag(BottomTabItem.Profile)
         }
     }
 }
 
 #Preview {
-    return BottomTabView(dependencyContainer: .shared)
+    return BottomTabView()
 }

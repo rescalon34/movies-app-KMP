@@ -10,22 +10,37 @@ import Combine
 import KMPNativeCoroutinesCombine
 import Shared
 
-class GetWatchlistUseCaseImpl: GetWatchlistUseCase {
+// MARK: Protocol for DI
+protocol HasGetWatchlistUseCase {
+    var watchlistUseCase: GetWatchlistUseCaseType { get }
+}
+
+// MARK: UseCase Protocol
+protocol GetWatchlistUseCaseType {
+    func getWatchlist(sortBy: String, language: String) -> AnyPublisher<CustomNetworkResult<[Movie]>, Error>
+}
+
+// MARK: UseCase Implementation
+struct GetWatchlistUseCase: GetWatchlistUseCaseType {
     
-    // MARK: - Provider
-    let moviesUseCaseProvider: MoviesUseCaseProvider
+    // MARK: Dependencies
+    typealias Dependencies = HasSharedKMPManager
+    private let dependencies: Dependencies
     
-    // MARK: - Init
-    init(moviesUseCaseProvider: MoviesUseCaseProvider) {
-        self.moviesUseCaseProvider = moviesUseCaseProvider
+    // MARK: Shared Instance
+    static var shared = GetWatchlistUseCase(dependencies: GetWatchlistUseCaseDependencies())
+    
+    // MARK: Initializer
+    init(dependencies: Dependencies) {
+        self.dependencies = dependencies
     }
     
     // MARK: - Combine function to fetch movies from the shared SDK.
-    func execute(sortBy: String, language: String) -> AnyPublisher<CustomNetworkResult<[Movie]>, Error> {
+    func getWatchlist(sortBy: String, language: String) -> AnyPublisher<CustomNetworkResult<[Movie]>, Error> {
         
         let future = createFuture(
             for: MoviesUseCaseProviderNativeKt.getWatchlistMovies(
-                moviesUseCaseProvider, 
+                dependencies.sharedKMPManager.makeMoviesUseCaseProvider(),
                 sortBy: sortBy,
                 language: language
             )
@@ -49,4 +64,9 @@ class GetWatchlistUseCaseImpl: GetWatchlistUseCase {
             .receive(on: DispatchQueue.main)
             .eraseToAnyPublisher()
     }
+}
+
+// MARK: GetWatchlistUseCase Dependencies
+struct GetWatchlistUseCaseDependencies: HasSharedKMPManager {
+    var sharedKMPManager: SharedKMPManagerType = SharedKMPManager.shared
 }

@@ -11,34 +11,36 @@ import Foundation
 
 class WatchlistViewModel: ObservableObject {
     
-    // MARK: - UseCase properties
-    let getWatchlistUseCase: GetWatchlistUseCase
+    // MARK: - Dependencies
+    typealias Dependencies = HasGetWatchlistUseCase
     
-    // MARK: - Published properties
+    // MARK: - Publishers
     @Published var isLoading: Bool = false
     @Published var movies: [Movie] = []
     @Published var errorMessage: String = ""
     @Published var sortType: String = SortType.FirstAdded.displayName
     @Published var sortOptions: [String] = SortType.allCases.map { $0.displayName }
     
-    // MARK: - Combine properties
+    // MARK: - Combine
     private var cancellable = Set<AnyCancellable>()
     
-    // MARK: - init
-    init(getWatchlistUseCase: GetWatchlistUseCase) {
-        self.getWatchlistUseCase = getWatchlistUseCase
+    // MARK: - Properties
+    private let dependencies: Dependencies
+    
+    // MARK: - Initializer
+    init(dependencies: Dependencies) {
+        self.dependencies = dependencies
         self.setupBindings()
         self.getWatchlistMovies()
     }
     
-    // MARK: - UseCase functions
+    // MARK: - Fetching data from network.
     func getWatchlistMovies(sortBy: String = SortType.FirstAdded.displayName) {
         self.isLoading = true
         
-        getWatchlistUseCase.execute(
-            sortBy: sortBy,
-            language: LocalizationUtils.getCurrentLanguageCode()
-        )
+        dependencies
+            .watchlistUseCase
+            .getWatchlist(sortBy: sortBy,language: LocalizationUtils.getCurrentLanguageCode())
         .sink { _ in
             print("getting watchlist!")
         } receiveValue: { [weak self] response in
@@ -69,4 +71,9 @@ class WatchlistViewModel: ObservableObject {
             }
             .store(in: &cancellable)
     }
+}
+
+// MARK: - Dependencies
+struct WatchlistViewModelDependencies: WatchlistViewModel.Dependencies {
+    var watchlistUseCase: GetWatchlistUseCaseType = GetWatchlistUseCase.shared
 }

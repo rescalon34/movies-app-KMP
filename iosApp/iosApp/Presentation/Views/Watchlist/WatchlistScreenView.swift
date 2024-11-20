@@ -10,22 +10,9 @@ import SwiftUI
 
 struct WatchlistScreenView: View {
     
-    // MARK: - ViewModel
-    @StateObject var viewModel: WatchlistViewModel
-    
     // MARK: - Properties
+    @StateObject var viewModel: WatchlistViewModel
     @State private var isPresented = false
-    
-    // MARK: - Init
-    init(dependencyContainer: DependencyContainer) {
-        let getWatchlistUseCase = dependencyContainer
-            .useCaseContainer
-            .makeGetWatchlistUseCase()
-        
-        _viewModel = StateObject(
-            wrappedValue: WatchlistViewModel(getWatchlistUseCase: getWatchlistUseCase)
-        )
-    }
     
     // MARK: Body
     var body: some View {
@@ -45,19 +32,7 @@ struct WatchlistScreenView: View {
         }
     }
     
-    @ToolbarContentBuilder
-    var watchlistToolbarContent: some ToolbarContent {
-        ToolbarItem(placement: .topBarTrailing) {
-            CategoryCardView(
-                selectedCategory: viewModel.sortType,
-                onCategoryClick: {
-                    isPresented.toggle()
-                }
-            )
-        }
-    }
-    
-    // MARK: - Views
+    // MARK: - Content
     @ViewBuilder
     var mainContent: some View {
         if viewModel.errorMessage.isEmpty {
@@ -70,6 +45,19 @@ struct WatchlistScreenView: View {
             .scrollIndicators(.hidden)
         } else {
             watchlistErrorMessage
+        }
+    }
+    
+    // MARK: - Views
+    @ToolbarContentBuilder
+    var watchlistToolbarContent: some ToolbarContent {
+        ToolbarItem(placement: .topBarTrailing) {
+            CategoryCardView(
+                selectedCategory: viewModel.sortType,
+                onCategoryClick: {
+                    isPresented.toggle()
+                }
+            )
         }
     }
     
@@ -100,5 +88,7 @@ struct WatchlistScreenView: View {
 }
 
 #Preview {
-    return WatchlistScreenView(dependencyContainer: .shared)
+    return WatchlistScreenView(
+        viewModel: .init(dependencies: WatchlistViewModelDependencies())
+    )
 }
