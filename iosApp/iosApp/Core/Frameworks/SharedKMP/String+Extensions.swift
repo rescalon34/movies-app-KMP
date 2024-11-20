@@ -16,7 +16,7 @@ extension String? {
     ///
     func getSizedImage(_ imageSize: String = SharedSDKExtensionKt.DEFAULT_POSTER_SIZE) -> String {
         SharedSDKExtensionKt.getSizedImage(
-            self ?? "", 
+            self ?? "",
             imageSize: imageSize
         )
     }

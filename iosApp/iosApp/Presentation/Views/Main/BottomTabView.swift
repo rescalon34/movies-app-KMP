@@ -24,8 +24,8 @@ struct BottomTabView: View {
                 .tag(BottomTabItem.Home)
             
             WatchlistScreenView(viewModel: .init(dependencies: WatchlistViewModelDependencies()))
-            .tabItem { Image(systemName: "plus.circle.fill") }
-            .tag(BottomTabItem.Watchlist)
+                .tabItem { Image(systemName: "plus.circle.fill") }
+                .tag(BottomTabItem.Watchlist)
             
             ProfileScreenView()
                 .tabItem { Image(systemName: "person.crop.circle.fill") }
