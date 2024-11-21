@@ -10,10 +10,8 @@ import SwiftUI
 
 struct WatchlistScreenView: View {
     
-    // MARK: - ViewModel
-    @StateObject var viewModel: WatchlistViewModel = .init()
-    
     // MARK: - Properties
+    @StateObject var viewModel: WatchlistViewModel
     @State private var isPresented = false
     
     // MARK: Body
@@ -34,19 +32,7 @@ struct WatchlistScreenView: View {
         }
     }
     
-    @ToolbarContentBuilder
-    var watchlistToolbarContent: some ToolbarContent {
-        ToolbarItem(placement: .topBarTrailing) {
-            CategoryCardView(
-                selectedCategory: viewModel.sortType,
-                onCategoryClick: {
-                    isPresented.toggle()
-                }
-            )
-        }
-    }
-    
-    // MARK: - Views
+    // MARK: - Content
     @ViewBuilder
     var mainContent: some View {
         if viewModel.errorMessage.isEmpty {
@@ -59,6 +45,19 @@ struct WatchlistScreenView: View {
             .scrollIndicators(.hidden)
         } else {
             watchlistErrorMessage
+        }
+    }
+    
+    // MARK: - Views
+    @ToolbarContentBuilder
+    var watchlistToolbarContent: some ToolbarContent {
+        ToolbarItem(placement: .topBarTrailing) {
+            CategoryCardView(
+                selectedCategory: viewModel.sortType,
+                onCategoryClick: {
+                    isPresented.toggle()
+                }
+            )
         }
     }
     
@@ -89,5 +88,7 @@ struct WatchlistScreenView: View {
 }
 
 #Preview {
-    WatchlistScreenView()
+    return WatchlistScreenView(
+        viewModel: .init(dependencies: WatchlistViewModelDependencies())
+    )
 }

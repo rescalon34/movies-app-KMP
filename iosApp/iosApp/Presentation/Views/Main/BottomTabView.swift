@@ -21,19 +21,19 @@ struct BottomTabView: View {
         TabView(selection: $selectedTabItem) {
             HomeScreenView()
                 .tabItem { Image(systemName: "house.fill") }
-            .tag(BottomTabItem.Home)
+                .tag(BottomTabItem.Home)
             
-            WatchlistScreenView()
+            WatchlistScreenView(viewModel: .init(dependencies: WatchlistViewModelDependencies()))
                 .tabItem { Image(systemName: "plus.circle.fill") }
-            .tag(BottomTabItem.Watchlist)
+                .tag(BottomTabItem.Watchlist)
             
             ProfileScreenView()
                 .tabItem { Image(systemName: "person.crop.circle.fill") }
-            .tag(BottomTabItem.Profile)
+                .tag(BottomTabItem.Profile)
         }
     }
 }
 
 #Preview {
-    BottomTabView()
+    return BottomTabView()
 }

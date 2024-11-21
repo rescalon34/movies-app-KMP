@@ -17,19 +17,14 @@ import kotlin.jvm.Synchronized
 class SharedCoreManager private constructor() {
 
     /**
-     * Provides a single instance of the SharedCoreManager class.
+     * Object to store in memory the provided API Key and AccessToken from the consumers.
      */
-    companion object {
-        private var instance: SharedCoreManager? = null
+    private val tokenManager: TokenManager = TokenManager
 
-        @Synchronized
-        fun getInstance(): SharedCoreManager {
-            if (instance == null) {
-                instance = SharedCoreManager()
-            }
-            return instance ?: throw IllegalStateException("Couldn't initialize SharedCoreManager")
-        }
-    }
+    /**
+     * Will allow to create instances of UseCaseProviders.
+     */
+    private val factoryProvider: SharedUseCaseProviderFactory = SharedUseCaseProviderFactoryImpl()
 
     /**
      * Entry initialization function exposed to the clients, any other internal initialization
@@ -62,11 +57,18 @@ class SharedCoreManager private constructor() {
     }
 
     /**
-     * Object to store in memory the provided API Key and AccessToken from the consumers.
+     * Set API Key, Intended to be used when this value is not available at SDK initialization time.
      */
-    private val tokenManager: TokenManager = TokenManager
+    fun setApiKey(key: String) {
+        tokenManager.apiKey = key
+    }
 
-    private val factoryProvider: SharedUseCaseProviderFactory = SharedUseCaseProviderFactoryImpl()
+    /**
+     * Set Access Token, Intended to be used when this value is not available at SDK initialization time.
+     */
+    fun setAccessToken(token: String) {
+        tokenManager.accessToken = token
+    }
 
     /**
      * This function allows a smart way to create a UseCaseProvider by specifying the type of UseCase
@@ -79,10 +81,27 @@ class SharedCoreManager private constructor() {
      * Provides specific functions to create instances of each UseCaseProvider, that works well on
      * cross-platform compatibility.
      *
-     * This functions allow consumers to obtain the corresponding UseCaseProvider instance without
+     * These functions allow consumers to get the corresponding UseCaseProvider instance without
      * needing generics. This approach is preferred for iOS interoperability, as it avoids the
-     * limitations of inline functions and reified types, which are unsupported in Swift and Objective-C.
+     * limitations of inline functions and reified types, which are unsupported in Swift and Objective-C
+     * when using Kotlin Multiplatform.
      */
     fun createMoviesUseCaseProvider(): MoviesUseCaseProvider = createUseCaseProvider()
+
     fun createProfileUseCaseProvider(): ProfileUseCaseProvider = createUseCaseProvider()
+
+    /**
+     * Provides a single instance of the SharedCoreManager class.
+     */
+    companion object {
+        private var instance: SharedCoreManager? = null
+
+        @Synchronized
+        fun getInstance(): SharedCoreManager {
+            if (instance == null) {
+                instance = SharedCoreManager()
+            }
+            return instance ?: throw IllegalStateException("Couldn't initialize SharedCoreManager")
+        }
+    }
 }
