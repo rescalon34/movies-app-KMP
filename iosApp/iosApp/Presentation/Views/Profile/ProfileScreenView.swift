@@ -38,7 +38,7 @@ struct ProfileScreenView: View {
     @ViewBuilder
     var profileHeader: some View {
         VStack {
-            MovieItemView(
+            AsyncImageItemView(
                 imageUrl: viewModel.profile?.imageUrl ?? "",
                 movieItemSize: CGSize(width: 150, height: 150)
             )

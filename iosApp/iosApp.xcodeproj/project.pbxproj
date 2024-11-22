@@ -30,7 +30,7 @@
 		255EFFB02C90C0CF006857C8 /* View+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 255EFFAF2C90C0CF006857C8 /* View+Extensions.swift */; };
 		255EFFB22C90C10C006857C8 /* LazyVGridMoviesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 255EFFB12C90C10C006857C8 /* LazyVGridMoviesView.swift */; };
 		255EFFB42C90DD58006857C8 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 255EFFB32C90DD58006857C8 /* Constants.swift */; };
-		255EFFB62C90DDAA006857C8 /* MovieItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 255EFFB52C90DDAA006857C8 /* MovieItemView.swift */; };
+		255EFFB62C90DDAA006857C8 /* AsyncImageItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 255EFFB52C90DDAA006857C8 /* AsyncImageItemView.swift */; };
 		255EFFBA2C90ECD7006857C8 /* BackgroundBlurView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 255EFFB92C90ECD7006857C8 /* BackgroundBlurView.swift */; };
 		255EFFC12C90EE52006857C8 /* SelectOptionScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 255EFFC02C90EE52006857C8 /* SelectOptionScreenView.swift */; };
 		255EFFC32C90F0E0006857C8 /* SortType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 255EFFC22C90F0E0006857C8 /* SortType.swift */; };
@@ -83,7 +83,7 @@
 		255EFFAF2C90C0CF006857C8 /* View+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extensions.swift"; sourceTree = "<group>"; };
 		255EFFB12C90C10C006857C8 /* LazyVGridMoviesView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LazyVGridMoviesView.swift; sourceTree = "<group>"; };
 		255EFFB32C90DD58006857C8 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
-		255EFFB52C90DDAA006857C8 /* MovieItemView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MovieItemView.swift; sourceTree = "<group>"; };
+		255EFFB52C90DDAA006857C8 /* AsyncImageItemView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsyncImageItemView.swift; sourceTree = "<group>"; };
 		255EFFB92C90ECD7006857C8 /* BackgroundBlurView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackgroundBlurView.swift; sourceTree = "<group>"; };
 		255EFFC02C90EE52006857C8 /* SelectOptionScreenView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectOptionScreenView.swift; sourceTree = "<group>"; };
 		255EFFC22C90F0E0006857C8 /* SortType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortType.swift; sourceTree = "<group>"; };
@@ -202,7 +202,7 @@
 			children = (
 				255EFFC42C90F463006857C8 /* CircleIconView.swift */,
 				255EFFB92C90ECD7006857C8 /* BackgroundBlurView.swift */,
-				255EFFB52C90DDAA006857C8 /* MovieItemView.swift */,
+				255EFFB52C90DDAA006857C8 /* AsyncImageItemView.swift */,
 				255EFFB12C90C10C006857C8 /* LazyVGridMoviesView.swift */,
 				255EFFAD2C90BE93006857C8 /* CategoryCardView.swift */,
 			);
@@ -486,7 +486,7 @@
 				2554A7522C8BBDC400B8E4C3 /* CustomColors.swift in Sources */,
 				25EC33502CDC589400A14E8D /* GetWatchlistUseCase.swift in Sources */,
 				255EFFAA2C8FEE1F006857C8 /* ProfileScreenView.swift in Sources */,
-				255EFFB62C90DDAA006857C8 /* MovieItemView.swift in Sources */,
+				255EFFB62C90DDAA006857C8 /* AsyncImageItemView.swift in Sources */,
 				25DBD9A62CED9FB000E0142E /* GetProfileUseCase.swift in Sources */,
 				255EFFC32C90F0E0006857C8 /* SortType.swift in Sources */,
 				25DBD9AD2CEFD7A600E0142E /* Profile+Extensions.swift in Sources */,
