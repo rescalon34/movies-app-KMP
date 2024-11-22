@@ -37,6 +37,13 @@
 		255EFFC52C90F463006857C8 /* CircleIconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 255EFFC42C90F463006857C8 /* CircleIconView.swift */; };
 		257424D22CA514AC000441FA /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257424D12CA514AC000441FA /* String+Extensions.swift */; };
 		25DBD9A62CED9FB000E0142E /* GetProfileUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25DBD9A52CED9FB000E0142E /* GetProfileUseCase.swift */; };
+		25DBD9A92CEFD5AC00E0142E /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25DBD9A82CEFD5AC00E0142E /* ProfileViewModel.swift */; };
+		25DBD9AB2CEFD5EF00E0142E /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25DBD9AA2CEFD5EF00E0142E /* Profile.swift */; };
+		25DBD9AD2CEFD7A600E0142E /* Profile+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25DBD9AC2CEFD7A600E0142E /* Profile+Extensions.swift */; };
+		25DBD9B42CEFEA6A00E0142E /* CircularShapeModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25DBD9B32CEFEA6A00E0142E /* CircularShapeModifier.swift */; };
+		25DBD9B62CEFFFD600E0142E /* RoundedBorderModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25DBD9B52CEFFFD600E0142E /* RoundedBorderModifier.swift */; };
+		25DBD9B92CF025F000E0142E /* CustomNavigationLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25DBD9B82CF025F000E0142E /* CustomNavigationLink.swift */; };
+		25DBD9BB2CF0272D00E0142E /* ComingSoonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25DBD9BA2CF0272D00E0142E /* ComingSoonView.swift */; };
 		25EC33502CDC589400A14E8D /* GetWatchlistUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25EC334F2CDC589400A14E8D /* GetWatchlistUseCase.swift */; };
 		25EC33552CDDAE5800A14E8D /* CustomNetworkResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25EC33542CDDAE5800A14E8D /* CustomNetworkResult.swift */; };
 		25EC33592CDDB7C200A14E8D /* SharedKMPManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25EC33582CDDB7C200A14E8D /* SharedKMPManager.swift */; };
@@ -83,6 +90,13 @@
 		255EFFC42C90F463006857C8 /* CircleIconView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircleIconView.swift; sourceTree = "<group>"; };
 		257424D12CA514AC000441FA /* String+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extensions.swift"; sourceTree = "<group>"; };
 		25DBD9A52CED9FB000E0142E /* GetProfileUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetProfileUseCase.swift; sourceTree = "<group>"; };
+		25DBD9A82CEFD5AC00E0142E /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
+		25DBD9AA2CEFD5EF00E0142E /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
+		25DBD9AC2CEFD7A600E0142E /* Profile+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Profile+Extensions.swift"; sourceTree = "<group>"; };
+		25DBD9B32CEFEA6A00E0142E /* CircularShapeModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularShapeModifier.swift; sourceTree = "<group>"; };
+		25DBD9B52CEFFFD600E0142E /* RoundedBorderModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedBorderModifier.swift; sourceTree = "<group>"; };
+		25DBD9B82CF025F000E0142E /* CustomNavigationLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNavigationLink.swift; sourceTree = "<group>"; };
+		25DBD9BA2CF0272D00E0142E /* ComingSoonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComingSoonView.swift; sourceTree = "<group>"; };
 		25EC334F2CDC589400A14E8D /* GetWatchlistUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetWatchlistUseCase.swift; sourceTree = "<group>"; };
 		25EC33542CDDAE5800A14E8D /* CustomNetworkResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNetworkResult.swift; sourceTree = "<group>"; };
 		25EC33582CDDB7C200A14E8D /* SharedKMPManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedKMPManager.swift; sourceTree = "<group>"; };
@@ -116,6 +130,7 @@
 			isa = PBXGroup;
 			children = (
 				2509B0422CC9F17400AF994A /* Movie+Extensions.swift */,
+				25DBD9AC2CEFD7A600E0142E /* Profile+Extensions.swift */,
 			);
 			path = Mapper;
 			sourceTree = "<group>";
@@ -123,6 +138,8 @@
 		2554A7442C8BBC5000B8E4C3 /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				25DBD9B72CF025DB00E0142E /* Navigation */,
+				25DBD9B22CEFEA5A00E0142E /* Modifiers */,
 				25EC33572CDDB79B00A14E8D /* Frameworks */,
 				2554A7472C8BBC7600B8E4C3 /* Util */,
 				2554A7462C8BBC6F00B8E4C3 /* Extensions */,
@@ -175,6 +192,7 @@
 				2554A7532C8BBE7300B8E4C3 /* Base */,
 				2554A74C2C8BBCBF00B8E4C3 /* Watchlist */,
 				2554A74B2C8BBCBA00B8E4C3 /* Home */,
+				25DBD9BA2CF0272D00E0142E /* ComingSoonView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -229,6 +247,7 @@
 			isa = PBXGroup;
 			children = (
 				255EFFA92C8FEE1F006857C8 /* ProfileScreenView.swift */,
+				25DBD9A82CEFD5AC00E0142E /* ProfileViewModel.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -248,6 +267,7 @@
 			isa = PBXGroup;
 			children = (
 				2509B03F2CC9F0A100AF994A /* Movie.swift */,
+				25DBD9AA2CEFD5EF00E0142E /* Profile.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -268,6 +288,23 @@
 				25EC33582CDDB7C200A14E8D /* SharedKMPManager.swift */,
 			);
 			path = SharedKMP;
+			sourceTree = "<group>";
+		};
+		25DBD9B22CEFEA5A00E0142E /* Modifiers */ = {
+			isa = PBXGroup;
+			children = (
+				25DBD9B32CEFEA6A00E0142E /* CircularShapeModifier.swift */,
+				25DBD9B52CEFFFD600E0142E /* RoundedBorderModifier.swift */,
+			);
+			path = Modifiers;
+			sourceTree = "<group>";
+		};
+		25DBD9B72CF025DB00E0142E /* Navigation */ = {
+			isa = PBXGroup;
+			children = (
+				25DBD9B82CF025F000E0142E /* CustomNavigationLink.swift */,
+			);
+			path = Navigation;
 			sourceTree = "<group>";
 		};
 		25EC334C2CDB260400A14E8D /* UseCase */ = {
@@ -435,12 +472,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				250A20C12C9E79BF006534A4 /* AppDelegate.swift in Sources */,
+				25DBD9AB2CEFD5EF00E0142E /* Profile.swift in Sources */,
 				2554A74E2C8BBCD300B8E4C3 /* HomeScreenView.swift in Sources */,
+				25DBD9A92CEFD5AC00E0142E /* ProfileViewModel.swift in Sources */,
 				255EFFA52C8FECC5006857C8 /* BottomTabItem.swift in Sources */,
 				255EFFAC2C90BCF9006857C8 /* WatchlistViewModel.swift in Sources */,
 				2509B0402CC9F0A100AF994A /* Movie.swift in Sources */,
 				255EFFA72C8FEDB7006857C8 /* WatchlistScreenView.swift in Sources */,
 				255EFFAE2C90BE93006857C8 /* CategoryCardView.swift in Sources */,
+				25DBD9B42CEFEA6A00E0142E /* CircularShapeModifier.swift in Sources */,
 				255EFFC52C90F463006857C8 /* CircleIconView.swift in Sources */,
 				255EFFB42C90DD58006857C8 /* Constants.swift in Sources */,
 				2554A7522C8BBDC400B8E4C3 /* CustomColors.swift in Sources */,
@@ -449,8 +489,11 @@
 				255EFFB62C90DDAA006857C8 /* MovieItemView.swift in Sources */,
 				25DBD9A62CED9FB000E0142E /* GetProfileUseCase.swift in Sources */,
 				255EFFC32C90F0E0006857C8 /* SortType.swift in Sources */,
+				25DBD9AD2CEFD7A600E0142E /* Profile+Extensions.swift in Sources */,
+				25DBD9B62CEFFFD600E0142E /* RoundedBorderModifier.swift in Sources */,
 				255EFFBA2C90ECD7006857C8 /* BackgroundBlurView.swift in Sources */,
 				255EFFC12C90EE52006857C8 /* SelectOptionScreenView.swift in Sources */,
+				25DBD9B92CF025F000E0142E /* CustomNavigationLink.swift in Sources */,
 				2554A7502C8BBD9B00B8E4C3 /* Color.swift in Sources */,
 				255EFFB22C90C10C006857C8 /* LazyVGridMoviesView.swift in Sources */,
 				25EC33592CDDB7C200A14E8D /* SharedKMPManager.swift in Sources */,
@@ -459,6 +502,7 @@
 				255EFFB02C90C0CF006857C8 /* View+Extensions.swift in Sources */,
 				257424D22CA514AC000441FA /* String+Extensions.swift in Sources */,
 				2501AD3C2CB780FB00EB4ACD /* LocalizationUtils.swift in Sources */,
+				25DBD9BB2CF0272D00E0142E /* ComingSoonView.swift in Sources */,
 				2152FB042600AC8F00CF470E /* iOSApp.swift in Sources */,
 				2509B0432CC9F17400AF994A /* Movie+Extensions.swift in Sources */,
 				2554A7552C8BBE8200B8E4C3 /* BaseScreenView.swift in Sources */,

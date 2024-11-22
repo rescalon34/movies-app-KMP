@@ -38,7 +38,8 @@ struct LazyVGridMoviesView: View {
                 MovieItemView(
                     imageUrl: movie.imageUrl,
                     movieItemSize: movieItemSize
-                ).onTapGesture {
+                )
+                .onTapGesture {
                     onMovieClicked(movie)
                 }
             }

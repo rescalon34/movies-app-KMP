@@ -11,7 +11,7 @@ struct MovieItemView: View {
     
     // MARK: - Properties
     let imageUrl: String?
-    var movieItemSize: CGSize = CGSize(width: 110, height: 160)
+    var movieItemSize: CGSize = CGSize(width: 110, height: 110)
     
     // MARK: Body
     var body: some View {

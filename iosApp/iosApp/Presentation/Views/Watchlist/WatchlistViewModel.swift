@@ -14,7 +14,7 @@ class WatchlistViewModel: ObservableObject {
     // MARK: - Dependencies
     typealias Dependencies = HasGetWatchlistUseCase
     
-    // MARK: - Publishers
+    // MARK: - Published
     @Published var isLoading: Bool = false
     @Published var movies: [Movie] = []
     @Published var errorMessage: String = ""

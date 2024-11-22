@@ -7,6 +7,9 @@
 //
 
 import Foundation
+import Combine
+import Shared
+import KMPNativeCoroutinesCombine
 
 // MARK: - DI
 protocol HasGetProfileUseCase {
@@ -15,7 +18,7 @@ protocol HasGetProfileUseCase {
 
 // MARK: UseCase protocol
 protocol GetProfileUseCaseType {
-    func getProfile() -> String
+    func getProfile() -> AnyPublisher<CustomNetworkResult<Profile>, Error>
 }
 
 // MARK: UseCase implementation
@@ -34,8 +37,33 @@ struct GetProfileUseCase: GetProfileUseCaseType {
     }
     
     // MARK: - Fetch profile information.
-    func getProfile() -> String {
-        "rescalon34"
+    func getProfile() -> AnyPublisher<CustomNetworkResult<Profile>, Error> {
+        
+        let future = createFuture(
+            for: ProfileUseCaseProviderNativeKt.getProfile(
+                dependencies.sharedKMPManager.makeProfileUseCaseProvider()
+            )
+        )
+        
+        return future
+            .compactMap { networkResult in
+                var result: CustomNetworkResult<Profile>? = nil
+                networkResult
+                    .onSuccess { data in
+                        result = CustomNetworkResult.success(
+                            (data as? SharedProfile)?.toProfile()
+                        )
+                    }
+                    .onFailure { errorMessage in
+                        result = CustomNetworkResult.failure(
+                            errorMessage?.statusMessage ?? ""
+                        )
+                    }
+                
+                return result
+            }
+            .receive(on: DispatchQueue.main)
+            .eraseToAnyPublisher()
     }
 }
 

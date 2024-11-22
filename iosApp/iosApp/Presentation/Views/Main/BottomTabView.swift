@@ -27,7 +27,7 @@ struct BottomTabView: View {
                 .tabItem { Image(systemName: "plus.circle.fill") }
                 .tag(BottomTabItem.Watchlist)
             
-            ProfileScreenView()
+            ProfileScreenView(viewModel: .init(dependencies: ProfileViewModelDependencies()))
                 .tabItem { Image(systemName: "person.crop.circle.fill") }
                 .tag(BottomTabItem.Profile)
         }
@@ -35,5 +35,5 @@ struct BottomTabView: View {
 }
 
 #Preview {
-    return BottomTabView()
+    BottomTabView()
 }
