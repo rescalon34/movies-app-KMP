@@ -7,11 +7,11 @@
 
 import SwiftUI
 
-struct MovieItemView: View {
+struct AsyncImageItemView: View {
     
     // MARK: - Properties
     let imageUrl: String?
-    var movieItemSize: CGSize = CGSize(width: 110, height: 160)
+    var movieItemSize: CGSize = CGSize(width: 110, height: 110)
     
     // MARK: Body
     var body: some View {
@@ -41,5 +41,5 @@ struct MovieItemView: View {
 }
 
 #Preview {
-    MovieItemView(imageUrl: DEFAULT_PLACEHOLDER_POSTER)
+    AsyncImageItemView(imageUrl: DEFAULT_PLACEHOLDER_POSTER)
 }

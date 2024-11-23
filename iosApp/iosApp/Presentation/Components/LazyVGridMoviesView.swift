@@ -35,10 +35,11 @@ struct LazyVGridMoviesView: View {
             spacing: lazyVGridSpacing.vertical
         ) {
             ForEach(movies) { movie in
-                MovieItemView(
+                AsyncImageItemView(
                     imageUrl: movie.imageUrl,
                     movieItemSize: movieItemSize
-                ).onTapGesture {
+                )
+                .onTapGesture {
                     onMovieClicked(movie)
                 }
             }

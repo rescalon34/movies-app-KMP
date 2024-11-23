@@ -40,4 +40,21 @@ extension View {
             )
         )
     }
+    
+    func circularGradientOverlay() -> some View {
+        Circle().stroke(
+            AngularGradient(
+                gradient: Gradient(colors: [Color.purple, Color.mint, Color.indigo]), center: .leading
+            ),
+            lineWidth: 3
+        )
+    }
+    
+    func circularShape() -> some View {
+            self.modifier(CircularShapeModifier())
+        }
+    
+    func roundedBorderShape() -> some View {
+        self.modifier(RoundedBorderModifier())
+    }
 }
