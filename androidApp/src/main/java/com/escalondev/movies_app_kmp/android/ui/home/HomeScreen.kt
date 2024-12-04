@@ -76,7 +76,7 @@ fun HomeContent(uiState: HomeUiState) {
             if (uiState.pagerMovies.isNotEmpty()) {
                 MainMoviesContent(
                     modifier = Modifier.padding(paddingValues),
-                    uiState
+                    uiState = uiState
                 )
             }
         }
@@ -91,18 +91,18 @@ fun MainMoviesContent(
     Column(modifier.verticalScroll(rememberScrollState())) {
         HorizontalPagerMoviesSection(pagerItems = uiState.pagerMovies)
         HorizontalMoviesSection(
-            movies = uiState.popularMovies,
             category = stringResource(R.string.popular),
+            movies = uiState.popularMovies,
             content = { MovieItem(movie = it) }
         )
         HorizontalMoviesSection(
-            movies = uiState.nowPlayingMovies,
             category = stringResource(R.string.now_playing),
+            movies = uiState.nowPlayingMovies,
             content = { NowPlayingMovieBannerItem(movie = it) }
         )
         HorizontalMoviesSection(
-            movies = uiState.topRatedMovies,
             category = stringResource(R.string.top_rated),
+            movies = uiState.topRatedMovies,
             content = { MovieItem(movie = it) }
         )
     }
