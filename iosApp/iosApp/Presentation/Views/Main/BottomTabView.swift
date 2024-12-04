@@ -19,7 +19,7 @@ struct BottomTabView: View {
     // MARK: - BottomTabView items.
     var bottomTabView: some View {
         TabView(selection: $selectedTabItem) {
-            HomeScreenView()
+            HomeScreenView(viewModel: .init(dependencies: HomeViewModelDependencies()))
                 .tabItem { Image(systemName: "house.fill") }
                 .tag(BottomTabItem.Home)
             

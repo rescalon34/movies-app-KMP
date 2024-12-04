@@ -88,7 +88,7 @@ struct WatchlistScreenView: View {
 }
 
 #Preview {
-    return WatchlistScreenView(
+    WatchlistScreenView(
         viewModel: .init(dependencies: WatchlistViewModelDependencies())
     )
 }
