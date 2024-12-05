@@ -17,6 +17,8 @@ import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.Logging
 import io.ktor.client.request.header
+import io.ktor.http.ContentType
+import io.ktor.http.HttpHeaders
 import io.ktor.serialization.kotlinx.json.json
 
 /**
@@ -38,7 +40,10 @@ internal class NetworkingManagerImpl(
 
     private fun buildKtorClient(): HttpClient {
         return httpClient.config {
-            defaultRequest { url(BASE_URL) }
+            defaultRequest {
+                url(BASE_URL)
+                header(HttpHeaders.Accept, ContentType.Application.Json)
+            }
 
             // Json parsing
             install(ContentNegotiation) {
