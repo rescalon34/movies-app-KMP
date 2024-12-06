@@ -16,6 +16,8 @@ class HomeViewModel: ObservableObject {
     
     // MARK: - Published
     @Published var popularMovies: [Movie] = []
+    @Published var nowPlayingMovies: [Movie] = []
+    @Published var topRatedMovies: [Movie] = []
     @Published var errorMessage: String = ""
     @Published var isLoading: Bool = false
     
@@ -28,32 +30,49 @@ class HomeViewModel: ObservableObject {
     // MARK: - Initializer
     init(dependencies: Dependencies) {
         self.dependencies = dependencies
-        getMoviesByCategory(category: MovieFilter.Popular.type)
+        Task { await getAsyncMovies() }
     }
     
-    // MARK: - Fetch data from Network.
-    func getMoviesByCategory(category: String) {
+    // MARK: - Fetching all movies asynchronously
+    private func getAsyncMovies() async {
         self.isLoading = true
         
-        dependencies
+        async let popularMoviesRequest = getMoviesByCategory(MovieFilter.Popular.type)
+        async let nowPlayingRequest = getMoviesByCategory(MovieFilter.NowPlaying.type)
+        async let topRatedRequest = getMoviesByCategory(MovieFilter.TopRated.type)
+        
+        do {
+            let (popular, nowPlaying, topRated) = try await(
+                popularMoviesRequest,
+                nowPlayingRequest,
+                topRatedRequest
+            )
+            
+            self.popularMovies = popular
+            self.nowPlayingMovies = nowPlaying
+            self.topRatedMovies = topRated
+            
+        } catch { self.errorMessage = error.localizedDescription }
+        
+        self.isLoading = false
+    }
+    
+    // MARK: - Get movies by category.
+    private func getMoviesByCategory(_ category: String) async throws -> [Movie] {
+        let result = await dependencies
             .moviesUseCase
             .getMovies(
                 category: category,
                 page: ONE,
                 language: LocalizationUtils.getCurrentLanguageCode()
             )
-            .sink { _ in
-                print("fetching movies by category: \(category)")
-            } receiveValue: { [weak self] result in
-                self?.isLoading = false
-                switch result {
-                case .success(let movies):
-                    self?.popularMovies = movies ?? []
-                case .failure(let error):
-                    self?.errorMessage = error ?? ""
-                }
-            }
-            .store(in: &cancellable)
+        
+        switch result {
+        case .success(let movies):
+            return movies ?? []
+        case .failure(let error):
+            throw NSError.error(message: error)
+        }
     }
 }
 

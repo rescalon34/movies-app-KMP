@@ -6,8 +6,7 @@
 //  Copyright © 2024 orgName. All rights reserved.
 //
 
-import Combine
-import KMPNativeCoroutinesCombine
+import KMPNativeCoroutinesAsync
 import Shared
 
 // MARK: - Protocol for DI
@@ -21,7 +20,7 @@ protocol GetMoviesUseCaseType {
         category: String,
         page: Int,
         language: String
-    ) -> AnyPublisher<CustomNetworkResult<[Movie]>, Error>
+    ) async -> CustomNetworkResult<[Movie]>
 }
 
 // MARK: - UseCase Implementation
@@ -40,9 +39,8 @@ struct GetMoviesUseCase: GetMoviesUseCaseType {
     }
     
     // MARK: Fetch movies by categories from the KMP SDK.
-    func getMovies(category: String, page: Int, language: String) -> AnyPublisher<CustomNetworkResult<[Movie]>, Error> {
-        
-        let future = createFuture(
+    func getMovies(category: String, page: Int, language: String) async -> CustomNetworkResult<[Movie]> {
+        let asyncResult = await asyncResult(
             for: MoviesUseCaseProviderNativeKt.getMovies(
                 dependencies.sharedKMPManager.makeMoviesUseCaseProvider(),
                 category: category,
@@ -51,25 +49,22 @@ struct GetMoviesUseCase: GetMoviesUseCaseType {
             )
         )
         
-        return future
-            .compactMap { networkResult in
-                var result: CustomNetworkResult<[Movie]>? = nil
-                
-                // Map NetworkResult from Shared KMP SDK to a custom result.
-                networkResult
-                    .onSuccess { data in
-                        let movies = (data as? [SharedMovie])?.map { $0.toMovie() }
-                        result = CustomNetworkResult.success(movies)
-                    }
-                    .onFailure { errorMessage in
-                        result = CustomNetworkResult.failure(errorMessage?.statusMessage ?? "")
-                    }
-                
-                return result
-            }
-            .receive(on: DispatchQueue.main)
-            .eraseToAnyPublisher()
+        var result: CustomNetworkResult<[Movie]> = CustomNetworkResult.success([])
+        switch asyncResult {
+        case .success(let networkResult):
+            networkResult
+                .onSuccess { data in
+                    let movies = (data as? [SharedMovie])?.map { $0.toMovie() }
+                    result = CustomNetworkResult.success(movies)
+                }
+                .onFailure { errorMessage in
+                    result = CustomNetworkResult.failure(errorMessage?.statusMessage ?? "")
+                }
+        case .failure(let error):
+            result = CustomNetworkResult.failure(error.localizedDescription)
+        }
         
+        return result
     }
 }
 

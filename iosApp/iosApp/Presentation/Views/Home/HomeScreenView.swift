@@ -27,7 +27,7 @@ struct HomeScreenView: View {
     // MARK: - Main screen content
     @ViewBuilder
     var homeContent: some View {
-        if viewModel.errorMessage.isEmpty {
+        if viewModel.errorMessage.isEmpty && !viewModel.popularMovies.isEmpty {
             ScrollView {
                 mainMoviesContent
             }
@@ -48,13 +48,13 @@ struct HomeScreenView: View {
         
         HorizontalMoviesSectionView(
             title: MovieFilter.NowPlaying.displayName,
-            movies: viewModel.popularMovies,
+            movies: viewModel.nowPlayingMovies,
             onMovieClicked: { _ in }
         )
         
         HorizontalMoviesSectionView(
             title: MovieFilter.TopRated.displayName,
-            movies: viewModel.popularMovies,
+            movies: viewModel.topRatedMovies,
             onMovieClicked: { _ in }
         )
     }
