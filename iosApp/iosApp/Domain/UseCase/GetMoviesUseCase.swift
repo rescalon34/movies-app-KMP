@@ -20,7 +20,7 @@ protocol GetMoviesUseCaseType {
         category: String,
         page: Int,
         language: String
-    ) async -> CustomNetworkResult<[Movie]>
+    ) async -> Result<[Movie], Error>
 }
 
 // MARK: - UseCase Implementation
@@ -39,7 +39,7 @@ struct GetMoviesUseCase: GetMoviesUseCaseType {
     }
     
     // MARK: Fetch movies by categories from the KMP SDK.
-    func getMovies(category: String, page: Int, language: String) async -> CustomNetworkResult<[Movie]> {
+    func getMovies(category: String, page: Int, language: String) async -> Result<[Movie], Error> {
         let asyncResult = await asyncResult(
             for: MoviesUseCaseProviderNativeKt.getMovies(
                 dependencies.sharedKMPManager.makeMoviesUseCaseProvider(),
@@ -49,19 +49,19 @@ struct GetMoviesUseCase: GetMoviesUseCaseType {
             )
         )
         
-        var result: CustomNetworkResult<[Movie]> = CustomNetworkResult.success([])
+        var result: Result<[Movie], Error> = Result.failure(NSError())
         switch asyncResult {
         case .success(let networkResult):
             networkResult
                 .onSuccess { data in
                     let movies = (data as? [SharedMovie])?.map { $0.toMovie() }
-                    result = CustomNetworkResult.success(movies)
+                    result = Result.success(movies ?? [])
                 }
                 .onFailure { errorMessage in
-                    result = CustomNetworkResult.failure(errorMessage?.statusMessage ?? "")
+                    result = Result.failure(NSError.error(message: errorMessage?.statusMessage ?? ""))
                 }
         case .failure(let error):
-            result = CustomNetworkResult.failure(error.localizedDescription)
+            result = Result.failure(NSError.error(message: error.localizedDescription))
         }
         
         return result

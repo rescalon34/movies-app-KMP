@@ -69,9 +69,9 @@ class HomeViewModel: ObservableObject {
         
         switch result {
         case .success(let movies):
-            return movies ?? []
+            return movies
         case .failure(let error):
-            throw NSError.error(message: error)
+            throw NSError.error(message: error.localizedDescription)
         }
     }
 }
