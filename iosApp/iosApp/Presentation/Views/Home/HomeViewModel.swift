@@ -18,7 +18,7 @@ class HomeViewModel: ObservableObject {
     @Published var popularMovies: [Movie] = []
     @Published var nowPlayingMovies: [Movie] = []
     @Published var topRatedMovies: [Movie] = []
-    @Published var errorMessage: String = ""
+    @Published var errorMessage: String? = nil
     @Published var isLoading: Bool = false
     
     // MARK: - Combine

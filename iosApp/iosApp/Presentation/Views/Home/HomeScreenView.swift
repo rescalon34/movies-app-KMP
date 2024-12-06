@@ -27,43 +27,40 @@ struct HomeScreenView: View {
     // MARK: - Main screen content
     @ViewBuilder
     var homeContent: some View {
-        if viewModel.errorMessage.isEmpty && !viewModel.popularMovies.isEmpty {
-            ScrollView {
+        if viewModel.errorMessage != nil {
+            InfoMessageView(
+                title: "An error occurred!",
+                description: viewModel.errorMessage ?? ""
+            )
+        } else {
+            if !viewModel.popularMovies.isEmpty {
                 mainMoviesContent
             }
-            .scrollIndicators(.hidden)
-        } else {
-            errorMessage
         }
     }
     
     // MARK: - Movies sections
-    @ViewBuilder
     var mainMoviesContent: some View {
-        HorizontalMoviesSectionView(
-            title: MovieFilter.Popular.displayName,
-            movies: viewModel.popularMovies,
-            onMovieClicked: { _ in }
-        )
-        
-        HorizontalMoviesSectionView(
-            title: MovieFilter.NowPlaying.displayName,
-            movies: viewModel.nowPlayingMovies,
-            onMovieClicked: { _ in }
-        )
-        
-        HorizontalMoviesSectionView(
-            title: MovieFilter.TopRated.displayName,
-            movies: viewModel.topRatedMovies,
-            onMovieClicked: { _ in }
-        )
-    }
-    
-    var errorMessage: some View {
-        VStack {
-            Text(viewModel.errorMessage)
-                .multilineTextAlignment(.center)
+        ScrollView {
+            HorizontalMoviesSectionView(
+                title: MovieFilter.Popular.displayName,
+                movies: viewModel.popularMovies,
+                onMovieClicked: { _ in }
+            )
+            
+            HorizontalMoviesSectionView(
+                title: MovieFilter.NowPlaying.displayName,
+                movies: viewModel.nowPlayingMovies,
+                onMovieClicked: { _ in }
+            )
+            
+            HorizontalMoviesSectionView(
+                title: MovieFilter.TopRated.displayName,
+                movies: viewModel.topRatedMovies,
+                onMovieClicked: { _ in }
+            )
         }
+        .scrollIndicators(.hidden)
     }
 }
 
