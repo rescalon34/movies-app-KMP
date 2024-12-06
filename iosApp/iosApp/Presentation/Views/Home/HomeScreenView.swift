@@ -50,6 +50,8 @@ struct HomeScreenView: View {
             
             HorizontalMoviesSectionView(
                 title: MovieFilter.NowPlaying.displayName,
+                movieItemSize: CGSizeMake(280, 160),
+                itemType: .Video,
                 movies: viewModel.nowPlayingMovies,
                 onMovieClicked: { _ in }
             )

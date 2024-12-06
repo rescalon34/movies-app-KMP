@@ -13,6 +13,7 @@ struct HorizontalMoviesSectionView: View {
     // MARK: - Properties
     let title: String
     var movieItemSize: CGSize = CGSizeMake(110, 160)
+    var itemType: MovieItemType = .Image
     let movies: [Movie]
     let onMovieClicked: (Movie) -> ()
     
@@ -35,7 +36,8 @@ struct HorizontalMoviesSectionView: View {
                     ForEach(movies) { movie in
                         AsyncImageItemView(
                             imageUrl: movie.imageUrl,
-                            movieItemSize: movieItemSize
+                            movieItemSize: movieItemSize,
+                            itemType: itemType
                         )
                         .onTapGesture {
                             onMovieClicked(movie)
