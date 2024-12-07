@@ -15,6 +15,7 @@ class HomeViewModel: ObservableObject {
     typealias Dependencies = HasGetMoviesUseCase
     
     // MARK: - Published
+    @Published var upcomingMovies: [Movie] = []
     @Published var popularMovies: [Movie] = []
     @Published var nowPlayingMovies: [Movie] = []
     @Published var topRatedMovies: [Movie] = []
@@ -37,17 +38,20 @@ class HomeViewModel: ObservableObject {
     private func getAsyncMovies() async {
         self.isLoading = true
         
+        async let upcomingMoviesRequest = getMoviesByCategory(MovieFilter.Upcoming.type)
         async let popularMoviesRequest = getMoviesByCategory(MovieFilter.Popular.type)
         async let nowPlayingRequest = getMoviesByCategory(MovieFilter.NowPlaying.type)
         async let topRatedRequest = getMoviesByCategory(MovieFilter.TopRated.type)
         
         do {
-            let (popular, nowPlaying, topRated) = try await(
+            let (upcoming, popular, nowPlaying, topRated) = try await(
+                upcomingMoviesRequest,
                 popularMoviesRequest,
                 nowPlayingRequest,
                 topRatedRequest
             )
             
+            self.upcomingMovies = upcoming
             self.popularMovies = popular
             self.nowPlayingMovies = nowPlaying
             self.topRatedMovies = topRated

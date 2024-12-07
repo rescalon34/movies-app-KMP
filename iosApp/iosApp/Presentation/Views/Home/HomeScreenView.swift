@@ -41,28 +41,35 @@ struct HomeScreenView: View {
     
     // MARK: - Movies sections
     var mainMoviesContent: some View {
-        ScrollView {
-            HorizontalMoviesSectionView(
-                title: MovieFilter.Popular.displayName,
-                movies: viewModel.popularMovies,
-                onMovieClicked: { _ in }
-            )
-            
-            HorizontalMoviesSectionView(
-                title: MovieFilter.NowPlaying.displayName,
-                movieItemSize: CGSizeMake(280, 160),
-                itemType: .Video,
-                movies: viewModel.nowPlayingMovies,
-                onMovieClicked: { _ in }
-            )
-            
-            HorizontalMoviesSectionView(
-                title: MovieFilter.TopRated.displayName,
-                movies: viewModel.topRatedMovies,
-                onMovieClicked: { _ in }
-            )
+        GeometryReader { proxy in
+            ScrollView {
+                HorizontalPagerMoviesView(
+                    movies: viewModel.upcomingMovies,
+                    screenWidth: proxy.size.width
+                )
+                
+                HorizontalMoviesSectionView(
+                    title: MovieFilter.Popular.displayName,
+                    movies: viewModel.popularMovies,
+                    onMovieClicked: { _ in }
+                )
+                
+                HorizontalMoviesSectionView(
+                    title: MovieFilter.NowPlaying.displayName,
+                    movieItemSize: CGSizeMake(280, 160),
+                    itemType: .Video,
+                    movies: viewModel.nowPlayingMovies,
+                    onMovieClicked: { _ in }
+                )
+                
+                HorizontalMoviesSectionView(
+                    title: MovieFilter.TopRated.displayName,
+                    movies: viewModel.topRatedMovies,
+                    onMovieClicked: { _ in }
+                )
+            }
+            .scrollIndicators(.hidden)
         }
-        .scrollIndicators(.hidden)
     }
 }
 

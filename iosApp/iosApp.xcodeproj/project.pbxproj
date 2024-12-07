@@ -43,6 +43,7 @@
 		25799C3D2D02932A00C2BE04 /* NsError+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25799C3C2D02932A00C2BE04 /* NsError+Extensions.swift */; };
 		25799C3F2D029AC900C2BE04 /* InfoMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25799C3E2D029AC900C2BE04 /* InfoMessageView.swift */; };
 		25799C412D02A12A00C2BE04 /* MovieItemType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25799C402D02A12A00C2BE04 /* MovieItemType.swift */; };
+		25B378A52D03D89F001B3684 /* HorizontalPagerMoviesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25B378A42D03D89F001B3684 /* HorizontalPagerMoviesView.swift */; };
 		25DBD9A62CED9FB000E0142E /* GetProfileUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25DBD9A52CED9FB000E0142E /* GetProfileUseCase.swift */; };
 		25DBD9A92CEFD5AC00E0142E /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25DBD9A82CEFD5AC00E0142E /* ProfileViewModel.swift */; };
 		25DBD9AB2CEFD5EF00E0142E /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25DBD9AA2CEFD5EF00E0142E /* Profile.swift */; };
@@ -103,6 +104,7 @@
 		25799C3C2D02932A00C2BE04 /* NsError+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NsError+Extensions.swift"; sourceTree = "<group>"; };
 		25799C3E2D029AC900C2BE04 /* InfoMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoMessageView.swift; sourceTree = "<group>"; };
 		25799C402D02A12A00C2BE04 /* MovieItemType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieItemType.swift; sourceTree = "<group>"; };
+		25B378A42D03D89F001B3684 /* HorizontalPagerMoviesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalPagerMoviesView.swift; sourceTree = "<group>"; };
 		25DBD9A52CED9FB000E0142E /* GetProfileUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetProfileUseCase.swift; sourceTree = "<group>"; };
 		25DBD9A82CEFD5AC00E0142E /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
 		25DBD9AA2CEFD5EF00E0142E /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
@@ -222,6 +224,7 @@
 				255EFFAD2C90BE93006857C8 /* CategoryCardView.swift */,
 				256B10EA2CFFF48A005869F7 /* HorizontalMoviesSectionView.swift */,
 				25799C3E2D029AC900C2BE04 /* InfoMessageView.swift */,
+				25B378A42D03D89F001B3684 /* HorizontalPagerMoviesView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -525,6 +528,7 @@
 				25EC33592CDDB7C200A14E8D /* SharedKMPManager.swift in Sources */,
 				25EC33552CDDAE5800A14E8D /* CustomNetworkResult.swift in Sources */,
 				255EFFA32C8FEC06006857C8 /* BottomTabView.swift in Sources */,
+				25B378A52D03D89F001B3684 /* HorizontalPagerMoviesView.swift in Sources */,
 				255EFFB02C90C0CF006857C8 /* View+Extensions.swift in Sources */,
 				257424D22CA514AC000441FA /* String+Extensions.swift in Sources */,
 				25799C412D02A12A00C2BE04 /* MovieItemType.swift in Sources */,
@@ -591,7 +595,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -646,7 +650,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -669,7 +673,7 @@
 					"$(SRCROOT)/../shared/build/xcode-frameworks/$(CONFIGURATION)/$(SDK_NAME)",
 				);
 				INFOPLIST_FILE = iosApp/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -699,7 +703,7 @@
 					"$(SRCROOT)/../shared/build/xcode-frameworks/$(CONFIGURATION)/$(SDK_NAME)",
 				);
 				INFOPLIST_FILE = iosApp/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
