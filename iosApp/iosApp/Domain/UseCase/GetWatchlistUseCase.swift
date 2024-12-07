@@ -10,17 +10,17 @@ import Combine
 import KMPNativeCoroutinesCombine
 import Shared
 
-// MARK: Protocol for DI
+// MARK: - Protocol for DI
 protocol HasGetWatchlistUseCase {
     var watchlistUseCase: GetWatchlistUseCaseType { get }
 }
 
-// MARK: UseCase Protocol
+// MARK: - UseCase Protocol
 protocol GetWatchlistUseCaseType {
     func getWatchlist(sortBy: String, language: String) -> AnyPublisher<CustomNetworkResult<[Movie]>, Error>
 }
 
-// MARK: UseCase Implementation
+// MARK: - UseCase Implementation
 struct GetWatchlistUseCase: GetWatchlistUseCaseType {
     
     // MARK: Dependencies
@@ -66,7 +66,7 @@ struct GetWatchlistUseCase: GetWatchlistUseCaseType {
     }
 }
 
-// MARK: GetWatchlistUseCase Dependencies
+// MARK: - GetWatchlistUseCase Dependencies
 struct GetWatchlistUseCaseDependencies: HasSharedKMPManager {
     var sharedKMPManager: SharedKMPManagerType = SharedKMPManager.shared
 }

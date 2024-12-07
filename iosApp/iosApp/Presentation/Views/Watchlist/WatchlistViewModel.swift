@@ -17,7 +17,7 @@ class WatchlistViewModel: ObservableObject {
     // MARK: - Published
     @Published var isLoading: Bool = false
     @Published var movies: [Movie] = []
-    @Published var errorMessage: String = ""
+    @Published var errorMessage: String? = nil
     @Published var sortType: String = SortType.FirstAdded.displayName
     @Published var sortOptions: [String] = SortType.allCases.map { $0.displayName }
     
