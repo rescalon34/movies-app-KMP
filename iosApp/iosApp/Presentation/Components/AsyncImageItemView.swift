@@ -31,7 +31,9 @@ struct AsyncImageItemView: View {
                     .cornerRadius(8)
                     .overlay {
                         if itemType.type == MovieItemType.Video.type {
-                            Color.black.opacity(0.3)
+                            Color.black
+                                .opacity(0.3)
+                                .cornerRadius(8)
                             playOverlayIcon
                         }
                     }
@@ -53,7 +55,7 @@ struct AsyncImageItemView: View {
             .background(
                 Circle()
                     .fill(Color.white)
-                    .frame(width: 32)
+                    .frame(width: 44)
             )
             .foregroundStyle(.black)
     }

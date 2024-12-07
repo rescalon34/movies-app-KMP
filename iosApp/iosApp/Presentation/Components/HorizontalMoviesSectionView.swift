@@ -12,7 +12,7 @@ struct HorizontalMoviesSectionView: View {
     
     // MARK: - Properties
     let title: String
-    var movieItemSize: CGSize = CGSizeMake(110, 160)
+    var movieItemSize: CGSize = CGSizeMake(115, 170)
     var itemType: MovieItemType = .Image
     let movies: [Movie]
     let onMovieClicked: (Movie) -> ()
