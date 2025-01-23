@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct Movie: Identifiable {
+struct Movie: Identifiable, Hashable {
     let id: Int
     let title: String?
     let imageUrl: String?

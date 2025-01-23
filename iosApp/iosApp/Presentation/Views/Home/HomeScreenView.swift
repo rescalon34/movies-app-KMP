@@ -45,7 +45,8 @@ struct HomeScreenView: View {
             ScrollView {
                 HorizontalPagerMoviesView(
                     movies: viewModel.upcomingMovies,
-                    screenWidth: proxy.size.width
+                    screenWidth: proxy.size.width,
+                    currentPagerItem: $viewModel.currentPagerItem
                 )
                 
                 HorizontalMoviesSectionView(

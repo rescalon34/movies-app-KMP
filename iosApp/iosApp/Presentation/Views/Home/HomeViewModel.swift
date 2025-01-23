@@ -21,6 +21,7 @@ class HomeViewModel: ObservableObject {
     @Published var topRatedMovies: [Movie] = []
     @Published var errorMessage: String? = nil
     @Published var isLoading: Bool = false
+    @Published var currentPagerItem: Int? = 0
     
     // MARK: - Combine
     private var cancellable = Set<AnyCancellable>()
