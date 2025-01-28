@@ -23,6 +23,8 @@ class HomeViewModel: ObservableObject {
     @Published var isLoading: Bool = false
     @Published var currentPagerItem: Int? = 0
     @Published var shouldAutoScroll: Bool = true
+    @Published var isPlayerPresented = false
+    @Published var selectedMovie: Movie? = nil
     private var pagerScrollingTimer: AnyCancellable?
     
     // MARK: - Combine
@@ -118,6 +120,10 @@ class HomeViewModel: ObservableObject {
     func stopScrollingPager() {
         shouldAutoScroll = false
         cancelAutoScrollingPagerTimer()
+    }
+    
+    func onSelectedMovie(movie: Movie) {
+        self.selectedMovie = movie
     }
     
     private func setupBindings() {

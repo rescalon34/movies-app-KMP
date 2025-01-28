@@ -5,6 +5,10 @@ import com.escalondev.movies_app_kmp.domain.model.SharedMovie
 // TODO: Delete this mocked repository once real data gets fetched from the server.
 object MockedMoviesRepository {
 
+    fun getMockedVideoKey(): String {
+        return "nulvWqYUM8k"
+    }
+
     /**
      * get a list of mocked watchlist for now to display items on the UI.
      */

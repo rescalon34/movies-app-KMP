@@ -46,6 +46,8 @@
 		25799C3F2D029AC900C2BE04 /* InfoMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25799C3E2D029AC900C2BE04 /* InfoMessageView.swift */; };
 		25799C412D02A12A00C2BE04 /* MovieItemType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25799C402D02A12A00C2BE04 /* MovieItemType.swift */; };
 		25B378A52D03D89F001B3684 /* HorizontalPagerMoviesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25B378A42D03D89F001B3684 /* HorizontalPagerMoviesView.swift */; };
+		25C6D19B2D488B3800C66ABC /* YouTubePlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25C6D19A2D488B3800C66ABC /* YouTubePlayerView.swift */; };
+		25C6D19F2D488C0C00C66ABC /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25C6D19E2D488C0C00C66ABC /* WebView.swift */; };
 		25DBD9A62CED9FB000E0142E /* GetProfileUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25DBD9A52CED9FB000E0142E /* GetProfileUseCase.swift */; };
 		25DBD9A92CEFD5AC00E0142E /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25DBD9A82CEFD5AC00E0142E /* ProfileViewModel.swift */; };
 		25DBD9AB2CEFD5EF00E0142E /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25DBD9AA2CEFD5EF00E0142E /* Profile.swift */; };
@@ -109,6 +111,8 @@
 		25799C3E2D029AC900C2BE04 /* InfoMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoMessageView.swift; sourceTree = "<group>"; };
 		25799C402D02A12A00C2BE04 /* MovieItemType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieItemType.swift; sourceTree = "<group>"; };
 		25B378A42D03D89F001B3684 /* HorizontalPagerMoviesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalPagerMoviesView.swift; sourceTree = "<group>"; };
+		25C6D19A2D488B3800C66ABC /* YouTubePlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YouTubePlayerView.swift; sourceTree = "<group>"; };
+		25C6D19E2D488C0C00C66ABC /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
 		25DBD9A52CED9FB000E0142E /* GetProfileUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetProfileUseCase.swift; sourceTree = "<group>"; };
 		25DBD9A82CEFD5AC00E0142E /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
 		25DBD9AA2CEFD5EF00E0142E /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
@@ -209,6 +213,8 @@
 		2554A7492C8BBC8800B8E4C3 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				25C6D19C2D488BEF00C66ABC /* Common */,
+				25C6D1992D488B2E00C66ABC /* Player */,
 				255EFFBF2C90EE36006857C8 /* FilterOptions */,
 				255EFFA82C8FEE11006857C8 /* Profile */,
 				255EFFA12C8FEBA3006857C8 /* Main */,
@@ -306,6 +312,22 @@
 				255EFFC22C90F0E0006857C8 /* SortType.swift */,
 			);
 			path = FilterOptions;
+			sourceTree = "<group>";
+		};
+		25C6D1992D488B2E00C66ABC /* Player */ = {
+			isa = PBXGroup;
+			children = (
+				25C6D19A2D488B3800C66ABC /* YouTubePlayerView.swift */,
+			);
+			path = Player;
+			sourceTree = "<group>";
+		};
+		25C6D19C2D488BEF00C66ABC /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				25C6D19E2D488C0C00C66ABC /* WebView.swift */,
+			);
+			path = Common;
 			sourceTree = "<group>";
 		};
 		25DBD9A72CEE798100E0142E /* SharedKMP */ = {
@@ -518,6 +540,7 @@
 				255EFFB42C90DD58006857C8 /* Constants.swift in Sources */,
 				2554A7522C8BBDC400B8E4C3 /* CustomColors.swift in Sources */,
 				25EC33502CDC589400A14E8D /* GetWatchlistUseCase.swift in Sources */,
+				25C6D19F2D488C0C00C66ABC /* WebView.swift in Sources */,
 				255EFFAA2C8FEE1F006857C8 /* ProfileScreenView.swift in Sources */,
 				256B10ED2CFFFC83005869F7 /* MovieFilter.swift in Sources */,
 				255EFFB62C90DDAA006857C8 /* AsyncImageItemView.swift in Sources */,
@@ -526,6 +549,7 @@
 				254A1FBF2D4851D0003AF00B /* DateUtils.swift in Sources */,
 				25DBD9AD2CEFD7A600E0142E /* Profile+Extensions.swift in Sources */,
 				256B10E52CFFE695005869F7 /* HomeViewModel.swift in Sources */,
+				25C6D19B2D488B3800C66ABC /* YouTubePlayerView.swift in Sources */,
 				25DBD9B62CEFFFD600E0142E /* RoundedBorderModifier.swift in Sources */,
 				255EFFBA2C90ECD7006857C8 /* BackgroundBlurView.swift in Sources */,
 				255EFFC12C90EE52006857C8 /* SelectOptionScreenView.swift in Sources */,

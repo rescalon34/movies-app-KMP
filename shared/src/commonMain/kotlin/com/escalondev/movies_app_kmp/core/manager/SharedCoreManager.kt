@@ -7,6 +7,7 @@ import com.escalondev.movies_app_kmp.core.provider.factory.SharedUseCaseProvider
 import com.escalondev.movies_app_kmp.core.provider.movie.MoviesUseCaseProvider
 import com.escalondev.movies_app_kmp.core.provider.profile.ProfileUseCaseProvider
 import com.escalondev.movies_app_kmp.data.di.sharedCoreModule
+import com.escalondev.movies_app_kmp.data.repository.MockedMoviesRepository
 import org.koin.core.context.startKoin
 import kotlin.jvm.Synchronized
 
@@ -89,6 +90,8 @@ class SharedCoreManager private constructor() {
     fun createMoviesUseCaseProvider(): MoviesUseCaseProvider = createUseCaseProvider()
 
     fun createProfileUseCaseProvider(): ProfileUseCaseProvider = createUseCaseProvider()
+
+    fun getMockedRepository(): MockedMoviesRepository = MockedMoviesRepository
 
     /**
      * Provides a single instance of the SharedCoreManager class.

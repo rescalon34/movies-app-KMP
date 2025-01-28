@@ -21,6 +21,12 @@ struct HomeScreenView: View {
             }
             .navigationTitle("Home")
             .navigationBarTitleDisplayMode(.automatic)
+            .sheet(isPresented: $viewModel.isPlayerPresented) {
+                YouTubePlayerView(
+                    title: viewModel.selectedMovie?.title ?? "",
+                    videoKey: "nulvWqYUM8k"
+                )
+            }
         }
     }
     
@@ -62,9 +68,11 @@ struct HomeScreenView: View {
                     title: MovieFilter.NowPlaying.displayName,
                     movieItemSize: CGSizeMake(280, 160),
                     itemType: .Video,
-                    movies: viewModel.nowPlayingMovies,
-                    onMovieClicked: { _ in }
-                )
+                    movies: viewModel.nowPlayingMovies
+                ) { movie in
+                    viewModel.onSelectedMovie(movie: movie)
+                    viewModel.isPlayerPresented.toggle()
+                }
                 
                 HorizontalMoviesSectionView(
                     title: MovieFilter.TopRated.displayName,
