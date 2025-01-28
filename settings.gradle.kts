@@ -17,3 +17,4 @@ dependencyResolutionManagement {
 rootProject.name = "Movies-app-KMP"
 include(":androidApp")
 include(":shared")
+include(":androidApp:domain")

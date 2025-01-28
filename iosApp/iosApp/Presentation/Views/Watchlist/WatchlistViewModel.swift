@@ -7,76 +7,52 @@
 //
 
 import Combine
-import Shared
-import KMPNativeCoroutinesCombine
-import KMPNativeCoroutinesAsync
+import Foundation
 
 class WatchlistViewModel: ObservableObject {
     
-    // MARK: - Published properties
+    // MARK: - Dependencies
+    typealias Dependencies = HasGetWatchlistUseCase
+    
+    // MARK: - Published
     @Published var isLoading: Bool = false
     @Published var movies: [Movie] = []
-    @Published var errorMessage: String = ""
+    @Published var errorMessage: String? = nil
     @Published var sortType: String = SortType.FirstAdded.displayName
     @Published var sortOptions: [String] = SortType.allCases.map { $0.displayName }
     
-    // MARK: - Combine properties
+    // MARK: - Combine
     private var cancellable = Set<AnyCancellable>()
     
-    // MARK: - Shared SDK
-    let sharedCoreManager = SharedCoreManager.companion.getInstance()
+    // MARK: - Properties
+    private let dependencies: Dependencies
     
-    // MARK: - init
-    init() {
-//        getWatchlist()
-        getWatchlistMovies()
-        setupBindings()
+    // MARK: - Initializer
+    init(dependencies: Dependencies) {
+        self.dependencies = dependencies
+        self.setupBindings()
+        self.getWatchlistMovies()
     }
     
-    // MARK: - API calls thougth the shared SDK.
-    func getWatchlist() {
-        isLoading = true
-        sharedCoreManager.useCaseProvider.executeUseCase { manager, provider in
-            createPublisher(for: manager.getWatchlist(provider))
-                .receive(on: DispatchQueue.main)
-                .sink { [weak self] result in
-                    switch result {
-                    case .finished:
-                        self?.isLoading = false
-                    case .failure(let error):
-                        self?.errorMessage = error.localizedDescription
-                        self?.isLoading = false
-                    }
-                } receiveValue: { [weak self] movies in
-                    self?.movies = movies
-                }
-                .store(in: &self.cancellable)
-        }
-    }
-    
+    // MARK: - Fetching data from network.
     func getWatchlistMovies(sortBy: String = SortType.FirstAdded.displayName) {
-        let language = LocalizationUtils.getCurrentLanguageCode()
-        isLoading = true
-        sharedCoreManager.useCaseProvider.executeUseCase { manager, provider in
-            Task { @MainActor [weak self] in
-                try await asyncFunction(
-                    for: manager.getWatchlistMovies(
-                        provider,
-                        sortBy: sortBy,
-                        language: language
-                    )
-                )
-                .onSuccess { data in
-                    let movies = data as? [Movie] ?? []
-                    self?.movies = movies
-                    self?.isLoading = false
-                }
-                .onFailure { errorMessage in
-                    self?.errorMessage = errorMessage?.statusMessage ?? ""
-                    self?.isLoading = false
-                }
+        self.isLoading = true
+        
+        dependencies
+            .watchlistUseCase
+            .getWatchlist(sortBy: sortBy,language: LocalizationUtils.getCurrentLanguageCode())
+        .sink { _ in
+            print("getting watchlist!")
+        } receiveValue: { [weak self] response in
+            self?.isLoading = false
+            switch response {
+            case .success(let movies):
+                self?.movies = movies ?? []
+            case .failure(let error):
+                self?.errorMessage = error ?? ""
             }
         }
+        .store(in: &cancellable)
     }
     
     // MARK: - View functions.
@@ -88,10 +64,16 @@ class WatchlistViewModel: ObservableObject {
         $sortType
             .removeDuplicates()
             .receive(on: DispatchQueue.main)
-            .sink { option in
+            .sink { [weak self] option in
+                print("filter by this option: \(option)")
                 let sortType = SortType.allCases.first { $0.displayName == option }?.sortType
-                self.getWatchlistMovies(sortBy: sortType ?? SortType.FirstAdded.sortType)
+                self?.getWatchlistMovies(sortBy: sortType ?? SortType.FirstAdded.sortType)
             }
             .store(in: &cancellable)
     }
+}
+
+// MARK: - Dependencies
+struct WatchlistViewModelDependencies: WatchlistViewModel.Dependencies {
+    var watchlistUseCase: GetWatchlistUseCaseType = GetWatchlistUseCase.shared
 }

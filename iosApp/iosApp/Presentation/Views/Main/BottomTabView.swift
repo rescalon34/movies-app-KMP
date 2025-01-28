@@ -19,17 +19,17 @@ struct BottomTabView: View {
     // MARK: - BottomTabView items.
     var bottomTabView: some View {
         TabView(selection: $selectedTabItem) {
-            HomeScreenView()
+            HomeScreenView(viewModel: .init(dependencies: HomeViewModelDependencies()))
                 .tabItem { Image(systemName: "house.fill") }
-            .tag(BottomTabItem.Home)
+                .tag(BottomTabItem.Home)
             
-            WatchlistScreenView()
+            WatchlistScreenView(viewModel: .init(dependencies: WatchlistViewModelDependencies()))
                 .tabItem { Image(systemName: "plus.circle.fill") }
-            .tag(BottomTabItem.Watchlist)
+                .tag(BottomTabItem.Watchlist)
             
-            ProfileScreenView()
+            ProfileScreenView(viewModel: .init(dependencies: ProfileViewModelDependencies()))
                 .tabItem { Image(systemName: "person.crop.circle.fill") }
-            .tag(BottomTabItem.Profile)
+                .tag(BottomTabItem.Profile)
         }
     }
 }

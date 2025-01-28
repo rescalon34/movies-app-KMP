@@ -4,7 +4,7 @@ object Constants {
     const val PERIOD = "."
     const val MILLISECONDS_200 = 200L
     const val ONE_SECOND = 1000L
-    const val AUTO_SCROLLING_TIMER = 2500L
+    const val AUTO_SCROLLING_TIMER = 3000L
     const val HALF_SEC = 500L
     const val ZERO_DEGREES = 0f
     const val NINETY_DEGREES = 90f

@@ -1,10 +1,8 @@
 package com.escalondev.movies_app_kmp.android.ui.watchlist
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -19,21 +17,21 @@ import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.escalondev.domain.mapper.movie.toMovie
 import com.escalondev.movies_app_kmp.android.R
 import com.escalondev.movies_app_kmp.android.theme.MoviesAppTheme
 import com.escalondev.movies_app_kmp.android.ui.base.BaseScreen
 import com.escalondev.movies_app_kmp.android.ui.component.BaseAppBar
 import com.escalondev.movies_app_kmp.android.ui.component.CategoryCard
+import com.escalondev.movies_app_kmp.android.ui.component.InfoMessageCard
 import com.escalondev.movies_app_kmp.android.ui.component.MovieItem
 import com.escalondev.movies_app_kmp.android.ui.component.SimpleProgressIndicator
 import com.escalondev.movies_app_kmp.android.ui.filter.SelectOptionsScreen
@@ -82,7 +80,9 @@ fun WatchlistContent(
     }
 
     BaseScreen(
-        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+        modifier = Modifier
+            .padding(bottom = 88.dp)
+            .nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             WatchlistTopAppBar(
                 selectedOption = uiState.selectedOption,
@@ -95,7 +95,10 @@ fun WatchlistContent(
                 if (uiState.isLoading) SimpleProgressIndicator()
 
                 uiState.errorMessage?.let {
-                    NoWatchlistErrorMessage(errorMessage = it)
+                    InfoMessageCard(
+                        title = stringResource(id = R.string.general_error_title),
+                        description = it
+                    )
                 }
 
                 LazyVerticalGrid(
@@ -153,32 +156,13 @@ fun WatchlistTopAppBar(
     )
 }
 
-@Composable
-private fun NoWatchlistErrorMessage(
-    modifier: Modifier = Modifier,
-    errorMessage: String
-) {
-    Box(
-        modifier = modifier
-            .padding(horizontal = 16.dp)
-            .fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ) {
-        Text(
-            text = errorMessage,
-            textAlign = TextAlign.Center,
-            style = MaterialTheme.typography.titleMedium
-        )
-    }
-}
-
 @Preview(showSystemUi = true, showBackground = true)
 @Composable
 private fun WatchlistContentPreview() {
     MoviesAppTheme {
         WatchlistContent(
             uiState = WatchlistUiState(
-                watchlist = MockedMoviesRepository.getWatchlist()
+                watchlist = MockedMoviesRepository.getWatchlist().map { it.toMovie() }
             )
         )
     }

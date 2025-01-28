@@ -2,32 +2,29 @@
 
 package com.escalondev.movies_app_kmp.core.manager
 
-import com.escalondev.movies_app_kmp.core.provider.SharedUseCaseProvider
-import com.escalondev.movies_app_kmp.core.provider.SharedUseCaseProviderImpl
+import com.escalondev.movies_app_kmp.core.provider.factory.SharedUseCaseProviderFactory
+import com.escalondev.movies_app_kmp.core.provider.factory.SharedUseCaseProviderFactoryImpl
+import com.escalondev.movies_app_kmp.core.provider.movie.MoviesUseCaseProvider
+import com.escalondev.movies_app_kmp.core.provider.profile.ProfileUseCaseProvider
 import com.escalondev.movies_app_kmp.data.di.sharedCoreModule
 import org.koin.core.context.startKoin
 import kotlin.jvm.Synchronized
 
 /**
  * This CoreManager is responsible for initializing internal shared dependencies as well as exposing
- * the functions that will be used from the Native clients.
+ * the other classes that will be used from the Native clients.
  */
-class SharedCoreManager {
+class SharedCoreManager private constructor() {
 
     /**
-     * Provides a single instance of the SharedCoreManager class.
+     * Object to store in memory the provided API Key and AccessToken from the consumers.
      */
-    companion object {
-        private var instance: SharedCoreManager? = null
+    private val tokenManager: TokenManager = TokenManager
 
-        @Synchronized
-        fun getInstance(): SharedCoreManager {
-            if (instance == null) {
-                instance = SharedCoreManager()
-            }
-            return instance ?: throw IllegalStateException("Couldn't initialize SharedCoreManager")
-        }
-    }
+    /**
+     * Will allow to create instances of UseCaseProviders.
+     */
+    private val factoryProvider: SharedUseCaseProviderFactory = SharedUseCaseProviderFactoryImpl()
 
     /**
      * Entry initialization function exposed to the clients, any other internal initialization
@@ -44,8 +41,10 @@ class SharedCoreManager {
     fun init(apiKey: String, accessToken: String) {
         initKoinModules()
         tokenManager
-            .setApiKey(apiKey)
-            .setAccessToken(accessToken)
+            .apply {
+                this.apiKey = apiKey
+                this.accessToken = accessToken
+            }
     }
 
     /**
@@ -58,13 +57,51 @@ class SharedCoreManager {
     }
 
     /**
-     **************** Functions exposed to thought the SDK. ****************
+     * Set API Key, Intended to be used when this value is not available at SDK initialization time.
      */
+    fun setApiKey(key: String) {
+        tokenManager.apiKey = key
+    }
 
     /**
-     * Exposed useCaseProvider to have access to any UseCase function from the Shared SDK.
+     * Set Access Token, Intended to be used when this value is not available at SDK initialization time.
      */
-    val useCaseProvider: SharedUseCaseProvider = SharedUseCaseProviderImpl()
+    fun setAccessToken(token: String) {
+        tokenManager.accessToken = token
+    }
 
-    private val tokenManager: TokenManager = TokenManager
+    /**
+     * This function allows a smart way to create a UseCaseProvider by specifying the type of UseCase
+     * to return when the function is called.
+     */
+    private inline fun <reified T : Any> createUseCaseProvider(): T =
+        factoryProvider.createProvider(T::class)
+
+    /**
+     * Provides specific functions to create instances of each UseCaseProvider, that works well on
+     * cross-platform compatibility.
+     *
+     * These functions allow consumers to get the corresponding UseCaseProvider instance without
+     * needing generics. This approach is preferred for iOS interoperability, as it avoids the
+     * limitations of inline functions and reified types, which are unsupported in Swift and Objective-C
+     * when using Kotlin Multiplatform.
+     */
+    fun createMoviesUseCaseProvider(): MoviesUseCaseProvider = createUseCaseProvider()
+
+    fun createProfileUseCaseProvider(): ProfileUseCaseProvider = createUseCaseProvider()
+
+    /**
+     * Provides a single instance of the SharedCoreManager class.
+     */
+    companion object {
+        private var instance: SharedCoreManager? = null
+
+        @Synchronized
+        fun getInstance(): SharedCoreManager {
+            if (instance == null) {
+                instance = SharedCoreManager()
+            }
+            return instance ?: throw IllegalStateException("Couldn't initialize SharedCoreManager")
+        }
+    }
 }

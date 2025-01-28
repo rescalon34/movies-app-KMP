@@ -1,6 +1,6 @@
 package com.escalondev.movies_app_kmp.android.ui.home
 
-import com.escalondev.movies_app_kmp.domain.model.Movie
+import com.escalondev.domain.model.movie.Movie
 
 data class HomeUiState(
     val pagerMovies: List<Movie> = emptyList(),
@@ -8,5 +8,5 @@ data class HomeUiState(
     val nowPlayingMovies: List<Movie> = emptyList(),
     val topRatedMovies: List<Movie> = emptyList(),
     val isLoading: Boolean = false,
-    val errorMessage: String? = ""
+    val errorMessage: String? = null
 )
