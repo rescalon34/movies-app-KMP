@@ -12,6 +12,7 @@ struct AsyncImageItemView: View {
     // MARK: - Properties
     let imageUrl: String?
     var movieItemSize: CGSize = CGSize(width: 110, height: 110)
+    var imageResolution: String = DEFAULT_POSTER_SIZE
     var itemType: MovieItemType = .Image
     
     // MARK: Body
@@ -22,7 +23,7 @@ struct AsyncImageItemView: View {
     // MARK: - Views
     var imageContainer: some View {
         VStack {
-            AsyncImage(url: URL(string: imageUrl.getSizedImage())) { image in
+            AsyncImage(url: URL(string: imageUrl.getSizedImage(imageResolution))) { image in
                 image
                     .resizable()
                     .scaledToFill()

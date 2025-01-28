@@ -66,7 +66,8 @@ struct HorizontalPagerMoviesView: View {
                     VStack {
                         AsyncImageItemView(
                             imageUrl: movie.imageUrl,
-                            movieItemSize: CGSize(width: 0, height: 420)
+                            movieItemSize: CGSize(width: 0, height: 420),
+                            imageResolution: ORIGINAL
                         )
                     }
                     

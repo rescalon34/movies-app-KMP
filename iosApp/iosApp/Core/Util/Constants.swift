@@ -12,3 +12,5 @@ let DEFAULT_PLACEHOLDER_POSTER = "https://media.themoviedb.org/t/p/original/t7bh
 let MINUS_NINETY_DEGREES = -90
 
 let ONE = 1
+let ORIGINAL = "original"
+let DEFAULT_POSTER_SIZE = "w342"
