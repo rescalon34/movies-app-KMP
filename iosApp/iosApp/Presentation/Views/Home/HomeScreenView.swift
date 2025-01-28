@@ -35,6 +35,8 @@ struct HomeScreenView: View {
         } else {
             if !viewModel.popularMovies.isEmpty {
                 mainMoviesContent
+                    .onAppear(perform: viewModel.startScrollingPager)
+                    .onDisappear(perform: viewModel.stopScrollingPager)
             }
         }
     }
@@ -46,7 +48,8 @@ struct HomeScreenView: View {
                 HorizontalPagerMoviesView(
                     movies: viewModel.upcomingMovies,
                     screenWidth: proxy.size.width,
-                    currentPagerItem: $viewModel.currentPagerItem
+                    currentPagerItem: $viewModel.currentPagerItem,
+                    shouldAutoScroll: $viewModel.shouldAutoScroll
                 )
                 
                 HorizontalMoviesSectionView(

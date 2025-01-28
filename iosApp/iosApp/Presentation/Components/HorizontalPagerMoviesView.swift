@@ -9,73 +9,49 @@
 import SwiftUI
 import Shared
 
-/// A horizontal pager view displaying a list of movies with a centered highlight effect.
+/// Displays a horizontal scrollable list of movies with a centered highlight effect.
 struct HorizontalPagerMoviesView: View {
     
     // MARK: - Properties
     var movies: [Movie] = []
     var screenWidth: CGFloat
     @Binding var currentPagerItem: Int?
+    @Binding var shouldAutoScroll: Bool
     
     // MARK: - Body
     var body: some View {
         BaseScreenView {
             VStack {
                 pagerContent
-                carouselButtons
             }
         }
     }
     
-    // MARK: - Main Horizontal pager content
+    // MARK: - Pager Content
+    /// Displays the horizontal movie pager with aligned items.
     @ViewBuilder
     var pagerContent: some View {
         let pagerItemWidth = screenWidth * 0.85
         let sidePadding = (screenWidth - pagerItemWidth) / 2
         
-        ScrollViewReader { proxy in
-            ScrollView(.horizontal) {
-                LazyHStack(spacing: 12) {
-                    ForEach(movies, id: \.id) { movie in
-                        addPagerMovieItem(
-                            movie: movie,
-                            pagerItemWidth: pagerItemWidth
-                        )
-                    }
-                }
-                .onChange(of: currentPagerItem) { _, newValue in
-                    DispatchQueue.main.asyncAfter(deadline: .now()) {
-                        withAnimation(.easeInOut) {
-                            proxy.scrollTo(newValue, anchor: .center)
-                        }
-                    }
+        ScrollView(.horizontal) {
+            LazyHStack(spacing: 12) {
+                ForEach(movies, id: \.id) { movie in
+                    addPagerMovieItem(
+                        movie: movie,
+                        pagerItemWidth: pagerItemWidth
+                    )
                 }
             }
-            .scrollPosition(id: $currentPagerItem)
+            .scrollTargetLayout()
         }
+        .scrollPosition(id: $currentPagerItem)
         .contentMargins(.horizontal, sidePadding, for: .scrollContent)
-        .scrollTargetLayout()
         .scrollTargetBehavior(.viewAligned)
         .scrollBounceBehavior(.basedOnSize)
         .scrollIndicators(.hidden)
-    }
-    
-    private var carouselButtons: some View {
-        HStack {
-            Button("Previous") {
-                withAnimation {
-                    onScrollToPreviousItem()
-                }
-            }
-            Spacer()
-            Button("Next") {
-                withAnimation {
-                    onScrollToNextItem()
-                }
-            }
-        }
-        .padding(.horizontal)
-        .padding(.top)
+        .onEmptyTapGesture()
+        .gesture(onPressGesture)
     }
     
     // MARK: - Pager movie item
@@ -86,14 +62,16 @@ struct HorizontalPagerMoviesView: View {
             .frame(width: pagerItemWidth, height: 420)
             .id(movies.firstIndex(of: movie))
             .overlay {
-                VStack {
-                    AsyncImageItemView(
-                        imageUrl: movie.imageUrl,
-                        movieItemSize: CGSize(width: 0, height: 420)
-                    )
-                    // TODO: remove, this is just for testing purposes
-                    Text("Position: \(currentPagerItem?.description ?? "")")
-                        .padding(.bottom, 32)
+                ZStack(alignment: .bottom) {
+                    VStack {
+                        AsyncImageItemView(
+                            imageUrl: movie.imageUrl,
+                            movieItemSize: CGSize(width: 0, height: 420)
+                        )
+                    }
+                    
+                    bottomGradientMask()
+                    bottomPagerContent(movie.releaseDate)
                 }
                 
             }
@@ -103,19 +81,32 @@ struct HorizontalPagerMoviesView: View {
                 content
                     .opacity(phase.isIdentity ? 1 : 0.8)
                     .scaleEffect(y: phase.isIdentity ? 1 : 0.8)
-                
             }
     }
     
-    // MARK: - Functions
-    private func onScrollToNextItem() {
-        currentPagerItem = ((currentPagerItem ?? 0) + 1) % movies.count
-        print("onScrollToNextItem(), index: \(String(describing: currentPagerItem?.description))")
+    @ViewBuilder
+    private func bottomPagerContent(_ releaseDate: String?) -> some View {
+        HStack {
+            Text(releaseDate?.formatReleaseYearAndMonth() ?? "")
+            Spacer()
+            Circle()
+                .fill(shouldAutoScroll ? .green : .red)
+                .frame(width: 8, height: 8, alignment: .bottomTrailing)
+            
+        }
+        .padding()
     }
     
-    private func onScrollToPreviousItem() {
-        currentPagerItem = ((currentPagerItem ?? 0) - 1 + movies.count) % movies.count
-        print("onScrollToPreviousItem(), index: \(String(describing: currentPagerItem?.description))")
+    // MARK: - Tracks onPressed Gesture
+    /// Custom gesture to handle user interactions with the pager (onPress and onReleased).
+    private var onPressGesture: some Gesture {
+        DragGesture(minimumDistance: 0)
+            .onChanged { _ in
+                shouldAutoScroll = false
+            }
+            .onEnded { _ in
+                shouldAutoScroll = true
+            }
     }
 }
 
@@ -125,6 +116,7 @@ struct HorizontalPagerMoviesView: View {
     return HorizontalPagerMoviesView(
         movies: movies,
         screenWidth: UIScreen.main.bounds.width,
-        currentPagerItem: .constant(0)
+        currentPagerItem: .constant(0),
+        shouldAutoScroll: .constant(true)
     )
 }

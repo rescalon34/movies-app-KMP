@@ -14,7 +14,7 @@ extension SharedMovie {
             id: Int(id),
             title: title,
             imageUrl: imageUrl,
-            releaseDate: nil
+            releaseDate: releaseDate
         )
     }
 }
