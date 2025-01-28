@@ -12,6 +12,7 @@ struct HomeScreenView: View {
     
     // MARK: - Properties
     @StateObject var viewModel: HomeViewModel
+    @Environment(\.scenePhase) var scenePhase
     
     // MARK: - Body
     var body: some View {
@@ -21,12 +22,8 @@ struct HomeScreenView: View {
             }
             .navigationTitle("Home")
             .navigationBarTitleDisplayMode(.automatic)
-            .sheet(isPresented: $viewModel.isPlayerPresented) {
-                YouTubePlayerView(
-                    title: viewModel.selectedMovie?.title ?? "",
-                    videoKey: "nulvWqYUM8k"
-                )
-            }
+            .onChange(of: scenePhase, onScreenSceneChange)
+            .sheet(isPresented: $viewModel.isPlayerPresented, content: showYouTubePlayer)
         }
     }
     
@@ -70,8 +67,7 @@ struct HomeScreenView: View {
                     itemType: .Video,
                     movies: viewModel.nowPlayingMovies
                 ) { movie in
-                    viewModel.onSelectedMovie(movie: movie)
-                    viewModel.isPlayerPresented.toggle()
+                    viewModel.onPlayNowVideoClick(movie: movie)
                 }
                 
                 HorizontalMoviesSectionView(
@@ -82,6 +78,23 @@ struct HomeScreenView: View {
             }
             .scrollIndicators(.hidden)
         }
+    }
+    
+    // MARK: - Functions
+    private func onScreenSceneChange(oldValue: ScenePhase?, newValue: ScenePhase) {
+        handleScenePhaseChanges(
+            oldValue: oldValue,
+            newValue: newValue,
+            onActive: { viewModel.startScrollingPager() },
+            onBackground: { viewModel.stopScrollingPager() }
+        )
+    }
+    
+    private func showYouTubePlayer() -> some View {
+        YouTubePlayerView(
+            title: viewModel.selectedMovie?.title ?? "",
+            videoKey: viewModel.videosByMovie.randomElement()?.key
+        )
     }
 }
 
