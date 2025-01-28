@@ -1,8 +1,10 @@
 package com.escalondev.movies_app_kmp.android.ui.home
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.escalondev.domain.usecase.home.GetMoviesUseCase
+import com.escalondev.domain.usecase.home.GetVideosByMovieUseCase
 import com.escalondev.movies_app_kmp.android.util.Constants.ONE_VALUE
 import com.escalondev.movies_app_kmp.android.util.MovieFilter
 import com.escalondev.movies_app_kmp.android.util.getCurrentLanguageCode
@@ -20,15 +22,12 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val getMoviesUseCase: GetMoviesUseCase
+    private val getMoviesUseCase: GetMoviesUseCase,
+    private val getVideosByMovieUseCase: GetVideosByMovieUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(HomeUiState())
     val uiState: StateFlow<HomeUiState> = _uiState.asStateFlow()
-
-    init {
-        getMoviesData()
-    }
 
     private fun getMoviesData() {
         _uiState.update { it.copy(isLoading = true) }
@@ -52,6 +51,20 @@ class HomeViewModel @Inject constructor(
                 getTopRatedMoviesAsync
             )
             _uiState.update { it.copy(isLoading = false) }
+        }
+    }
+
+    private fun getVideosByMovie(movieId: Int) {
+        viewModelScope.launch {
+            getVideosByMovieUseCase(movieId)
+                .onSuccess { videos ->
+                    // TODO: Handle this
+                    Log.d("tellVideos", "videos by movie: $videos")
+                }
+                .onFailure { error ->
+                    // TODO: Handle this
+                    Log.d("tellVideos", "no videos: ${error?.statusMessage}")
+                }
         }
     }
 
@@ -85,6 +98,13 @@ class HomeViewModel @Inject constructor(
             }
         }.onFailure { error ->
             _uiState.update { it.copy(errorMessage = error?.statusMessage) }
+        }
+    }
+
+    fun onUiEvent(event: HomeUiEvent) {
+        when (event) {
+            is HomeUiEvent.OnStart -> getMoviesData()
+            is HomeUiEvent.OnNowPlayingMovieClicked -> getVideosByMovie(event.movie.id)
         }
     }
 }

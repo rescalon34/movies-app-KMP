@@ -1,6 +1,7 @@
 package com.escalondev.movies_app_kmp.android.ui.home
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -16,6 +17,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -53,12 +55,23 @@ fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    HomeContent(uiState)
+
+    LaunchedEffect(Unit) {
+        viewModel.onUiEvent(HomeUiEvent.OnStart)
+    }
+
+    HomeContent(
+        uiState = uiState,
+        onUiEvent = viewModel::onUiEvent
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeContent(uiState: HomeUiState) {
+fun HomeContent(
+    uiState: HomeUiState,
+    onUiEvent: (HomeUiEvent) -> Unit
+) {
     BaseScreen(
         modifier = Modifier.padding(bottom = 88.dp),
         topBar = { BaseAppBar(title = stringResource(R.string.home_title)) },
@@ -76,7 +89,8 @@ fun HomeContent(uiState: HomeUiState) {
             if (uiState.pagerMovies.isNotEmpty()) {
                 MainMoviesContent(
                     modifier = Modifier.padding(paddingValues),
-                    uiState = uiState
+                    uiState = uiState,
+                    onUiEvent = onUiEvent
                 )
             }
         }
@@ -86,7 +100,8 @@ fun HomeContent(uiState: HomeUiState) {
 @Composable
 fun MainMoviesContent(
     modifier: Modifier = Modifier,
-    uiState: HomeUiState
+    uiState: HomeUiState,
+    onUiEvent: (HomeUiEvent) -> Unit
 ) {
     Column(modifier.verticalScroll(rememberScrollState())) {
         HorizontalPagerMoviesSection(pagerItems = uiState.pagerMovies)
@@ -98,7 +113,14 @@ fun MainMoviesContent(
         HorizontalMoviesSection(
             category = stringResource(R.string.now_playing),
             movies = uiState.nowPlayingMovies,
-            content = { NowPlayingMovieBannerItem(movie = it) }
+            content = { movie ->
+                NowPlayingMovieBannerItem(
+                    movie = movie,
+                    onMovieClick = {
+                        onUiEvent.invoke(HomeUiEvent.OnNowPlayingMovieClicked(movie))
+                    }
+                )
+            }
         )
         HorizontalMoviesSection(
             category = stringResource(R.string.top_rated),
@@ -181,10 +203,12 @@ private fun PagerMovieItem(movie: Movie, modifier: Modifier = Modifier) {
 @Composable
 fun NowPlayingMovieBannerItem(
     modifier: Modifier = Modifier,
-    movie: Movie
+    movie: Movie,
+    onMovieClick: (Movie) -> Unit
 ) {
     MovieItem(
         modifier = modifier
+            .clickable { onMovieClick(movie) }
             .width(280.dp)
             .height(160.dp),
         cardShape = MaterialTheme.shapes.small,
@@ -201,8 +225,9 @@ private fun HomeContentPreview() {
         MainMoviesContent(
             uiState = HomeUiState(
                 pagerMovies = movies,
-                popularMovies = movies
-            )
+                popularMovies = movies,
+            ),
+            onUiEvent = {}
         )
     }
 }
