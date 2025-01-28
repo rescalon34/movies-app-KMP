@@ -36,9 +36,20 @@ extension View {
                     .primary,
                     .clear,
                 ],
-                startPoint: .top, endPoint: .bottom
+                startPoint: .top, 
+                endPoint: .bottom
             )
         )
+    }
+    
+    func bottomGradientMask() -> some View {
+        LinearGradient(
+            gradient: Gradient(colors: [Color.black.opacity(0.8), Color.clear]),
+            startPoint: .bottom,
+            endPoint: .top
+        )
+        .frame(height: 100)
+        .allowsHitTesting(false)
     }
     
     func circularGradientOverlay() -> some View {
@@ -56,5 +67,12 @@ extension View {
     
     func roundedBorderShape() -> some View {
         self.modifier(RoundedBorderModifier())
+    }
+    
+    /// Custom gesture to handle user interactions with the pager.
+    /// This onTapGesture works as an easy workaround for handling Gestures with ScrollView.
+    /// See here for more: https://danielsaidi.com/blog/2022/11/16/using-complex-gestures-in-a-scroll-view
+    func onEmptyTapGesture() -> some View {
+        onTapGesture { }
     }
 }

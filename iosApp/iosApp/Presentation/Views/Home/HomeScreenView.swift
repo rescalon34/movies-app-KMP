@@ -35,34 +35,45 @@ struct HomeScreenView: View {
         } else {
             if !viewModel.popularMovies.isEmpty {
                 mainMoviesContent
+                    .onAppear(perform: viewModel.startScrollingPager)
+                    .onDisappear(perform: viewModel.stopScrollingPager)
             }
         }
     }
     
     // MARK: - Movies sections
     var mainMoviesContent: some View {
-        ScrollView {
-            HorizontalMoviesSectionView(
-                title: MovieFilter.Popular.displayName,
-                movies: viewModel.popularMovies,
-                onMovieClicked: { _ in }
-            )
-            
-            HorizontalMoviesSectionView(
-                title: MovieFilter.NowPlaying.displayName,
-                movieItemSize: CGSizeMake(280, 160),
-                itemType: .Video,
-                movies: viewModel.nowPlayingMovies,
-                onMovieClicked: { _ in }
-            )
-            
-            HorizontalMoviesSectionView(
-                title: MovieFilter.TopRated.displayName,
-                movies: viewModel.topRatedMovies,
-                onMovieClicked: { _ in }
-            )
+        GeometryReader { proxy in
+            ScrollView {
+                HorizontalPagerMoviesView(
+                    movies: viewModel.upcomingMovies,
+                    screenWidth: proxy.size.width,
+                    currentPagerItem: $viewModel.currentPagerItem,
+                    shouldAutoScroll: $viewModel.shouldAutoScroll
+                )
+                
+                HorizontalMoviesSectionView(
+                    title: MovieFilter.Popular.displayName,
+                    movies: viewModel.popularMovies,
+                    onMovieClicked: { _ in }
+                )
+                
+                HorizontalMoviesSectionView(
+                    title: MovieFilter.NowPlaying.displayName,
+                    movieItemSize: CGSizeMake(280, 160),
+                    itemType: .Video,
+                    movies: viewModel.nowPlayingMovies,
+                    onMovieClicked: { _ in }
+                )
+                
+                HorizontalMoviesSectionView(
+                    title: MovieFilter.TopRated.displayName,
+                    movies: viewModel.topRatedMovies,
+                    onMovieClicked: { _ in }
+                )
+            }
+            .scrollIndicators(.hidden)
         }
-        .scrollIndicators(.hidden)
     }
 }
 
