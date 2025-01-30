@@ -5,6 +5,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -16,12 +17,10 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -40,6 +39,7 @@ import com.escalondev.movies_app_kmp.android.ui.component.HorizontalMoviesSectio
 import com.escalondev.movies_app_kmp.android.ui.component.InfoMessageCard
 import com.escalondev.movies_app_kmp.android.ui.component.MovieItem
 import com.escalondev.movies_app_kmp.android.ui.component.SimpleProgressIndicator
+import com.escalondev.movies_app_kmp.android.ui.player.YouTubePlayerBottomSheet
 import com.escalondev.movies_app_kmp.android.util.Constants.FIVE_VALUE
 import com.escalondev.movies_app_kmp.android.util.Constants.ZERO_VALUE
 import com.escalondev.movies_app_kmp.android.util.HandleAutoScrollPagerItemAnimation
@@ -51,9 +51,7 @@ import com.escalondev.movies_app_kmp.domain.util.ORIGINAL_POSTER_SIZE
 import kotlin.math.absoluteValue
 
 @Composable
-fun HomeScreen(
-    viewModel: HomeViewModel = hiltViewModel()
-) {
+fun HomeScreen(viewModel: HomeViewModel = hiltViewModel()) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     LaunchedEffect(Unit) {
@@ -76,7 +74,17 @@ fun HomeContent(
         modifier = Modifier.padding(bottom = 88.dp),
         topBar = { BaseAppBar(title = stringResource(R.string.home_title)) },
         screen = { paddingValues ->
-            if (uiState.isLoading) SimpleProgressIndicator()
+
+            if (uiState.shouldShowPlayer) {
+                YouTubePlayerBottomSheet(
+                    modifier = Modifier.fillMaxHeight(),
+                    video = uiState.videosByMovie.random(),
+                    sheetState = rememberModalBottomSheetState(),
+                    onDismiss = {
+                        onUiEvent.invoke(HomeUiEvent.OnChangeYouTubePlayerState(shouldShowPlayer = false))
+                    }
+                )
+            }
 
             uiState.errorMessage?.let { error ->
                 InfoMessageCard(
@@ -93,6 +101,8 @@ fun HomeContent(
                     onUiEvent = onUiEvent
                 )
             }
+
+            if (uiState.isLoading) SimpleProgressIndicator()
         }
     )
 }
@@ -104,7 +114,7 @@ fun MainMoviesContent(
     onUiEvent: (HomeUiEvent) -> Unit
 ) {
     Column(modifier.verticalScroll(rememberScrollState())) {
-        HorizontalPagerMoviesSection(pagerItems = uiState.pagerMovies)
+        HorizontalPagerMoviesSection(uiState, onUiEvent)
         HorizontalMoviesSection(
             category = stringResource(R.string.popular),
             movies = uiState.popularMovies,
@@ -132,16 +142,16 @@ fun MainMoviesContent(
 
 @Composable
 private fun HorizontalPagerMoviesSection(
-    pagerItems: List<Movie>
+    uiState: HomeUiState,
+    onUiEvent: (HomeUiEvent) -> Unit
 ) {
-    var shouldAutoScroll by remember { mutableStateOf(true) }
+
     val pagerState = rememberPagerState(
         initialPage = ZERO_VALUE,
-        pageCount = { pagerItems.size }
+        pageCount = { uiState.pagerMovies.size }
     )
 
-    HandleAutoScrollPagerItemAnimation(pagerState, shouldAutoScroll)
-
+    HandleAutoScrollPagerItemAnimation(pagerState, uiState.shouldAutoScroll)
     HorizontalPager(
         modifier = Modifier.height(90.dp * (FIVE_VALUE)),
         state = pagerState,
@@ -151,12 +161,12 @@ private fun HorizontalPagerMoviesSection(
         val pageOffset = pagerState.getOffsetDistanceInPages(page).absoluteValue
 
         PagerMovieItem(
-            movie = pagerItems[page],
+            movie = uiState.pagerMovies[page],
             modifier = Modifier
                 .height(90.dp * (FIVE_VALUE - pageOffset))
                 .padding(horizontal = 5.dp)
                 .detectOnPress { isPressing ->
-                    shouldAutoScroll = !isPressing
+                    onUiEvent(HomeUiEvent.OnChangeAutoScrollState(shouldAutoScroll = !isPressing))
                 },
         )
     }

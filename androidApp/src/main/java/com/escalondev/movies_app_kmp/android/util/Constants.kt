@@ -15,4 +15,6 @@ object Constants {
     const val ZERO_VALUE = 0
     const val ONE_VALUE = 1
     const val FIVE_VALUE = 5
+
+    const val YOUTUBE_EMBED_URL = "https://www.youtube.com/embed/"
 }

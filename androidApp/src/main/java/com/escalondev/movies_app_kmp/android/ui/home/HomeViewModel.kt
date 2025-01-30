@@ -1,6 +1,5 @@
 package com.escalondev.movies_app_kmp.android.ui.home
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.escalondev.domain.usecase.home.GetMoviesUseCase
@@ -55,15 +54,20 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun getVideosByMovie(movieId: Int) {
+        _uiState.update { it.copy(isLoading = true) }
         viewModelScope.launch {
             getVideosByMovieUseCase(movieId)
                 .onSuccess { videos ->
-                    // TODO: Handle this
-                    Log.d("tellVideos", "videos by movie: $videos")
+                    _uiState.update { it.copy(isLoading = false, videosByMovie = videos) }
+                    onChangeYouTubePlayerState(shouldShowPlayer = true)
                 }
                 .onFailure { error ->
-                    // TODO: Handle this
-                    Log.d("tellVideos", "no videos: ${error?.statusMessage}")
+                    _uiState.update {
+                        it.copy(
+                            isLoading = false,
+                            errorMessage = error?.statusMessage
+                        )
+                    }
                 }
         }
     }
@@ -101,10 +105,36 @@ class HomeViewModel @Inject constructor(
         }
     }
 
+    /**
+     * This will determine if the YouTube Player bottom sheet should be shown or not
+     * depending on the user's event triggered.
+     */
+    private fun onChangeYouTubePlayerState(shouldShowPlayer: Boolean) {
+        _uiState.update { it.copy(shouldShowPlayer = shouldShowPlayer) }
+
+        // Stop Auto-Scrolling if the Player is currently visible
+        if (shouldShowPlayer) {
+            onChangeAutoScroll(false)
+        } else {
+            onChangeAutoScroll(true)
+        }
+    }
+
+    /**
+     * Pause or resume the Auto-Scrolling of the Pager Movies.
+     */
+    private fun onChangeAutoScroll(shouldAutoScroll: Boolean) {
+        _uiState.update { it.copy(shouldAutoScroll = shouldAutoScroll) }
+    }
+
     fun onUiEvent(event: HomeUiEvent) {
         when (event) {
             is HomeUiEvent.OnStart -> getMoviesData()
             is HomeUiEvent.OnNowPlayingMovieClicked -> getVideosByMovie(event.movie.id)
+            is HomeUiEvent.OnChangeAutoScrollState -> onChangeAutoScroll(event.shouldAutoScroll)
+            is HomeUiEvent.OnChangeYouTubePlayerState -> {
+                onChangeYouTubePlayerState(shouldShowPlayer = event.shouldShowPlayer)
+            }
         }
     }
 }

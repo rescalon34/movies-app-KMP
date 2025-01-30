@@ -58,6 +58,8 @@ fun NavigationEffects(
                         }
                     }
                 }
+
+                NavigationIntent.NavigateBack -> navHostController.navigateUp()
             }
         }
     }

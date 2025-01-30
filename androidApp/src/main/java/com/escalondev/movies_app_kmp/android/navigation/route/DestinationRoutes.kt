@@ -17,3 +17,6 @@ object WatchlistScreenRoute : NavigationDestination
 
 @Serializable
 object ProfileScreenRoute : NavigationDestination
+
+@Serializable
+data class ComingSoonScreenRoute(val title: String) : NavigationDestination
