@@ -4,6 +4,7 @@ import kotlinx.coroutines.flow.SharedFlow
 
 interface AppNavigator {
     val navigationFlow: SharedFlow<NavigationIntent>
+    suspend fun navigateBack()
     suspend fun navigateTo(destination: NavigationDestination)
     suspend fun navigateToBottomNavItem(destination: NavigationDestination)
 }

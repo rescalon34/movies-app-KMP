@@ -23,4 +23,8 @@ extension String {
         
         return "\(month) \(year)"
     }
+    
+    func getYoutubeVideoUrl() -> String {
+        return BASE_YOUTUBE_URL + self
+    }
 }

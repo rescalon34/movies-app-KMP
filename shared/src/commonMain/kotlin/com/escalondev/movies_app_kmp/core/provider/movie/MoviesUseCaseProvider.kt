@@ -1,6 +1,7 @@
 package com.escalondev.movies_app_kmp.core.provider.movie
 
 import com.escalondev.movies_app_kmp.domain.model.SharedMovie
+import com.escalondev.movies_app_kmp.domain.model.SharedVideo
 import com.escalondev.movies_app_kmp.domain.util.NetworkResult
 import com.rickclephas.kmp.nativecoroutines.NativeCoroutines
 import kotlinx.coroutines.flow.Flow
@@ -78,4 +79,12 @@ interface MoviesUseCaseProvider {
         page: Int,
         language: String
     ): NetworkResult<List<SharedMovie>>
+
+    /**
+     * @return a [NetworkResult] object Where `T` represents a [List] of [SharedVideo].
+     */
+    @NativeCoroutines
+    suspend fun getVideosByMovie(
+        movieId: Int
+    ): NetworkResult<List<SharedVideo>>
 }

@@ -12,6 +12,7 @@ struct HomeScreenView: View {
     
     // MARK: - Properties
     @StateObject var viewModel: HomeViewModel
+    @Environment(\.scenePhase) var scenePhase
     
     // MARK: - Body
     var body: some View {
@@ -21,6 +22,8 @@ struct HomeScreenView: View {
             }
             .navigationTitle("Home")
             .navigationBarTitleDisplayMode(.automatic)
+            .onChange(of: scenePhase, onScreenSceneChange)
+            .sheet(isPresented: $viewModel.isPlayerPresented, content: showYouTubePlayer)
         }
     }
     
@@ -62,9 +65,10 @@ struct HomeScreenView: View {
                     title: MovieFilter.NowPlaying.displayName,
                     movieItemSize: CGSizeMake(280, 160),
                     itemType: .Video,
-                    movies: viewModel.nowPlayingMovies,
-                    onMovieClicked: { _ in }
-                )
+                    movies: viewModel.nowPlayingMovies
+                ) { movie in
+                    viewModel.onPlayNowVideoClick(movie: movie)
+                }
                 
                 HorizontalMoviesSectionView(
                     title: MovieFilter.TopRated.displayName,
@@ -74,6 +78,23 @@ struct HomeScreenView: View {
             }
             .scrollIndicators(.hidden)
         }
+    }
+    
+    // MARK: - Functions
+    private func onScreenSceneChange(oldValue: ScenePhase?, newValue: ScenePhase) {
+        handleScenePhaseChanges(
+            oldValue: oldValue,
+            newValue: newValue,
+            onActive: { viewModel.startScrollingPager() },
+            onBackground: { viewModel.stopScrollingPager() }
+        )
+    }
+    
+    private func showYouTubePlayer() -> some View {
+        YouTubePlayerView(
+            title: viewModel.selectedMovie?.title ?? "",
+            videoKey: viewModel.videosByMovie.randomElement()?.key
+        )
     }
 }
 

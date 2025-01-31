@@ -2,6 +2,8 @@ package com.escalondev.domain.di
 
 import com.escalondev.domain.usecase.home.GetMoviesUseCase
 import com.escalondev.domain.usecase.home.GetMoviesUseCaseImpl
+import com.escalondev.domain.usecase.home.GetVideosByMovieUseCase
+import com.escalondev.domain.usecase.home.GetVideosByMovieUseCaseImpl
 import com.escalondev.domain.usecase.profile.GetProfileUseCase
 import com.escalondev.domain.usecase.profile.GetProfileUseCaseImpl
 import com.escalondev.domain.usecase.watchlist.GetWatchlistMoviesUseCase
@@ -37,6 +39,11 @@ object UseCaseModule {
     @Provides
     fun provideGetWatchlistMoviesUseCase(moviesUseCaseProvider: MoviesUseCaseProvider): GetWatchlistMoviesUseCase {
         return GetWatchlistMoviesUseCaseImpl(moviesUseCaseProvider)
+    }
+
+    @Provides
+    fun provideGetVideosByMovieUseCase(moviesUseCaseProvider: MoviesUseCaseProvider): GetVideosByMovieUseCase {
+        return GetVideosByMovieUseCaseImpl(moviesUseCaseProvider)
     }
 
     @Provides

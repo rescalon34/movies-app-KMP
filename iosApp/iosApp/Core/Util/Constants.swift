@@ -14,3 +14,6 @@ let MINUS_NINETY_DEGREES = -90
 let ONE = 1
 let ORIGINAL = "original"
 let DEFAULT_POSTER_SIZE = "w342"
+let BASE_YOUTUBE_URL = "https://youtu.be/"
+let BASE_EMBED_YOUTUBE_URL = "https://img.youtube.com/vi/"
+let HQ_DEFAULT_IMAGE = "/hqdefault.jpg"

@@ -22,6 +22,11 @@ internal interface MoviesApi {
         @Query("language") language: String,
     ): HttpResponse
 
+    @GET("movie/{movie_id}/videos")
+    suspend fun getVideosByMovie(
+        @Path("movie_id") movieId: Int
+    ): HttpResponse
+
     @GET("account/{account_id}")
     suspend fun getProfile(@Path("account_id") accountId: Int): HttpResponse
 }

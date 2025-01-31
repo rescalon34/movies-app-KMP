@@ -1,6 +1,7 @@
 package com.escalondev.movies_app_kmp.core.provider.movie
 
 import com.escalondev.movies_app_kmp.domain.model.SharedMovie
+import com.escalondev.movies_app_kmp.domain.model.SharedVideo
 import com.escalondev.movies_app_kmp.domain.repository.SharedMoviesRepository
 import com.escalondev.movies_app_kmp.domain.util.NetworkResult
 import kotlinx.coroutines.flow.Flow
@@ -37,4 +38,10 @@ internal class MoviesUseCaseProviderImpl : KoinComponent, MoviesUseCaseProvider 
         page = page,
         language = language
     )
+
+    override suspend fun getVideosByMovie(movieId: Int): NetworkResult<List<SharedVideo>> {
+        return moviesRepository.getVideosByMovie(
+            movieId = movieId
+        )
+    }
 }

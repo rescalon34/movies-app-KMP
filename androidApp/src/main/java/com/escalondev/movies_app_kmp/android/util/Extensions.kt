@@ -4,6 +4,7 @@ import android.content.res.Resources
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.core.os.ConfigurationCompat
+import com.escalondev.movies_app_kmp.android.util.Constants.YOUTUBE_EMBED_URL
 
 fun getGradientBackgroundMask(): List<Color> {
     return listOf(
@@ -32,6 +33,10 @@ fun getCurrentLanguageCode(): String {
         Resources.getSystem().configuration
     ).get(0)?.toLanguageTag() ?: DEFAULT_LANGUAGE_TAG
     return languageTag
+}
+
+fun getVideoUrl(videoKey: String): String {
+    return "$YOUTUBE_EMBED_URL$videoKey"
 }
 
 const val DEFAULT_LANGUAGE_TAG = "en-US"
