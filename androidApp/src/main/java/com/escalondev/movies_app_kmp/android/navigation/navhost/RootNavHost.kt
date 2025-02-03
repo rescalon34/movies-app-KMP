@@ -6,9 +6,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.escalondev.movies_app_kmp.android.navigation.route.ComingSoonScreenRoute
 import com.escalondev.movies_app_kmp.android.navigation.route.HomeScreenRoute
+import com.escalondev.movies_app_kmp.android.navigation.route.MovieDetailScreenRoute
 import com.escalondev.movies_app_kmp.android.navigation.route.ProfileScreenRoute
 import com.escalondev.movies_app_kmp.android.navigation.route.WatchlistScreenRoute
 import com.escalondev.movies_app_kmp.android.ui.comingsoon.ComingSoonScreen
+import com.escalondev.movies_app_kmp.android.ui.detail.MovieDetailScreen
 import com.escalondev.movies_app_kmp.android.ui.home.HomeScreen
 import com.escalondev.movies_app_kmp.android.ui.profile.ProfileScreen
 import com.escalondev.movies_app_kmp.android.ui.watchlist.WatchlistScreen
@@ -24,6 +26,9 @@ fun RootNavHost(navController: NavHostController) {
     ) {
         composable<HomeScreenRoute> {
             HomeScreen()
+        }
+        composable<MovieDetailScreenRoute> {
+            MovieDetailScreen()
         }
         composable<WatchlistScreenRoute> {
             WatchlistScreen()

@@ -10,7 +10,7 @@ import kotlinx.serialization.Serializable
 object HomeScreenRoute : NavigationDestination
 
 @Serializable
-object SearchScreenRoute : NavigationDestination
+data class MovieDetailScreenRoute(val movie: String) : NavigationDestination
 
 @Serializable
 object WatchlistScreenRoute : NavigationDestination

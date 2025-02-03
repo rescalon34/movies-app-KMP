@@ -1,7 +1,6 @@
 package com.escalondev.movies_app_kmp.android.ui.home
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -118,7 +117,11 @@ fun MainMoviesContent(
         HorizontalMoviesSection(
             category = stringResource(R.string.popular),
             movies = uiState.popularMovies,
-            content = { MovieItem(movie = it) }
+            content = { movie ->
+                MovieItem(movie = movie) {
+                    onUiEvent.invoke(HomeUiEvent.OnNavigateToMovieDetails(movie))
+                }
+            }
         )
         HorizontalMoviesSection(
             category = stringResource(R.string.now_playing),
@@ -135,7 +138,11 @@ fun MainMoviesContent(
         HorizontalMoviesSection(
             category = stringResource(R.string.top_rated),
             movies = uiState.topRatedMovies,
-            content = { MovieItem(movie = it) }
+            content = { movie ->
+                MovieItem(movie = movie) {
+                    onUiEvent.invoke(HomeUiEvent.OnNavigateToMovieDetails(movie))
+                }
+            }
         )
     }
 }
@@ -173,13 +180,18 @@ private fun HorizontalPagerMoviesSection(
 }
 
 @Composable
-private fun PagerMovieItem(movie: Movie, modifier: Modifier = Modifier) {
+private fun PagerMovieItem(
+    movie: Movie,
+    modifier: Modifier = Modifier,
+    onMovieClick: () -> Unit = {}
+) {
     Box {
         MovieItem(
             modifier = modifier,
             cardShape = MaterialTheme.shapes.small,
             movie = movie,
-            imageSize = ORIGINAL_POSTER_SIZE
+            imageSize = ORIGINAL_POSTER_SIZE,
+            onMovieClick = onMovieClick
         )
 
         Box(
@@ -214,16 +226,16 @@ private fun PagerMovieItem(movie: Movie, modifier: Modifier = Modifier) {
 fun NowPlayingMovieBannerItem(
     modifier: Modifier = Modifier,
     movie: Movie,
-    onMovieClick: (Movie) -> Unit
+    onMovieClick: () -> Unit
 ) {
     MovieItem(
         modifier = modifier
-            .clickable { onMovieClick(movie) }
             .width(280.dp)
             .height(160.dp),
         cardShape = MaterialTheme.shapes.small,
         movie = movie,
-        isPlayButtonVisible = true
+        isPlayButtonVisible = true,
+        onMovieClick = onMovieClick
     )
 }
 
