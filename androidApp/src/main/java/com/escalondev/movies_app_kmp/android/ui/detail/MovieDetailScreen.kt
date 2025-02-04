@@ -3,6 +3,7 @@ package com.escalondev.movies_app_kmp.android.ui.detail
 import android.content.res.Configuration
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -34,6 +35,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -54,6 +56,7 @@ import com.escalondev.movies_app_kmp.android.ui.component.SquaredPrimaryButton
 import com.escalondev.movies_app_kmp.android.ui.home.HomeUiEvent
 import com.escalondev.movies_app_kmp.android.ui.player.YouTubePlayerBottomSheet
 import com.escalondev.movies_app_kmp.android.util.formatDate
+import com.escalondev.movies_app_kmp.android.util.shareMovieDetails
 import com.escalondev.movies_app_kmp.domain.util.ORIGINAL_POSTER_SIZE
 
 @Composable
@@ -144,6 +147,8 @@ fun DetailTopAppBar(
         label = ""
     )
 
+    val context = LocalContext.current
+
     BaseAppBar(
         title = if (isTransparentToolbar) "" else title,
         isTransparent = isTransparentToolbar,
@@ -157,6 +162,11 @@ fun DetailTopAppBar(
                     .clip(CircleShape)
                     .background(containerColor)
                     .padding(all = 8.dp)
+                    .clickable(indication = null, interactionSource = null) {
+                        onEvent(MovieDetailUiEvent.OnShareMovieDetails { title ->
+                            context.shareMovieDetails(title)
+                        })
+                    }
             ) {
                 Icon(
                     modifier = Modifier

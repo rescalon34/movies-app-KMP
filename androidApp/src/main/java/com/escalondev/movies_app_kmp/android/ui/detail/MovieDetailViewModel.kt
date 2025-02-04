@@ -10,7 +10,6 @@ import com.escalondev.movies_app_kmp.android.ui.base.BaseViewModel
 import com.escalondev.movies_app_kmp.domain.util.onFailure
 import com.escalondev.movies_app_kmp.domain.util.onSuccess
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -62,6 +61,10 @@ class MovieDetailViewModel @Inject constructor(
         }
     }
 
+    private fun onShareMovieDetails(onShareMovieCallback: (String) -> Unit) {
+        onShareMovieCallback(args?.movie?.title.orEmpty())
+    }
+
     /**
      * This will determine if the YouTube Player bottom sheet should be shown or not
      * depending on the user's event triggered.
@@ -74,6 +77,7 @@ class MovieDetailViewModel @Inject constructor(
         when (event) {
             is MovieDetailUiEvent.OnStart -> onStart()
             MovieDetailUiEvent.OnNavigateBack -> onNavigateBack()
+            is MovieDetailUiEvent.OnShareMovieDetails -> onShareMovieDetails(event.onShareMovieCallback)
             is MovieDetailUiEvent.OnChangeYouTubePlayerState -> {
                 onChangeYouTubePlayerState(shouldShowPlayer = event.shouldShowPlayer)
             }

@@ -1,5 +1,7 @@
 package com.escalondev.movies_app_kmp.android.util
 
+import android.content.Context
+import android.content.Intent
 import android.content.res.Resources
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
@@ -37,6 +39,16 @@ fun getCurrentLanguageCode(): String {
 
 fun getVideoUrl(videoKey: String): String {
     return "$YOUTUBE_EMBED_URL$videoKey"
+}
+
+fun Context.shareMovieDetails(text: String) {
+    val sendIntent: Intent = Intent().apply {
+        action = Intent.ACTION_SEND
+        putExtra(Intent.EXTRA_TEXT, text)
+        type = "text/plain"
+    }
+    val shareIntent = Intent.createChooser(sendIntent, null)
+    startActivity(shareIntent)
 }
 
 const val DEFAULT_LANGUAGE_TAG = "en-US"
