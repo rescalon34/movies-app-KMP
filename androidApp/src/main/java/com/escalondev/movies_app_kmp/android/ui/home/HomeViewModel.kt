@@ -1,12 +1,11 @@
 package com.escalondev.movies_app_kmp.android.ui.home
 
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.escalondev.domain.model.movie.Movie
 import com.escalondev.domain.usecase.home.GetMoviesUseCase
 import com.escalondev.domain.usecase.home.GetVideosByMovieUseCase
-import com.escalondev.movies_app_kmp.android.navigation.navigator.AppNavigator
 import com.escalondev.movies_app_kmp.android.navigation.route.MovieDetailScreenRoute
+import com.escalondev.movies_app_kmp.android.ui.base.BaseViewModel
 import com.escalondev.movies_app_kmp.android.util.Constants.ONE_VALUE
 import com.escalondev.movies_app_kmp.android.util.MovieFilter
 import com.escalondev.movies_app_kmp.android.util.getCurrentLanguageCode
@@ -26,8 +25,7 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     private val getMoviesUseCase: GetMoviesUseCase,
     private val getVideosByMovieUseCase: GetVideosByMovieUseCase,
-    private val appNavigator: AppNavigator
-) : ViewModel() {
+) : BaseViewModel() {
 
     private val _uiState = MutableStateFlow(HomeUiState())
     val uiState: StateFlow<HomeUiState> = _uiState.asStateFlow()

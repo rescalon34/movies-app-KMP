@@ -1,11 +1,10 @@
 package com.escalondev.movies_app_kmp.android.ui.detail
 
 import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.escalondev.movies_app_kmp.android.navigation.navigator.AppNavigator
 import com.escalondev.movies_app_kmp.android.navigation.route.MovieDetailScreenRoute
 import com.escalondev.movies_app_kmp.android.navigation.util.toRouteArgs
+import com.escalondev.movies_app_kmp.android.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -17,8 +16,7 @@ import javax.inject.Inject
 @HiltViewModel
 class MovieDetailViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val appNavigator: AppNavigator
-) : ViewModel() {
+) : BaseViewModel() {
 
     // Stateless
     private val args = savedStateHandle.toRouteArgs<MovieDetailScreenRoute>()
@@ -29,12 +27,6 @@ class MovieDetailViewModel @Inject constructor(
     private fun onStart() {
         args?.movie?.let { mov ->
             _uiState.update { it.copy(movie = mov) }
-        }
-    }
-
-    private fun onNavigateBack() {
-        viewModelScope.launch {
-            appNavigator.navigateBack()
         }
     }
 
