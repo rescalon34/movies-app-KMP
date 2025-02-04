@@ -10,6 +10,9 @@
     <!-- Home -->
     <string name="home_title">Home</string>
 
+    <!-- Details -->
+    <string name="movie_details">Released on: </string>
+
     <!-- Movies filter -->
     <string name="popular">Popular</string>
     <string name="now_playing">Now Playing</string>

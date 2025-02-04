@@ -18,6 +18,8 @@ data class CustomColors(
         md_theme_light_primary_gradient_2,
         md_theme_light_primary_gradient_3,
     ),
+
+    val white: Color = Color.White,
 )
 
 val LocalCustomColors = compositionLocalOf { CustomColors() }
