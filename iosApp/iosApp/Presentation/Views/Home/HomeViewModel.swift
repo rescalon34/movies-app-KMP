@@ -138,8 +138,9 @@ class HomeViewModel: ObservableObject {
     
     /// Scrolls the pager to the next item, looping back to the start position.
     private func autoScrollToNextItem() {
-        guard let current = currentPagerItem else { return }
+        guard let current = currentPagerItem, upcomingMovies.count > 0 else { return }
         // Loop back to the start after the last item
+        
         let nextItem = (current + 1) % upcomingMovies.count
         print("Auto-scrolling to item: \(nextItem)")
         currentPagerItem = nextItem

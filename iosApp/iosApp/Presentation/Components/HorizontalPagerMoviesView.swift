@@ -46,6 +46,7 @@ struct HorizontalPagerMoviesView: View {
             .scrollTargetLayout()
         }
         .scrollPosition(id: $currentPagerItem)
+        .animation(.easeInOut, value: currentPagerItem)
         .contentMargins(.horizontal, sidePadding, for: .scrollContent)
         .scrollTargetBehavior(.viewAligned)
         .scrollBounceBehavior(.basedOnSize)
@@ -77,7 +78,7 @@ struct HorizontalPagerMoviesView: View {
                 
             }
             .cornerRadius(8)
-            .scrollTransition(.animated) { content, phase in
+            .scrollTransition(.animated(.interactiveSpring)) { content, phase in
                 // Adjust opacity and scale for non-focused items.
                 content
                     .opacity(phase.isIdentity ? 1 : 0.8)
