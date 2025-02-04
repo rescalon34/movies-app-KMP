@@ -1,11 +1,10 @@
 package com.escalondev.movies_app_kmp.android.ui.home
 
-import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -34,6 +33,7 @@ import com.escalondev.movies_app_kmp.android.R
 import com.escalondev.movies_app_kmp.android.theme.MoviesAppTheme
 import com.escalondev.movies_app_kmp.android.ui.base.BaseScreen
 import com.escalondev.movies_app_kmp.android.ui.component.BaseAppBar
+import com.escalondev.movies_app_kmp.android.ui.component.BottomFadingBox
 import com.escalondev.movies_app_kmp.android.ui.component.HorizontalMoviesSection
 import com.escalondev.movies_app_kmp.android.ui.component.InfoMessageCard
 import com.escalondev.movies_app_kmp.android.ui.component.MovieItem
@@ -42,7 +42,6 @@ import com.escalondev.movies_app_kmp.android.ui.player.YouTubePlayerBottomSheet
 import com.escalondev.movies_app_kmp.android.util.Constants.FIVE_VALUE
 import com.escalondev.movies_app_kmp.android.util.Constants.ZERO_VALUE
 import com.escalondev.movies_app_kmp.android.util.HandleAutoScrollPagerItemAnimation
-import com.escalondev.movies_app_kmp.android.util.addBottomBackgroundBrush
 import com.escalondev.movies_app_kmp.android.util.detectOnPress
 import com.escalondev.movies_app_kmp.android.util.formatDate
 import com.escalondev.movies_app_kmp.data.repository.MockedMoviesRepository
@@ -118,9 +117,12 @@ fun MainMoviesContent(
             category = stringResource(R.string.popular),
             movies = uiState.popularMovies,
             content = { movie ->
-                MovieItem(movie = movie) {
-                    onUiEvent.invoke(HomeUiEvent.OnNavigateToMovieDetails(movie))
-                }
+                MovieItem(
+                    movie = movie,
+                    modifier = Modifier.clickable {
+                        onUiEvent.invoke(HomeUiEvent.OnNavigateToMovieDetails(movie))
+                    }
+                )
             }
         )
         HorizontalMoviesSection(
@@ -139,9 +141,13 @@ fun MainMoviesContent(
             category = stringResource(R.string.top_rated),
             movies = uiState.topRatedMovies,
             content = { movie ->
-                MovieItem(movie = movie) {
-                    onUiEvent.invoke(HomeUiEvent.OnNavigateToMovieDetails(movie))
-                }
+                MovieItem(
+                    movie = movie,
+                    modifier = Modifier
+                        .clickable {
+                            onUiEvent.invoke(HomeUiEvent.OnNavigateToMovieDetails(movie))
+                        }
+                )
             }
         )
     }
@@ -190,20 +196,12 @@ private fun PagerMovieItem(
             modifier = modifier,
             cardShape = MaterialTheme.shapes.small,
             movie = movie,
-            imageSize = ORIGINAL_POSTER_SIZE,
-            onMovieClick = onMovieClick
+            imageSize = ORIGINAL_POSTER_SIZE
         )
 
-        Box(
-            modifier = Modifier
-                .align(Alignment.BottomStart)
-                .padding(horizontal = 5.dp)
-                .fillMaxWidth()
-                .height(150.dp)
-                .background(
-                    brush = addBottomBackgroundBrush(),
-                    shape = MaterialTheme.shapes.small
-                )
+        BottomFadingBox(modifier = Modifier
+            .align(Alignment.BottomStart)
+            .padding(horizontal = 5.dp)
         ) {
             movie.releaseDate?.formatDate()?.let {
                 Text(
@@ -231,11 +229,11 @@ fun NowPlayingMovieBannerItem(
     MovieItem(
         modifier = modifier
             .width(280.dp)
-            .height(160.dp),
+            .height(160.dp)
+            .clickable { onMovieClick() },
         cardShape = MaterialTheme.shapes.small,
         movie = movie,
         isPlayButtonVisible = true,
-        onMovieClick = onMovieClick
     )
 }
 

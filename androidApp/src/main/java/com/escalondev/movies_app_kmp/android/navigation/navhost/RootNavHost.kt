@@ -9,6 +9,7 @@ import com.escalondev.movies_app_kmp.android.navigation.route.HomeScreenRoute
 import com.escalondev.movies_app_kmp.android.navigation.route.MovieDetailScreenRoute
 import com.escalondev.movies_app_kmp.android.navigation.route.ProfileScreenRoute
 import com.escalondev.movies_app_kmp.android.navigation.route.WatchlistScreenRoute
+import com.escalondev.movies_app_kmp.android.navigation.util.typeMapOf
 import com.escalondev.movies_app_kmp.android.ui.comingsoon.ComingSoonScreen
 import com.escalondev.movies_app_kmp.android.ui.detail.MovieDetailScreen
 import com.escalondev.movies_app_kmp.android.ui.home.HomeScreen
@@ -27,7 +28,9 @@ fun RootNavHost(navController: NavHostController) {
         composable<HomeScreenRoute> {
             HomeScreen()
         }
-        composable<MovieDetailScreenRoute> {
+        composable<MovieDetailScreenRoute>(
+            typeMap = typeMapOf<MovieDetailScreenRoute>()
+        ) {
             MovieDetailScreen()
         }
         composable<WatchlistScreenRoute> {

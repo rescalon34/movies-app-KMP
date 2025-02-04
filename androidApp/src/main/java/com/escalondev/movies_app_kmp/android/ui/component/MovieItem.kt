@@ -1,6 +1,5 @@
 package com.escalondev.movies_app_kmp.android.ui.component
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -29,11 +28,10 @@ fun MovieItem(
     contentScale: ContentScale = ContentScale.Crop,
     isPlayButtonVisible: Boolean = false,
     movie: Movie,
-    onMovieClick: () -> Unit = {}
 ) {
     val isPreview = LocalInspectionMode.current
     Card(
-        modifier = modifier.clickable { onMovieClick() },
+        modifier = modifier,
         shape = cardShape
     ) {
         Box(modifier = Modifier.fillMaxSize()) {
@@ -65,7 +63,6 @@ private fun MovieItemPreview() {
                 releaseDate = "2024-10-09",
             ),
             isPlayButtonVisible = true,
-            onMovieClick = { }
         )
     }
 }

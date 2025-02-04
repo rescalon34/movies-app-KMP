@@ -11,4 +11,5 @@ data class SharedMovie(
     val title: String?,
     val imageUrl: String?,
     val releaseDate: String? = null,
+    val overview: String? = null
 )

@@ -133,7 +133,7 @@ class HomeViewModel @Inject constructor(
 
     private fun onNavigateToDetails(movie: Movie) {
         viewModelScope.launch {
-            appNavigator.navigateTo(MovieDetailScreenRoute(movie.title.orEmpty()))
+            appNavigator.navigateTo(MovieDetailScreenRoute(movie))
         }
     }
 
