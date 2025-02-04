@@ -79,7 +79,9 @@ fun HomeContent(
                     video = uiState.videosByMovie.random(),
                     sheetState = rememberModalBottomSheetState(),
                     onDismiss = {
-                        onUiEvent.invoke(HomeUiEvent.OnChangeYouTubePlayerState(shouldShowPlayer = false))
+                        onUiEvent.invoke(
+                            HomeUiEvent.OnChangeYouTubePlayerState(shouldShowPlayer = false)
+                        )
                     }
                 )
             }
@@ -199,9 +201,10 @@ private fun PagerMovieItem(
             imageSize = ORIGINAL_POSTER_SIZE
         )
 
-        BottomFadingBox(modifier = Modifier
-            .align(Alignment.BottomStart)
-            .padding(horizontal = 5.dp)
+        BottomFadingBox(
+            modifier = Modifier
+                .align(Alignment.BottomStart)
+                .padding(horizontal = 5.dp)
         ) {
             movie.releaseDate?.formatDate()?.let {
                 Text(

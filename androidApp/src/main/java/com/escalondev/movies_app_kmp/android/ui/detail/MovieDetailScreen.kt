@@ -6,6 +6,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -21,6 +22,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -47,7 +49,10 @@ import com.escalondev.movies_app_kmp.android.ui.base.BaseScreen
 import com.escalondev.movies_app_kmp.android.ui.component.BaseAppBar
 import com.escalondev.movies_app_kmp.android.ui.component.BottomFadingBox
 import com.escalondev.movies_app_kmp.android.ui.component.MovieItem
+import com.escalondev.movies_app_kmp.android.ui.component.SimpleProgressIndicator
 import com.escalondev.movies_app_kmp.android.ui.component.SquaredPrimaryButton
+import com.escalondev.movies_app_kmp.android.ui.home.HomeUiEvent
+import com.escalondev.movies_app_kmp.android.ui.player.YouTubePlayerBottomSheet
 import com.escalondev.movies_app_kmp.android.util.formatDate
 import com.escalondev.movies_app_kmp.domain.util.ORIGINAL_POSTER_SIZE
 
@@ -64,6 +69,7 @@ fun MovieDetailScreen(
     MovieDetailContent(uiState, viewModel::onUiEvent)
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MovieDetailContent(
     uiState: MovieDetailUiState,
@@ -92,6 +98,22 @@ fun MovieDetailContent(
             )
         }
     ) {
+
+        if (uiState.shouldShowPlayer) {
+            YouTubePlayerBottomSheet(
+                modifier = Modifier.fillMaxHeight(),
+                video = uiState.videosByMovie.random(),
+                sheetState = rememberModalBottomSheetState(),
+                onDismiss = {
+                    onEvent.invoke(
+                        MovieDetailUiEvent.OnChangeYouTubePlayerState(
+                            shouldShowPlayer = false
+                        )
+                    )
+                }
+            )
+        }
+
         Column(
             modifier = Modifier
                 .verticalScroll(scrollState),
@@ -101,9 +123,11 @@ fun MovieDetailContent(
             DetailHeader(uiState)
             DetailOverview(
                 uiState = uiState,
-                modifier = Modifier.padding(horizontal = 16.dp, vertical = 16.dp)
+                modifier = Modifier.padding(horizontal = 16.dp, vertical = 16.dp),
+                onEvent = onEvent
             )
         }
+        if (uiState.isLoading) SimpleProgressIndicator()
     }
 }
 
@@ -198,11 +222,14 @@ fun DetailHeader(
 @Composable
 fun DetailOverview(
     modifier: Modifier = Modifier,
-    uiState: MovieDetailUiState
+    uiState: MovieDetailUiState,
+    onEvent: (MovieDetailUiEvent) -> Unit
 ) {
     Column(modifier = modifier) {
         SquaredPrimaryButton(
-            text = "PLAY",
+            text = stringResource(
+                R.string.movie_details_watch_trailer
+            ).uppercase(),
             iconVector = Icons.Rounded.PlayArrow,
             shape = MaterialTheme.shapes.small,
             buttonColors = ButtonDefaults.buttonColors(
@@ -210,7 +237,11 @@ fun DetailOverview(
                 contentColor = MaterialTheme.colorScheme.scrim
             )
         ) {
-            // TODO, handle play button.
+            onEvent.invoke(
+                MovieDetailUiEvent.OnChangeYouTubePlayerState(
+                    shouldShowPlayer = true
+                )
+            )
         }
         Text(
             modifier = Modifier.padding(top = 16.dp),
