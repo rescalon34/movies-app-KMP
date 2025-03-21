@@ -48,6 +48,7 @@ class ProfileViewModel @Inject constructor(
     fun onUiEvent(event: ProfileUiEvent) {
         when (event) {
             is ProfileUiEvent.OnProfileOptionClick -> onNavigateToComingSoon(event.title)
+            is ProfileUiEvent.OnEditProfileClick -> onNavigateToComingSoon(event.title)
             is ProfileUiEvent.OnStart -> onStart()
         }
     }
