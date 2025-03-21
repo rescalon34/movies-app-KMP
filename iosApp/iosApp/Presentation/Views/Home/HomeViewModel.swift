@@ -120,6 +120,10 @@ class HomeViewModel: ObservableObject {
         Task { await getVideosByMovie(movieId: movie.id) }
     }
     
+    func onMovieItemClick(movie: Movie) {
+        self.selectedMovie = movie
+    }
+    
     /// Sets up the auto-scrolling pager timer to scroll every 3 seconds.
     private func setupAutoScrollingPagerTimer() {
         pagerScrollingTimer = Timer

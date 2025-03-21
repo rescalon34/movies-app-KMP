@@ -1,0 +1,15 @@
+# Xcode
+*.xcuserstate
+*.xcuserdatad
+xcuserdata/
+DerivedData/
+*.xcodeproj/project.xcworkspace/xcuserdata/
+
+# SwiftPM
+.build/
+
+# Scheme (if not shared)
+iosApp.xcodeproj/xcuserdata/
+
+# Others
+*.DS_Store

@@ -22,6 +22,9 @@ struct HomeScreenView: View {
             }
             .navigationTitle("Home")
             .navigationBarTitleDisplayMode(.automatic)
+            .navigationDestination(isPresented: $viewModel.selectedMovie.toBinding()) {
+                MovieDetailScreenView()
+            }
             .onChange(of: scenePhase, onScreenSceneChange)
             .sheet(isPresented: $viewModel.isPlayerPresented, content: showYouTubePlayer)
         }
@@ -58,7 +61,7 @@ struct HomeScreenView: View {
                 HorizontalMoviesSectionView(
                     title: MovieFilter.Popular.displayName,
                     movies: viewModel.popularMovies,
-                    onMovieClicked: { _ in }
+                    onMovieClicked: { viewModel.onMovieItemClick(movie: $0) }
                 )
                 
                 HorizontalMoviesSectionView(
@@ -73,7 +76,7 @@ struct HomeScreenView: View {
                 HorizontalMoviesSectionView(
                     title: MovieFilter.TopRated.displayName,
                     movies: viewModel.topRatedMovies,
-                    onMovieClicked: { _ in }
+                    onMovieClicked: { viewModel.onMovieItemClick(movie: $0) }
                 )
             }
             .scrollIndicators(.hidden)
