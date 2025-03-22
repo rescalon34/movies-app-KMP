@@ -32,6 +32,7 @@ struct MovieDetailScreenView: View {
             VStack {
                 if let movie = viewModel.movie {
                     movieDetailsHeader(movie: movie)
+                    detailOverview(movie: movie)
                 } else {
                     Text("No content yet")
                 }
@@ -78,7 +79,7 @@ struct MovieDetailScreenView: View {
                     .padding(.horizontal)
                 
                 HStack {
-                    Text(movie.releaseDate ?? "")
+                    Text(viewModel.getReleaseDate())
                         .foregroundColor(.white)
                         .font(.footnote)
                         .foregroundColor(Color.customColors.secondaryTextColor)
@@ -87,8 +88,24 @@ struct MovieDetailScreenView: View {
                 }
                 .padding(.horizontal, 8)
             }
-            .padding(.bottom, 24)
         }
+    }
+    
+    @ViewBuilder
+    private func detailOverview(movie: Movie) -> some View {
+        RoundedButtonView(
+            btnText: "watch trailler".uppercased(),
+            btnIcon: "play.fill",
+            onClicked: {
+                
+            }
+        )
+        Text(movie.overview.orEmpty())
+            .font(.callout)
+            .frame(maxWidth: .infinity,alignment: .leading)
+            .padding()
+            .lineSpacing(4)
+            .foregroundColor(Color.customColors.primaryClearTextColor)
     }
 }
 

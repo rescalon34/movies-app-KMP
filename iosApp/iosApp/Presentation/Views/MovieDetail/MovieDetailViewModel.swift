@@ -20,6 +20,7 @@ class MovieDetailViewModel: ObservableObject {
     @Published var errorMessage: String = ""
     @Published var contentOffset: CGFloat = 0
     @Published var showNavigationTitle = false
+    @Published var isPlayerPresented = false
     
     // MARK: - Combine
     private var cancellable = Set<AnyCancellable>()
@@ -36,6 +37,14 @@ class MovieDetailViewModel: ObservableObject {
     // MARK: View functions
     func getMovieTitle() -> String {
         return movie?.title ?? ""
+    }
+    
+    func getReleaseDate() -> String {
+        let label = "Released on: "
+        guard let date = movie?.releaseDate?.formatReleaseYearAndMonth() else {
+            return label + "N/A"
+        }
+        return label + date
     }
     
     func onMinHeaderAppBarOffsetReached(value: CGFloat) {

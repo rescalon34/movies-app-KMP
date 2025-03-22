@@ -25,7 +25,8 @@ class HomeViewModel: ObservableObject {
     @Published var currentPagerItem: Int? = 0
     @Published var shouldAutoScroll: Bool = true
     @Published var isPlayerPresented = false
-    @Published var selectedMovie: Movie? = nil
+    @Published var selectedNowPlayMovie: Movie? = nil
+    @Published var selectedMovieItem: Movie? = nil
     private var pagerScrollingTimer: AnyCancellable?
     
     // MARK: - Combine
@@ -115,13 +116,13 @@ class HomeViewModel: ObservableObject {
     /// Handles the click action for the "Play Now" movie item.
     /// - Parameter movie: The selected movie.
     func onPlayNowVideoClick(movie: Movie) {
-        self.selectedMovie = movie
+        self.selectedNowPlayMovie = movie
         stopScrollingPager()
         Task { await getVideosByMovie(movieId: movie.id) }
     }
     
     func onMovieItemClick(movie: Movie) {
-        self.selectedMovie = movie
+        self.selectedMovieItem = movie
     }
     
     /// Sets up the auto-scrolling pager timer to scroll every 3 seconds.

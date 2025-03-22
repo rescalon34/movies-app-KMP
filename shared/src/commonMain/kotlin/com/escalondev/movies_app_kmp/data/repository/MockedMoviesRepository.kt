@@ -19,6 +19,7 @@ object MockedMoviesRepository {
                 title = "Inside Out 2",
                 imageUrl = "/t7bhjraXuN4hd3yZVBVVhP3BdX0.jpg",
                 releaseDate = "2024-10-09",
+                overview = "Riley is now 17 years old and she is going to college. She is now in a new city and she is trying to adapt to the new environment. She is now in a new city and she is trying to adapt to the new environment. She is now in a new city and she is trying to adapt to the new environment. She is now in a new city and she is trying to adapt to the new environment. She is now in a new city and she is trying to adapt to the new environment.",
             ),
             SharedMovie(
                 id = 1,

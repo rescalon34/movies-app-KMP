@@ -22,7 +22,7 @@ struct HomeScreenView: View {
             }
             .navigationTitle("Home")
             .navigationBarTitleDisplayMode(.automatic)
-            .navigationDestination(isPresented: $viewModel.selectedMovie.toBinding()) {
+            .navigationDestination(isPresented: $viewModel.selectedMovieItem.toBinding()) {
                 MovieDetailScreenView()
             }
             .onChange(of: scenePhase, onScreenSceneChange)
@@ -95,7 +95,7 @@ struct HomeScreenView: View {
     
     private func showYouTubePlayer() -> some View {
         YouTubePlayerView(
-            title: viewModel.selectedMovie?.title ?? "",
+            title: viewModel.selectedNowPlayMovie?.title ?? "",
             videoKey: viewModel.videosByMovie.randomElement()?.key
         )
     }
