@@ -42,7 +42,7 @@ class WatchlistViewModel @Inject constructor(
         }
     }
 
-    private fun getWatchlistMovies(sortType: String = SortType.FIRST_ADDED.sortType) {
+    private fun getWatchlistMovies(sortType: String) {
         _uiState.update { it.copy(isLoading = true) }
         viewModelScope.launch {
             getWatchlistMoviesUseCase(
@@ -73,7 +73,11 @@ class WatchlistViewModel @Inject constructor(
 
     fun onUiEvent(event: WatchlistUiEvent) {
         when (event) {
-            is WatchlistUiEvent.OnFetchWatchlist -> getWatchlistMovies()
+            is WatchlistUiEvent.OnFetchWatchlist -> {
+                val selectedOption = _uiState.value.selectedOption
+                _uiState.update { it.copy(selectedOption = selectedOption) }
+                onFilterMoviesBySelectedOption(selectedOption = selectedOption)
+            }
 
             is WatchlistUiEvent.OnOptionSelected -> {
                 _uiState.update { it.copy(selectedOption = event.selectedOption) }
