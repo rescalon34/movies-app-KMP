@@ -10,7 +10,7 @@ import SwiftUI
 
 struct MovieDetailScreenView: View {
     
-    @StateObject var viewModel: MovieDetailViewModel = .init()
+    @StateObject var viewModel: MovieDetailViewModel
     
     // MARK: - Body
     var body: some View {
@@ -110,5 +110,8 @@ struct MovieDetailScreenView: View {
 }
 
 #Preview {
-    MovieDetailScreenView()
+    let movie = SharedKMPManager.shared.makeMockedMovieRepository()
+        .getWatchlist().first?.toMovie()
+    
+    return MovieDetailScreenView(viewModel: .init(movie: movie))
 }

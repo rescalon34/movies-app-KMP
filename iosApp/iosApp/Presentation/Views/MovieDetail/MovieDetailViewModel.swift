@@ -6,9 +6,7 @@
 //  Copyright © 2025 orgName. All rights reserved.
 //
 
-import Foundation
 import Combine
-import Shared
 import SwiftUI
 
 class MovieDetailViewModel: ObservableObject {
@@ -25,13 +23,13 @@ class MovieDetailViewModel: ObservableObject {
     // MARK: - Combine
     private var cancellable = Set<AnyCancellable>()
     
-    init() {
-        getMovie()
+    init(movie: Movie?) {
+        getMovie(movie: movie)
     }
     
     // TODO: get real movie.
-    func getMovie() {
-        self.movie = MockedMoviesRepository.shared.getWatchlist().first?.toMovie()
+    func getMovie(movie: Movie?) {
+        self.movie = movie
     }
     
     // MARK: View functions

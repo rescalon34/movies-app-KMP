@@ -40,4 +40,8 @@ class SharedKMPManager: SharedKMPManagerType {
     func makeProfileUseCaseProvider() -> ProfileUseCaseProvider {
         sharedCoreManager.createProfileUseCaseProvider()
     }
+    
+    func makeMockedMovieRepository() -> MockedMoviesRepository {
+        MockedMoviesRepository.shared
+    }
 }

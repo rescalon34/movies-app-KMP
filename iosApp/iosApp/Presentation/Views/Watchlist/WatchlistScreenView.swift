@@ -29,6 +29,9 @@ struct WatchlistScreenView: View {
                     selectedOption: $viewModel.sortType
                 )
             }
+            .navigationDestination(isPresented: $viewModel.selectedMovieItem.toBinding()) {
+                MovieDetailScreenView(viewModel: .init(movie: viewModel.selectedMovieItem))
+            }
         }
     }
     
@@ -73,8 +76,8 @@ struct WatchlistScreenView: View {
                     movieItemSize: CGSize(width: 110, height: 250),
                     lazyVGridColumns: 2,
                     lazyVGridSpacing: (10, 10),
-                    onMovieClicked: { movie in
-//                        selectedMovie = movie
+                    onMovieClicked: {
+                        viewModel.onMovieItemClick(movie: $0)
                     }
                 )
             }

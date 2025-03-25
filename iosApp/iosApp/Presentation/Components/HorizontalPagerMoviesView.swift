@@ -7,7 +7,6 @@
 //
 
 import SwiftUI
-import Shared
 
 /// Displays a horizontal scrollable list of movies with a centered highlight effect.
 struct HorizontalPagerMoviesView: View {
@@ -113,8 +112,11 @@ struct HorizontalPagerMoviesView: View {
 }
 
 #Preview {
-    let movies = MockedMoviesRepository.shared.getWatchlist()
+    let movies = SharedKMPManager.shared
+        .makeMockedMovieRepository()
+        .getWatchlist()
         .map { $0.toMovie() }
+    
     return HorizontalPagerMoviesView(
         movies: movies,
         screenWidth: UIScreen.main.bounds.width,
