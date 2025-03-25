@@ -11,9 +11,12 @@ import SwiftUI
 
 class MovieDetailViewModel: ObservableObject {
     
+    // MARK: - Dependencies
+    typealias Dependencies = HasGetVideosByMovieUseCase
+    
     // MARK: - Published
     @Published var movie: Movie? = nil
-    @Published var videosByMovie: [Movie] = []
+    @Published var videosByMovie: [Video] = []
     @Published var isLoading: Bool = false
     @Published var errorMessage: String = ""
     @Published var contentOffset: CGFloat = 0
@@ -23,16 +26,50 @@ class MovieDetailViewModel: ObservableObject {
     // MARK: - Combine
     private var cancellable = Set<AnyCancellable>()
     
-    init(movie: Movie?) {
-        getMovie(movie: movie)
+    // MARK: - Properties
+    private let dependencies: Dependencies
+    
+    // MARK: - Initializer
+    init(movie: Movie?, dependencies: Dependencies) {
+        self.dependencies = dependencies
+        setMovieFromArgs(movie: movie)
+        
+        guard let movieId = movie?.id else { return }
+        Task { await getVideosByMovie(movieId: movieId) }
     }
     
-    // TODO: get real movie.
-    func getMovie(movie: Movie?) {
+    // MARK: - Data fetch
+    @MainActor
+    private func getVideosByMovie(movieId: Int) async {
+        self.isLoading = true
+        
+        let result = await dependencies
+            .videosByMovieUseCase
+            .getVideosByMovies(movieId: movieId)
+        
+        switch result {
+        case .success(let videos):
+            self.videosByMovie = videos
+            self.isLoading = false
+        case .failure(let error):
+            self.isLoading = false
+            self.errorMessage = error.localizedDescription
+        }
+    }
+    
+    // MARK: - View functions
+    func onWatchTraillerClicked() {
+        self.isPlayerPresented.toggle()
+    }
+    
+    func getRandomVideo() -> Video? {
+        self.videosByMovie.randomElement()
+    }
+    
+    func setMovieFromArgs(movie: Movie?) {
         self.movie = movie
     }
     
-    // MARK: View functions
     func getMovieTitle() -> String {
         return movie?.title ?? ""
     }
@@ -50,4 +87,9 @@ class MovieDetailViewModel: ObservableObject {
             showNavigationTitle = value < MIN_APP_BAR_DETAILS_OFFSET
         }
     }
+}
+
+// MARK: - Dependencies
+struct MovieDetailViewModelDependencies: MovieDetailViewModel.Dependencies {
+    var videosByMovieUseCase: GetVideosByMovieUseCaseType = GetVideosByMovieUseCase.shared
 }

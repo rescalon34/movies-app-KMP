@@ -30,7 +30,12 @@ struct WatchlistScreenView: View {
                 )
             }
             .navigationDestination(isPresented: $viewModel.selectedMovieItem.toBinding()) {
-                MovieDetailScreenView(viewModel: .init(movie: viewModel.selectedMovieItem))
+                MovieDetailScreenView(
+                    viewModel: .init(
+                        movie: viewModel.selectedMovieItem,
+                        dependencies: MovieDetailViewModelDependencies()
+                    )
+                )
             }
         }
     }

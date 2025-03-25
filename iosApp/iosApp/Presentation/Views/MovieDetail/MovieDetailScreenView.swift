@@ -14,16 +14,30 @@ struct MovieDetailScreenView: View {
     
     // MARK: - Body
     var body: some View {
-        BaseScreenView {
+        BaseScreenView(isLoading: viewModel.isLoading) {
             movieDetailsContent
         }
         .navigationTitle(viewModel.showNavigationTitle ? viewModel.getMovieTitle() : "")
+        .toolbar { detailToolbar }
         .navigationBarTitleDisplayMode(.inline)
         .showToolbarBackground(isVisible: viewModel.showNavigationTitle)
         .onChange(of: viewModel.contentOffset, { _, newValue in
             viewModel.onMinHeaderAppBarOffsetReached(value: newValue)
         })
-        .toolbar { detailToolbar }
+        .sheet(isPresented: $viewModel.isPlayerPresented, content: showYouTubePlayer)
+    }
+    
+    // MARK: - Toolbar
+    @ToolbarContentBuilder
+    private var detailToolbar: some ToolbarContent {
+        ToolbarItem(placement: .topBarTrailing) {
+            Button {
+                // TODO: handle share logic.
+            } label: {
+                Image(systemName: "square.and.arrow.up")
+                    .foregroundColor(.white)
+            }
+        }
     }
     
     // MARK: - Views
@@ -44,19 +58,6 @@ struct MovieDetailScreenView: View {
             endPoint: .top
         )
         .edgesIgnoringSafeArea(.top)
-    }
-    
-    // MARK: Toolbar
-    @ToolbarContentBuilder
-    private var detailToolbar: some ToolbarContent {
-        ToolbarItem(placement: .topBarTrailing) {
-            Button {
-                // TODO: handle share logic.
-            } label: {
-                Image(systemName: "square.and.arrow.up")
-                    .foregroundColor(.white)
-            }
-        }
     }
     
     // MARK: Header Image and overview.
@@ -91,14 +92,13 @@ struct MovieDetailScreenView: View {
         }
     }
     
+    // MARK: - Detail Overview
     @ViewBuilder
     private func detailOverview(movie: Movie) -> some View {
         RoundedButtonView(
             btnText: "watch trailler".uppercased(),
             btnIcon: "play.fill",
-            onClicked: {
-                
-            }
+            onClicked: viewModel.onWatchTraillerClicked
         )
         Text(movie.overview.orEmpty())
             .font(.callout)
@@ -107,11 +107,26 @@ struct MovieDetailScreenView: View {
             .lineSpacing(4)
             .foregroundColor(Color.customColors.primaryClearTextColor)
     }
+    
+    // MARK: - View functions
+    @ViewBuilder
+    private func showYouTubePlayer() -> some View {
+        if let video = viewModel.getRandomVideo() {
+            YouTubePlayerView(
+                title: video.name,
+                videoKey: video.key
+            )
+        }
+    }
 }
 
 #Preview {
     let movie = SharedKMPManager.shared.makeMockedMovieRepository()
         .getWatchlist().first?.toMovie()
     
-    return MovieDetailScreenView(viewModel: .init(movie: movie))
+    return MovieDetailScreenView(
+        viewModel: .init(
+            movie: movie, dependencies: MovieDetailViewModelDependencies()
+        )
+    )
 }

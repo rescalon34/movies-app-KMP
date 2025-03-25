@@ -23,7 +23,12 @@ struct HomeScreenView: View {
             .navigationTitle("Home")
             .navigationBarTitleDisplayMode(.automatic)
             .navigationDestination(isPresented: $viewModel.selectedMovieItem.toBinding()) {
-                MovieDetailScreenView(viewModel: .init(movie: viewModel.selectedMovieItem))
+                MovieDetailScreenView(
+                    viewModel: .init(
+                        movie: viewModel.selectedMovieItem,
+                        dependencies: MovieDetailViewModelDependencies()
+                    )
+                )
             }
             .onChange(of: scenePhase, onScreenSceneChange)
             .sheet(isPresented: $viewModel.isPlayerPresented, content: showYouTubePlayer)
