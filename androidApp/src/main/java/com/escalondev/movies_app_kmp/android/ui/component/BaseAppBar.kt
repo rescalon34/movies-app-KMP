@@ -28,6 +28,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.escalondev.movies_app_kmp.android.theme.MoviesAppTheme
 import com.escalondev.movies_app_kmp.android.theme.customColors
+import com.escalondev.movies_app_kmp.android.util.Constants.MID_ALPHA
+import com.escalondev.movies_app_kmp.android.util.Constants.SHORT_ANIMATION_DURATION
 
 /**
  * Reusable Top AppBar across different screens.
@@ -50,10 +52,18 @@ fun BaseAppBar(
     actions: @Composable RowScope.() -> Unit = {},
 ) {
 
+    val colorTarget = if (showNavigationContainerColor) {
+        Color.Transparent.copy(alpha = MID_ALPHA)
+    } else {
+        Color.Transparent
+    }
+
     val navContainerColor by animateColorAsState(
-        targetValue = if (showNavigationContainerColor) Color.Transparent.copy(alpha = 0.5f)
-        else Color.Transparent,
-        animationSpec = tween(durationMillis = 300, easing = FastOutSlowInEasing),
+        targetValue = colorTarget,
+        animationSpec = tween(
+            durationMillis = SHORT_ANIMATION_DURATION,
+            easing = FastOutSlowInEasing
+        ),
         label = ""
     )
 
@@ -86,9 +96,11 @@ fun BaseAppBar(
                     Icon(
                         modifier = Modifier
                             .padding(8.dp)
-                            .clickable(indication = null, interactionSource = null) {
-                                onBackButtonClick()
-                            },
+                            .clickable(
+                                indication = null,
+                                interactionSource = null,
+                                onClick = onBackButtonClick
+                            ),
                         imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                         contentDescription = null,
                     )
@@ -104,6 +116,9 @@ fun BaseAppBar(
 @Composable
 private fun BaseAppBarPreview() {
     MoviesAppTheme {
-        BaseAppBar(title = "Home", showNavigationIcon = true)
+        BaseAppBar(
+            title = "Home",
+            showNavigationIcon = true
+        )
     }
 }

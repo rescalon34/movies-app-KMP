@@ -55,6 +55,10 @@ import com.escalondev.movies_app_kmp.android.ui.component.SimpleProgressIndicato
 import com.escalondev.movies_app_kmp.android.ui.component.SquaredPrimaryButton
 import com.escalondev.movies_app_kmp.android.ui.home.HomeUiEvent
 import com.escalondev.movies_app_kmp.android.ui.player.YouTubePlayerBottomSheet
+import com.escalondev.movies_app_kmp.android.util.Constants.MID_ALPHA
+import com.escalondev.movies_app_kmp.android.util.Constants.THREE_VALUE
+import com.escalondev.movies_app_kmp.android.util.Constants.TWO_VALUE
+import com.escalondev.movies_app_kmp.android.util.Constants.ZERO_VALUE
 import com.escalondev.movies_app_kmp.android.util.formatDate
 import com.escalondev.movies_app_kmp.android.util.shareMovieDetails
 import com.escalondev.movies_app_kmp.domain.util.ORIGINAL_POSTER_SIZE
@@ -86,8 +90,8 @@ fun MovieDetailContent(
     LaunchedEffect(scrollState) {
         snapshotFlow { scrollState.value }
             .collect { scrollingValue ->
-                val threshold = (scrollState.maxValue * 2) / 3
-                showTransparentToolbar = scrollingValue < threshold || scrollingValue == 0
+                val threshold = (scrollState.maxValue * TWO_VALUE) / THREE_VALUE
+                showTransparentToolbar = scrollingValue < threshold || scrollingValue == ZERO_VALUE
             }
     }
 
@@ -143,7 +147,11 @@ fun DetailTopAppBar(
 ) {
 
     val containerColor by animateColorAsState(
-        if (isTransparentToolbar) Color.Transparent.copy(alpha = 0.5f) else Color.Transparent,
+        targetValue = if (isTransparentToolbar) {
+            Color.Transparent.copy(alpha = MID_ALPHA)
+        } else {
+            Color.Transparent
+        },
         label = ""
     )
 

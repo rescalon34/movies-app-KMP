@@ -17,6 +17,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.escalondev.movies_app_kmp.android.util.Constants.AUTO_SCROLLING_TIMER
+import com.escalondev.movies_app_kmp.android.util.Constants.FULL_ALPHA
+import com.escalondev.movies_app_kmp.android.util.Constants.MID_ALPHA
 import com.escalondev.movies_app_kmp.android.util.Constants.ONE_SECOND
 import com.escalondev.movies_app_kmp.android.util.Constants.ONE_VALUE
 import com.escalondev.movies_app_kmp.android.util.Constants.ZERO_VALUE
@@ -61,11 +63,11 @@ fun calculateAlphaForItem(
         val itemCenterY = (item.offset + item.size)
         when {
             // If the item is in the top or bottom threshold, make it less opaque
-            itemCenterY < topThreshold || itemCenterY > bottomThreshold -> 0.5f
+            itemCenterY < topThreshold || itemCenterY > bottomThreshold -> MID_ALPHA
             // Otherwise, make it fully opaque
-            else -> 1f
+            else -> FULL_ALPHA
         }
-    } ?: 1f
+    } ?: FULL_ALPHA
 }
 
 /**
