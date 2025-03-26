@@ -13,4 +13,5 @@ struct Movie: Identifiable, Hashable {
     let title: String?
     let imageUrl: String?
     let releaseDate: String?
+    let overview: String?
 }

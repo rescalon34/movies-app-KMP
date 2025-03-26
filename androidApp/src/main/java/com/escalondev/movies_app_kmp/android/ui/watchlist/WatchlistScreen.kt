@@ -1,5 +1,6 @@
 package com.escalondev.movies_app_kmp.android.ui.watchlist
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -81,7 +82,7 @@ fun WatchlistContent(
 
     BaseScreen(
         modifier = Modifier
-            .padding(bottom = 88.dp)
+            .padding(bottom = 8.dp)
             .nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             WatchlistTopAppBar(
@@ -121,7 +122,11 @@ fun WatchlistContent(
                     item { /* Empty to represent an space next to the Text() */ }
                     items(uiState.watchlist) { movie ->
                         MovieItem(
-                            modifier = Modifier.height(260.dp),
+                            modifier = Modifier
+                                .height(260.dp)
+                                .clickable {
+                                    onUiEvent.invoke(WatchlistUiEvent.OnNavigateToMovieDetails(movie))
+                                },
                             movie = movie,
                         )
                     }

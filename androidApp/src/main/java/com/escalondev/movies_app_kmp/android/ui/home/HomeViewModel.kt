@@ -1,9 +1,11 @@
 package com.escalondev.movies_app_kmp.android.ui.home
 
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.escalondev.domain.model.movie.Movie
 import com.escalondev.domain.usecase.home.GetMoviesUseCase
 import com.escalondev.domain.usecase.home.GetVideosByMovieUseCase
+import com.escalondev.movies_app_kmp.android.navigation.route.MovieDetailScreenRoute
+import com.escalondev.movies_app_kmp.android.ui.base.BaseViewModel
 import com.escalondev.movies_app_kmp.android.util.Constants.ONE_VALUE
 import com.escalondev.movies_app_kmp.android.util.MovieFilter
 import com.escalondev.movies_app_kmp.android.util.getCurrentLanguageCode
@@ -22,8 +24,8 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val getMoviesUseCase: GetMoviesUseCase,
-    private val getVideosByMovieUseCase: GetVideosByMovieUseCase
-) : ViewModel() {
+    private val getVideosByMovieUseCase: GetVideosByMovieUseCase,
+) : BaseViewModel() {
 
     private val _uiState = MutableStateFlow(HomeUiState())
     val uiState: StateFlow<HomeUiState> = _uiState.asStateFlow()
@@ -127,6 +129,12 @@ class HomeViewModel @Inject constructor(
         _uiState.update { it.copy(shouldAutoScroll = shouldAutoScroll) }
     }
 
+    private fun onNavigateToDetails(movie: Movie) {
+        viewModelScope.launch {
+            appNavigator.navigateTo(MovieDetailScreenRoute(movie))
+        }
+    }
+
     fun onUiEvent(event: HomeUiEvent) {
         when (event) {
             is HomeUiEvent.OnStart -> getMoviesData()
@@ -135,6 +143,8 @@ class HomeViewModel @Inject constructor(
             is HomeUiEvent.OnChangeYouTubePlayerState -> {
                 onChangeYouTubePlayerState(shouldShowPlayer = event.shouldShowPlayer)
             }
+
+            is HomeUiEvent.OnNavigateToMovieDetails -> onNavigateToDetails(event.movie)
         }
     }
 }

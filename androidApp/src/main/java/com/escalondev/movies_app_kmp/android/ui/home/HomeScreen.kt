@@ -1,12 +1,10 @@
 package com.escalondev.movies_app_kmp.android.ui.home
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -35,6 +33,7 @@ import com.escalondev.movies_app_kmp.android.R
 import com.escalondev.movies_app_kmp.android.theme.MoviesAppTheme
 import com.escalondev.movies_app_kmp.android.ui.base.BaseScreen
 import com.escalondev.movies_app_kmp.android.ui.component.BaseAppBar
+import com.escalondev.movies_app_kmp.android.ui.component.BottomFadingBox
 import com.escalondev.movies_app_kmp.android.ui.component.HorizontalMoviesSection
 import com.escalondev.movies_app_kmp.android.ui.component.InfoMessageCard
 import com.escalondev.movies_app_kmp.android.ui.component.MovieItem
@@ -43,7 +42,6 @@ import com.escalondev.movies_app_kmp.android.ui.player.YouTubePlayerBottomSheet
 import com.escalondev.movies_app_kmp.android.util.Constants.FIVE_VALUE
 import com.escalondev.movies_app_kmp.android.util.Constants.ZERO_VALUE
 import com.escalondev.movies_app_kmp.android.util.HandleAutoScrollPagerItemAnimation
-import com.escalondev.movies_app_kmp.android.util.addBottomBackgroundBrush
 import com.escalondev.movies_app_kmp.android.util.detectOnPress
 import com.escalondev.movies_app_kmp.android.util.formatDate
 import com.escalondev.movies_app_kmp.data.repository.MockedMoviesRepository
@@ -81,7 +79,9 @@ fun HomeContent(
                     video = uiState.videosByMovie.random(),
                     sheetState = rememberModalBottomSheetState(),
                     onDismiss = {
-                        onUiEvent.invoke(HomeUiEvent.OnChangeYouTubePlayerState(shouldShowPlayer = false))
+                        onUiEvent.invoke(
+                            HomeUiEvent.OnChangeYouTubePlayerState(shouldShowPlayer = false)
+                        )
                     }
                 )
             }
@@ -118,7 +118,14 @@ fun MainMoviesContent(
         HorizontalMoviesSection(
             category = stringResource(R.string.popular),
             movies = uiState.popularMovies,
-            content = { MovieItem(movie = it) }
+            content = { movie ->
+                MovieItem(
+                    movie = movie,
+                    modifier = Modifier.clickable {
+                        onUiEvent.invoke(HomeUiEvent.OnNavigateToMovieDetails(movie))
+                    }
+                )
+            }
         )
         HorizontalMoviesSection(
             category = stringResource(R.string.now_playing),
@@ -135,7 +142,15 @@ fun MainMoviesContent(
         HorizontalMoviesSection(
             category = stringResource(R.string.top_rated),
             movies = uiState.topRatedMovies,
-            content = { MovieItem(movie = it) }
+            content = { movie ->
+                MovieItem(
+                    movie = movie,
+                    modifier = Modifier
+                        .clickable {
+                            onUiEvent.invoke(HomeUiEvent.OnNavigateToMovieDetails(movie))
+                        }
+                )
+            }
         )
     }
 }
@@ -173,7 +188,11 @@ private fun HorizontalPagerMoviesSection(
 }
 
 @Composable
-private fun PagerMovieItem(movie: Movie, modifier: Modifier = Modifier) {
+private fun PagerMovieItem(
+    movie: Movie,
+    modifier: Modifier = Modifier,
+    onMovieClick: () -> Unit = {}
+) {
     Box {
         MovieItem(
             modifier = modifier,
@@ -182,16 +201,10 @@ private fun PagerMovieItem(movie: Movie, modifier: Modifier = Modifier) {
             imageSize = ORIGINAL_POSTER_SIZE
         )
 
-        Box(
+        BottomFadingBox(
             modifier = Modifier
                 .align(Alignment.BottomStart)
                 .padding(horizontal = 5.dp)
-                .fillMaxWidth()
-                .height(150.dp)
-                .background(
-                    brush = addBottomBackgroundBrush(),
-                    shape = MaterialTheme.shapes.small
-                )
         ) {
             movie.releaseDate?.formatDate()?.let {
                 Text(
@@ -214,16 +227,16 @@ private fun PagerMovieItem(movie: Movie, modifier: Modifier = Modifier) {
 fun NowPlayingMovieBannerItem(
     modifier: Modifier = Modifier,
     movie: Movie,
-    onMovieClick: (Movie) -> Unit
+    onMovieClick: () -> Unit
 ) {
     MovieItem(
         modifier = modifier
-            .clickable { onMovieClick(movie) }
             .width(280.dp)
-            .height(160.dp),
+            .height(160.dp)
+            .clickable { onMovieClick() },
         cardShape = MaterialTheme.shapes.small,
         movie = movie,
-        isPlayButtonVisible = true
+        isPlayButtonVisible = true,
     )
 }
 

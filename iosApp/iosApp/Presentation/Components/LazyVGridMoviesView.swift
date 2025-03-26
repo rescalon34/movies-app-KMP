@@ -56,13 +56,15 @@ struct LazyVGridMoviesView: View {
                     id: 0,
                     title: "",
                     imageUrl: DEFAULT_PLACEHOLDER_POSTER,
-                    releaseDate: ""
+                    releaseDate: "", 
+                    overview: "Lorem text"
                 ),
                 Movie(
                     id: 0,
                     title: "",
                     imageUrl: DEFAULT_PLACEHOLDER_POSTER,
-                    releaseDate: ""
+                    releaseDate: "",
+                    overview: "Lorem text"
                 )
             ],
             movieItemSize: CGSize(width: 160, height: 250),

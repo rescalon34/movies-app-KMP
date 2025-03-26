@@ -13,11 +13,13 @@ internal data class MovieResponse(
     val imageUrl: String?,
     @SerialName("release_date")
     val releaseDate: String?,
+    val overview: String?,
 ) : DomainMapper<SharedMovie> {
     override fun toDomain() = SharedMovie(
         id = id,
         title = title,
         imageUrl = imageUrl,
-        releaseDate = releaseDate
+        releaseDate = releaseDate,
+        overview = overview
     )
 }

@@ -71,7 +71,8 @@ fun ProfileContent(
         ) {
             ProfileHeader(
                 modifier = Modifier.padding(16.dp),
-                uiState = uiState
+                uiState = uiState,
+                onEvent = onUiEvent
             )
             Spacer(modifier = Modifier.height(16.dp))
             ProfileOptions { title ->
@@ -84,12 +85,14 @@ fun ProfileContent(
 @Composable
 fun ProfileHeader(
     modifier: Modifier = Modifier,
-    uiState: ProfileUiState
+    uiState: ProfileUiState,
+    onEvent: (ProfileUiEvent) -> Unit
 ) {
     Column(
         modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        val editProfileLabel = stringResource(id = R.string.profile_edit_profile)
         CircleAvatar(
             modifier = Modifier.size(140.dp),
             imageUrl = uiState.imageUrl.getSizedImage()
@@ -103,8 +106,10 @@ fun ProfileHeader(
         Spacer(modifier = Modifier.height(8.dp))
         SquaredPrimaryButton(
             modifier = Modifier.fillMaxWidth(fraction = 0.6f),
-            text = stringResource(id = R.string.profile_edit_profile),
-            onClick = {}
+            text = editProfileLabel,
+            onClick = {
+                onEvent(ProfileUiEvent.OnEditProfileClick(editProfileLabel))
+            }
         )
     }
 }
