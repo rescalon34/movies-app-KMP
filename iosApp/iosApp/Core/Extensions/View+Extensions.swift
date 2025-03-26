@@ -42,6 +42,33 @@ extension View {
         )
     }
     
+    /// A View modifier that applies a translucent gradient mask to a view.
+    ///
+    /// This function creates a mask using a linear gradient with a list of black
+    /// colors and a clear color at the end providing a translucent effect.
+    ///
+    /// - Parameters:
+    ///   - repeating: The number of times the black color should be repeated in the gradient.
+    ///     Default value is `3`.
+    ///   - startPoint: The starting point of the gradient. Default value is `.top`.
+    ///   - endPoint: The ending point of the gradient. Default value is `.bottom`.
+    ///
+    func translucentGradientMask(
+        repeating: Int = Int(THREE),
+        startPoint: UnitPoint = .top,
+        endPoint: UnitPoint = .bottom
+    ) -> some View {
+        let blackColors = Array(repeating: Color.black, count: repeating)
+        let gradientColors = blackColors + [Color.clear]
+        
+        return mask(
+            LinearGradient(
+                gradient: Gradient(colors: gradientColors),
+                startPoint: startPoint, endPoint: endPoint
+            )
+        )
+    }
+    
     func bottomGradientMask() -> some View {
         LinearGradient(
             gradient: Gradient(colors: [Color.black.opacity(0.8), Color.clear]),
@@ -74,5 +101,10 @@ extension View {
     /// See here for more: https://danielsaidi.com/blog/2022/11/16/using-complex-gestures-in-a-scroll-view
     func onEmptyTapGesture() -> some View {
         onTapGesture { }
+    }
+    
+    @ViewBuilder
+    func showToolbarBackground(isVisible: Bool) -> some View {
+        toolbarBackground(isVisible ? .visible : .hidden, for: .navigationBar)
     }
 }

@@ -5,6 +5,10 @@ import com.escalondev.movies_app_kmp.domain.model.SharedMovie
 // TODO: Delete this mocked repository once real data gets fetched from the server.
 object MockedMoviesRepository {
 
+    fun getMockedVideoKey(): String {
+        return "nulvWqYUM8k"
+    }
+
     /**
      * get a list of mocked watchlist for now to display items on the UI.
      */
@@ -15,6 +19,7 @@ object MockedMoviesRepository {
                 title = "Inside Out 2",
                 imageUrl = "/t7bhjraXuN4hd3yZVBVVhP3BdX0.jpg",
                 releaseDate = "2024-10-09",
+                overview = "Riley is now 17 years old and she is going to college. She is now in a new city and she is trying to adapt to the new environment. She is now in a new city and she is trying to adapt to the new environment. She is now in a new city and she is trying to adapt to the new environment. She is now in a new city and she is trying to adapt to the new environment. She is now in a new city and she is trying to adapt to the new environment.",
             ),
             SharedMovie(
                 id = 1,

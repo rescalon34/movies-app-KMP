@@ -56,6 +56,8 @@ dependencies {
     // Kotlin Serialization
     implementation(libs.kotlinx.serialization.json)
 
+    implementation(kotlin("reflect"))
+
     // Hilt
     implementation(libs.hilt.android)
     kapt(libs.hilt.android.compiler)

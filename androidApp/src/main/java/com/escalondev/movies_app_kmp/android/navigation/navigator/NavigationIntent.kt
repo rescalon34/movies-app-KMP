@@ -2,6 +2,8 @@ package com.escalondev.movies_app_kmp.android.navigation.navigator
 
 sealed class NavigationIntent {
 
+    data object NavigateBack: NavigationIntent()
+
     /**
      * Navigation event Intent with custom parameters to navigate accordingly to the desired screen.
      *

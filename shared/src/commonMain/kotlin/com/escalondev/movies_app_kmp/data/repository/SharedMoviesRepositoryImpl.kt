@@ -1,11 +1,13 @@
 package com.escalondev.movies_app_kmp.data.repository
 
-import com.escalondev.movies_app_kmp.data.model.MovieDataResponse
+import com.escalondev.movies_app_kmp.data.model.movie.MovieDataResponse
+import com.escalondev.movies_app_kmp.data.model.video.VideoDataResponse
 import com.escalondev.movies_app_kmp.data.networking.manager.NetworkingManager
 import com.escalondev.movies_app_kmp.data.networking.mapToResponse
 import com.escalondev.movies_app_kmp.data.networking.safeApiRequest
 import com.escalondev.movies_app_kmp.data.util.getMovieEndpointByCategory
 import com.escalondev.movies_app_kmp.domain.model.SharedMovie
+import com.escalondev.movies_app_kmp.domain.model.SharedVideo
 import com.escalondev.movies_app_kmp.domain.repository.SharedMoviesRepository
 import com.escalondev.movies_app_kmp.domain.util.NetworkResult
 import kotlinx.coroutines.delay
@@ -47,11 +49,20 @@ internal class SharedMoviesRepositoryImpl(
         language: String
     ): NetworkResult<List<SharedMovie>> {
         return safeApiRequest {
-            networkingManager.getApi().getMovies(
-                url = category.getMovieEndpointByCategory(),
-                page = page,
-                language = language
-            ).mapToResponse<MovieDataResponse>()
+            networkingManager.getApi()
+                .getMovies(
+                    url = category.getMovieEndpointByCategory(),
+                    page = page,
+                    language = language
+                ).mapToResponse<MovieDataResponse>()
+        }
+    }
+
+    override suspend fun getVideosByMovie(movieId: Int): NetworkResult<List<SharedVideo>> {
+        return safeApiRequest {
+            networkingManager.getApi()
+                .getVideosByMovie(movieId = movieId)
+                .mapToResponse<VideoDataResponse>()
         }
     }
 }

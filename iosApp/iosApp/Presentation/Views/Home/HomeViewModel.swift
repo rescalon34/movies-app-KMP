@@ -12,17 +12,21 @@ import Combine
 class HomeViewModel: ObservableObject {
     
     // MARK: - Dependencies
-    typealias Dependencies = HasGetMoviesUseCase
+    typealias Dependencies = HasGetMoviesUseCase & HasGetVideosByMovieUseCase
     
     // MARK: - Published
     @Published var upcomingMovies: [Movie] = []
     @Published var popularMovies: [Movie] = []
     @Published var nowPlayingMovies: [Movie] = []
     @Published var topRatedMovies: [Movie] = []
+    @Published var videosByMovie: [Video] = []
     @Published var errorMessage: String? = nil
     @Published var isLoading: Bool = false
     @Published var currentPagerItem: Int? = 0
     @Published var shouldAutoScroll: Bool = true
+    @Published var isPlayerPresented = false
+    @Published var selectedNowPlayMovie: Movie? = nil
+    @Published var selectedMovieItem: Movie? = nil
     private var pagerScrollingTimer: AnyCancellable?
     
     // MARK: - Combine
@@ -38,7 +42,10 @@ class HomeViewModel: ObservableObject {
         setupBindings()
     }
     
-    // MARK: - Fetching all movies asynchronously
+    // MARK: - Networking functions
+    
+    /// Fetches all movie categories asynchronously.
+    @MainActor
     private func getAsyncMovies() async {
         self.isLoading = true
         
@@ -65,7 +72,9 @@ class HomeViewModel: ObservableObject {
         self.isLoading = false
     }
     
-    // MARK: - Get movies by category.
+    /// Fetches movies for a specific category.
+    /// - Parameter category: The movie category.
+    /// - Returns: A list of movies in the specified category.
     private func getMoviesByCategory(_ category: String) async throws -> [Movie] {
         let result = await dependencies
             .moviesUseCase
@@ -83,59 +92,96 @@ class HomeViewModel: ObservableObject {
         }
     }
     
+    /// Fetches videos for a specific movie.
+    /// - Parameter movieId: The ID of the movie.
+    @MainActor
+    private func getVideosByMovie(movieId: Int) async {
+        self.isLoading = true
+        let result = await dependencies
+            .videosByMovieUseCase
+            .getVideosByMovies(movieId: movieId)
+        
+        switch result {
+        case .success(let videos):
+            self.videosByMovie = videos
+            self.isLoading = false
+            self.isPlayerPresented.toggle()
+        case .failure(let error):
+            self.isLoading = false
+            self.errorMessage = error.localizedDescription
+        }
+    }
+
     // MARK: - UI functions
-    /// Setup AutoScrolling pager timer to publish an event every 3 seconds.
+    /// Handles the click action for the "Play Now" movie item.
+    /// - Parameter movie: The selected movie.
+    func onPlayNowVideoClick(movie: Movie) {
+        self.selectedNowPlayMovie = movie
+        stopScrollingPager()
+        Task { await getVideosByMovie(movieId: movie.id) }
+    }
+    
+    func onMovieItemClick(movie: Movie) {
+        self.selectedMovieItem = movie
+    }
+    
+    /// Sets up the auto-scrolling pager timer to scroll every 3 seconds.
     private func setupAutoScrollingPagerTimer() {
         pagerScrollingTimer = Timer
-            .publish(every: 3, on: .main, in: .common)
+            .publish(every: TimeInterval(THREE), on: .main, in: .common)
             .autoconnect()
             .sink(receiveValue: { [weak self] _ in
                 self?.autoScrollToNextItem()
             })
     }
     
-    /// Cancel AutoScrolling pager timer.
+    /// Cancels the auto-scrolling pager timer.
     private func cancelAutoScrollingPagerTimer() {
         pagerScrollingTimer?.cancel()
         pagerScrollingTimer = nil
     }
     
-    /// Auto scroll to the next pager item, if the end is reached it will
-    /// start over from the 0 position item.
+    /// Scrolls the pager to the next item, looping back to the start position.
     private func autoScrollToNextItem() {
-        guard let current = currentPagerItem else { return }
+        guard let current = currentPagerItem, upcomingMovies.count > 0 else { return }
         // Loop back to the start after the last item
-        let nextItem = (current + 1) % upcomingMovies.count
+        
+        let nextItem = (current + ONE) % upcomingMovies.count
         print("Auto-scrolling to item: \(nextItem)")
         currentPagerItem = nextItem
     }
     
+    /// Starts the pager auto-scrolling behavior.
     func startScrollingPager() {
         shouldAutoScroll = true
         setupAutoScrollingPagerTimer()
     }
     
+    /// Stops the pager auto-scrolling behavior.
     func stopScrollingPager() {
         shouldAutoScroll = false
         cancelAutoScrollingPagerTimer()
     }
     
+    /// Sets up bindings for auto-scrolling and other UI behaviors.
     private func setupBindings() {
-        // Listen for the current pager item to manage auto-scrolling.
         $currentPagerItem
             .removeDuplicates()
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in if self?.shouldAutoScroll == true { self?.startScrollingPager() } }
             .store(in: &cancellable)
         
-        // Listen for auto-scrolling behavior based on the user's pressing state.
         $shouldAutoScroll
             .removeDuplicates()
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] in
-                // if value is true, allow autoScrolling.
-                $0 ? self?.startScrollingPager() : self?.stopScrollingPager()
-            }
+            .sink { [weak self] in $0 ? self?.startScrollingPager() : self?.stopScrollingPager() }
+            .store(in: &cancellable)
+        
+        // Stop auto-scrolling when the video player is shown.
+        $isPlayerPresented
+            .removeDuplicates()
+            .receive(on: DispatchQueue.main)
+            .sink { $0 ? self.stopScrollingPager() : self.startScrollingPager() }
             .store(in: &cancellable)
     }
 }
@@ -143,4 +189,5 @@ class HomeViewModel: ObservableObject {
 // MARK: - Dependencies
 struct HomeViewModelDependencies: HomeViewModel.Dependencies {
     var moviesUseCase: GetMoviesUseCaseType = GetMoviesUseCase.shared
+    var videosByMovieUseCase: GetVideosByMovieUseCaseType = GetVideosByMovieUseCase.shared
 }

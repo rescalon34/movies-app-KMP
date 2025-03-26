@@ -12,6 +12,10 @@ class AppNavigatorImpl @Inject constructor() : AppNavigator {
     private val _navigationFlow = MutableSharedFlow<NavigationIntent>()
     override val navigationFlow = _navigationFlow.asSharedFlow()
 
+    override suspend fun navigateBack() {
+        _navigationFlow.emit(NavigationIntent.NavigateBack)
+    }
+
     override suspend fun navigateTo(destination: NavigationDestination) {
         _navigationFlow.emit(
             NavigationIntent.NavigateTo(

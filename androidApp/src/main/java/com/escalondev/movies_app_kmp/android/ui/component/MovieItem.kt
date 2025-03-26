@@ -62,7 +62,7 @@ private fun MovieItemPreview() {
                 imageUrl = "https://media.themoviedb.org/t/p/original/t7bhjraXuN4hd3yZVBVVhP3BdX0.jpg",
                 releaseDate = "2024-10-09",
             ),
-            isPlayButtonVisible = true
+            isPlayButtonVisible = true,
         )
     }
 }

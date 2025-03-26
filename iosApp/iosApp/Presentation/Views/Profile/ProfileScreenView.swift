@@ -40,7 +40,7 @@ struct ProfileScreenView: View {
         VStack {
             AsyncImageItemView(
                 imageUrl: viewModel.profile?.imageUrl ?? "",
-                movieItemSize: CGSize(width: 150, height: 150)
+                movieItemSize: CGSize(width: 120, height: 120)
             )
             .frame(maxWidth: 150)
             
@@ -52,9 +52,12 @@ struct ProfileScreenView: View {
             Text(viewModel.profile?.userName ?? "")
                 .padding(.vertical, 4)
             
-            Text("Edit Profile")
-                .padding(.horizontal, 32)
-                .roundedBorderShape()
+            CustomNavigationLink(destination: ComingSoonView()) {
+                Text("Edit Profile")
+                    .padding(.horizontal, 32)
+                    .roundedBorderShape()
+                    .foregroundColor(Color.customColors.primaryTextColor)
+            }
         }
         .frame(maxWidth: .infinity)
     }

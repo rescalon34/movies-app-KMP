@@ -1,4 +1,4 @@
-package com.escalondev.movies_app_kmp.data.model
+package com.escalondev.movies_app_kmp.data.model.movie
 
 import com.escalondev.movies_app_kmp.data.mapper.DomainMapper
 import com.escalondev.movies_app_kmp.domain.model.SharedMovie
@@ -13,11 +13,13 @@ internal data class MovieResponse(
     val imageUrl: String?,
     @SerialName("release_date")
     val releaseDate: String?,
+    val overview: String?,
 ) : DomainMapper<SharedMovie> {
     override fun toDomain() = SharedMovie(
         id = id,
         title = title,
         imageUrl = imageUrl,
-        releaseDate = releaseDate
+        releaseDate = releaseDate,
+        overview = overview
     )
 }

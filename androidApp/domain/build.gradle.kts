@@ -2,6 +2,8 @@ plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.kotlinAndroid)
     alias(libs.plugins.hilt.android.plugin)
+    alias(libs.plugins.kotlinxSerialization)
+    id("kotlin-parcelize")
     id("kotlin-kapt")
 }
 
@@ -47,4 +49,7 @@ dependencies {
     // Hilt
     implementation(libs.hilt.android)
     kapt(libs.hilt.android.compiler)
+
+    // Kotlin Serialization
+    implementation(libs.kotlinx.serialization.json)
 }

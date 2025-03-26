@@ -1,4 +1,4 @@
-package com.escalondev.movies_app_kmp.data.model
+package com.escalondev.movies_app_kmp.data.model.movie
 
 import com.escalondev.movies_app_kmp.data.mapper.DomainMapper
 import com.escalondev.movies_app_kmp.domain.model.SharedMovie

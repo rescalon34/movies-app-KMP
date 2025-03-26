@@ -9,5 +9,6 @@ fun SharedMovie.toMovie(): Movie {
         title = title,
         imageUrl = imageUrl,
         releaseDate = releaseDate,
+        overview = overview
     )
 }
