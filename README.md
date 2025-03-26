@@ -146,7 +146,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 }
 
 ```
-⚠️ Notes: 
+⚠️ **Notes**: 
 - Ensure the `Shared` module is properly integrated in your iOS project using Xcode and the Kotlin Multiplatform configuration.
 - Ensure to get an `ACCESS_TOKEN` and `API_KEY` from your TMDB account.
 
